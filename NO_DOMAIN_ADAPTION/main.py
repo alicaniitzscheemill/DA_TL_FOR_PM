@@ -2,6 +2,9 @@ import CNN
 
 import os
 import sys
+
+
+
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -13,7 +16,7 @@ import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
-import Dataloader
+import Dataloader2
 
 
 def plot_learning_curves(loss_list, accuracy_list):
@@ -129,6 +132,8 @@ def train(model, train_loader, num_epochs, lr):
                 #collect accuracy
                 output = outputs.argmax(dim=1)
                 correct_prediction_collected += (output == labels).sum().item()
+                (output == labels).sum().item()
+
 
 
                 #plot information during training
@@ -136,13 +141,13 @@ def train(model, train_loader, num_epochs, lr):
                 #    print (f'Epoch [{epoch+1}/{num_epochs}], Step [{i+1}/{n_total_steps}], Loss: {loss.item():.4f}')
 
             # TENSORBOARD TRACK TRAINING CURVES (LOSS, ACCURACY)
-            running_loss = loss_collected / len_train_loader[phase]
+            running_loss = loss_collected / (len_train_loader[phase] * output.size(0))
             if phase == "train":
                 running_loss = running_loss.detach()
             loss_list[phase].append(running_loss)
             
             
-            running_accuracy = correct_prediction_collected / len_train_loader[phase] / output.size(0)
+            running_accuracy = correct_prediction_collected / (len_train_loader[phase] * output.size(0))
             accuracy_list[phase].append(running_accuracy)
             
             writer[phase].add_scalar(f'training loss', running_loss, epoch)
@@ -172,7 +177,8 @@ def test(model, test_loader):
         n_class_samples_out = [0 for i in range(4)]
         
         #iterate through bateches in test_loader
-        for window, labels in test_loader:
+        for i, (window, labels) in enumerate(test_loader["test"]):
+            print(window)
             #make predictions for each batch
             outputs = model(window.float())
             #for each element in batch check if prediction is correct and collect total and correct predictions and labels
@@ -201,24 +207,66 @@ def test(model, test_loader):
 
 
 
-
-
-
-
-
 ####### MAIN ########
+
+
 window_size = 1024
-overlap_size = 300
+overlap_size = 0
+#features_of_interest = ['S:x_bottom', 'S:y_bottom', 'S:z_bottom', 'S:x_nut', 'S:y_nut', 'S:z_nut', 'S:x_top', 'S:y_top', 'S:z_top', 'S:Nominal_rotational_speed[rad/s]', 'S:Actual_rotational_speed[µm/s]', 'S:Actual_position_of_the_position_encoder(dy/dt)[µm/s]', 'S:Actual_position_of_the_motor_encoder(dy/dt)[µm/s]']
+list_of_train_BSD_states = ["1", "2", "3", "4", "10", "11", "12", "13", "19", "20", "21", "22"]
+list_of_test_BSD_states = ["5", "6", "7", "9", "14", "15", "16", "18", "23", "24", "25", "27"]
+data_path = Path(os.getcwd()).parents[1]
+data_path = os.path.join(data_path, "data")
+dataloader_split_train = 0.8
+dataloader_split_test = 0.8
+batch_size = 4
+
+#test_loader = Dataloader.create_dataloader(data_path, list_of_test_BSD_states, window_size, overlap_size, features_of_interest, "test", dataloader_split_test, batch_size)
+
+#train_loader = Dataloader.create_dataloader(data_path, list_of_train_BSD_states, window_size, overlap_size, features_of_interest, "train", dataloader_split_train, batch_size)
+
+##############
+features_of_interest = ['C:s_ist/X', 'C:s_soll/X', 'C:s_diff/X', 'C:v_(n_ist)/X', 'C:v_(n_soll)/X', 'C:P_mech./X', 'C:Pos._Diff./X',
+    'C:I_ist/X', 'C:I_soll/X', 'C:x_bottom', 'C:y_bottom', 'C:z_bottom', 'C:x_nut', 'C:y_nut', 'C:z_nut',
+    'C:x_top', 'C:y_top', 'C:z_top', 'D:s_ist/X', 'D:s_soll/X', 'D:s_diff/X', 'D:v_(n_ist)/X', 'D:v_(n_soll)/X',
+    'D:P_mech./X', 'D:Pos._Diff./X', 'D:I_ist/X', 'D:I_soll/X', 'D:x_bottom', 'D:y_bottom', 'D:z_bottom',
+    'D:x_nut', 'D:y_nut', 'D:z_nut', 'D:x_top', 'D:y_top', 'D:z_top']
+vel_cut_off_value = 0
+test_loader = Dataloader2.create_dataloader(data_path, list_of_test_BSD_states, window_size, overlap_size, vel_cut_off_value, features_of_interest, "test", dataloader_split_test, batch_size)
+
+train_loader = Dataloader2.create_dataloader(data_path, list_of_train_BSD_states, window_size, overlap_size, vel_cut_off_value, features_of_interest, "train", dataloader_split_train, batch_size)
+input_size = 36
+##############
+
+
+#input_size = 13
+output_size = 4
+num_epochs = 50
+lr = 0.008
+
+model = CNN.CNN(input_size, output_size)
+
+
+train(model, train_loader, num_epochs, lr)
+test(model, test_loader)
+
+
+"""
+
+window_size = 1024
+overlap_size = 0
 features_of_interest = ['S:x_bottom', 'S:y_bottom', 'S:z_bottom', 'S:x_nut', 'S:y_nut', 'S:z_nut', 'S:x_top', 'S:y_top', 'S:z_top', 'S:Nominal_rotational_speed[rad/s]', 'S:Actual_rotational_speed[µm/s]', 'S:Actual_position_of_the_position_encoder(dy/dt)[µm/s]', 'S:Actual_position_of_the_motor_encoder(dy/dt)[µm/s]']
 list_of_train_BSD_states = ["1", "2", "3", "4", "10", "11", "12", "13", "19", "20", "21", "22"]
 list_of_test_BSD_states = ["5", "6", "7", "9", "14", "15", "16", "18", "23", "24", "25", "27"]
 data_path = Path(os.getcwd()).parents[1]
 data_path = os.path.join(data_path, "data")
-dataloader_split = 0.8
+dataloader_split_train = 0.8
+dataloader_split_test = 0.8
 batch_size = 4
 
-train_loader = Dataloader.create_dataloader(data_path, list_of_train_BSD_states, window_size, overlap_size, features_of_interest, "train", dataloader_split, batch_size)
-test_loader = Dataloader.create_dataloader(data_path, list_of_test_BSD_states, window_size, overlap_size, features_of_interest, "test", dataloader_split, batch_size)
+test_loader = Dataloader.create_dataloader(data_path, list_of_test_BSD_states, window_size, overlap_size, features_of_interest, "test", dataloader_split_test, batch_size)
+
+train_loader = Dataloader.create_dataloader(data_path, list_of_train_BSD_states, window_size, overlap_size, features_of_interest, "train", dataloader_split_train, batch_size)
 
 
 input_size = 13
@@ -228,5 +276,9 @@ lr = 0.008
 
 model = CNN.CNN(input_size, output_size)
 
+
 train(model, train_loader, num_epochs, lr)
 test(model, test_loader)
+
+
+"""
