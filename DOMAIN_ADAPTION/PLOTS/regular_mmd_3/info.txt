@@ -1,0 +1,136 @@
+
+
+#define training params
+num_epochs = 30
+GAMMA = 1,8
+SIGMA = torch.tensor([1,2,4,8,16],dtype=torch.float64)
+
+#define loss and optimizer
+criterion = torch.nn.CrossEntropyLoss()
+MMD_loss_calculator = MMD_loss(fix_sigma = SIGMA)
+#mmd_loss_flag
+MMD_loss_flag_phase = {}
+MMD_loss_flag_phase["val"] = True
+MMD_loss_flag_phase["mmd"] = True
+MMD_loss_flag_phase["ce"] = False
+
+optimizer1 = torch.optim.Adam([
+{'params': model_cnn.parameters()},
+{'params': model_fc.parameters(), 'lr': 1e-2}
+], lr=1e-2, betas=(0.9, 0.999))
+
+optimizer2 = torch.optim.Adam(model_fc.parameters(), lr=1e-2, betas=(0.9, 0.999))
+
+
+
+
+
+
+
+
+lif phase == "mmd":
+                
+                #training
+                model_cnn.train(True)
+                model_fc.train(True)
+                
+                ########Forward pass########
+                loss, mmd_loss, source_ce_loss, target_ce_loss, acc_total_source, acc_total_target, _, _, _, _ = forward(model_cnn, model_fc, data, labels_source, labels_target, criterion, MMD_loss_calculator, MMD_loss_flag_phase, GAMMA)
+                
+                mmd_loss = mmd_loss.detach()
+                source_ce_loss = source_ce_loss.detach()
+                target_ce_loss = target_ce_loss.detach()
+                ########Backward pass########
+                optimizer1.zero_grad()
+                loss.backward()
+                optimizer1.step()
+                
+            elif phase == "ce":
+                
+                #training
+                model_cnn.train(True)
+                model_fc.train(True)
+                
+                ########Forward pass########
+                loss, mmd_loss, source_ce_loss, target_ce_loss, acc_total_source, acc_total_target, _, _, _, _ = forward(model_cnn, model_fc, data, labels_source, labels_target, criterion, MMD_loss_calculator, MMD_loss_flag_phase, GAMMA)
+                
+                mmd_loss = mmd_loss.detach()
+                source_ce_loss = source_ce_loss.detach()
+                target_ce_loss = target_ce_loss.detach()
+                ########Backward pass########
+                optimizer2.zero_grad()
+                loss.backward()
+                optimizer2.step()
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class CNN(nn.Module):
+    def __init__(self, input_size, input_fc_size, hidden_fc_size_1):
+        super(CNN, self).__init__()
+        
+        self.conv1 = nn.Conv1d(input_size, 64, kernel_size=100, stride=1)#input: ((1024+2*0-(100-1)-1)/1)+1 = 925
+        self.pool1 = nn.MaxPool1d(4, stride=3) #((925+2*0-1*(4-1)-1)/3)+1 = 308
+        self.conv2 = nn.Conv1d(64,32,kernel_size=10, stride = 1, padding=1)#input: ((308+2*1-(10-1)-1)/1)+1 = 301
+        self.batch1 =nn.BatchNorm1d(32) #301
+        self.pool2 = nn.MaxPool1d(4, stride=3) #((301+2*0-1*(4-1)-1)/3)+1 = 100
+        self.conv3 = nn.Conv1d(32,32,kernel_size=5, stride = 1, padding=1) #((100+2*1-(5-1)-1)/1)+1 = 98
+        self.batch2 =nn.BatchNorm1d(32) #98
+        self.pool3 = nn.MaxPool1d(5, stride=3) #((98+2*0-1*(5-1)-1)/3)+1 = 32
+        self.fc1 = nn.Linear(input_fc_size, hidden_fc_size_1)
+    
+    def forward(self, x):
+        x_conv_1 = self.conv1(x) #conv1
+        x = F.relu(x_conv_1) #relu
+        x = self.pool1(x) #pool1
+        x_conv_2 = self.conv2(x) #conv2
+        x = self.batch1(x_conv_2) #batch1
+        x = F.relu(x) #relu
+        x = self.pool2(x) #pool2
+        x_conv_3 = self.conv3(x) #conv3
+        x = self.batch2(x_conv_3) #batch2
+        x = F.relu(x) #relu
+        x = self.pool3(x) #pool3
+        x_flatten = torch.reshape(x,(x.shape[0],x.shape[1]*x.shape[2])) #flatten
+        x_normalize = torch.nn.functional.normalize(x_flatten)
+        x_fc1 = self.fc1(x_normalize) #fc1
+        
+        return x_conv_1, x_conv_2, x_conv_3, x_flatten, x_fc1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Classifier(nn.Module):
+    def __init__(self, hidden_fc_size_1, hidden_fc_size_2, output_size):
+        super(Classifier, self).__init__()
+        self.fc2 = nn.Linear(hidden_fc_size_1, hidden_fc_size_2)
+        self.fc3 = nn.Linear(hidden_fc_size_2, output_size)
+
+    def forward(self, x):
+        x_fc2 = self.fc2(x) #fc2
+        x_fc3 = self.fc3(x_fc2) #fc3
+        
+        return x_fc2, x_fc3
+
+
