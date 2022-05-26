@@ -17,67 +17,49 @@ Neural networks consist of neurons which are layered in a hierarchical architect
 The input of a neuron is calculated from the sum of all previous neuron's outputs and one bias. Afterwards an activation function is applied to give the neural network a non-linear property. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that a wide variety of functions can be represented by the neural network when given appropriate weights \cite{HORNIK1991}. Without activation functions neural network could only make linear assignments of inputs x to outputs y. With rising data complexity the demand for a "non-linear" mapping from x to y is increasing. Without a non-linearity the neural network with several hidden layers can just learn the same functions as those with just one hidden layer. Such a neural network would not be able to mathematically realise complex relationships in the data. Fig. \ref{fig:neural_network_optimization} shows the forward- and backwardpropagation in a neural network at the example of one single neuron. First the outputs of the neurons $i$ from the previous layers $l-1$ which are connected with the neuron of interest $j$ in layer $l$ are summed up together with a bias $b_{j}$. The resulting logits $z_{j}$ are then processed by the activation function $\phi$. Different activation functions can be used throughout the network. After passing several consecutive hidden layers a loss function evaluates the prediction with the ground truth label in the end of the network.
 
 \subsection{Activation Function}
-Different problems and network layers require different activation functions. Typical activation functions are tanh, sigmoid and ReLU in the hidden as well as linear, logistic (sigmoid) and softmax in the final layers of the network \cite{Brownlee2021}. Linear final layers are used for regression problems, whereas sigmoid and softmax functions are typical for classification problems. The sigmoid function is used for binary and softmax for multiclass classification. In general the softmax function is an extension of the sigmoid function to the multiclass case, which can be proofed easily. The softmax and sigmoid functions normalize the network output to a probability distribution over the predicted output classes.  Deciding for the activation functions in the hidden layers is a little more difficult. All just mentioned functions have different characteristics which lead to individual advantages and disadvantages. The sigmoid and tanh function look pretty similar. Both squeeze the inputs in values between -1 and 1. Both functions can suffer from the vanishing gradient problem since the derivative of these functions is close to zero for very big or small inputs. A solution for that is the ReLU function which solves that problem but is limited due to the mapping of negative inputs to zero (dead ReLU) \cite{Brownlee2021}. In the following some of the most used activation functions are described.
+Different problems and network layers require different activation functions. Typical activation functions are tanh, sigmoid and ReLU in the hidden as well as linear, logistic (sigmoid) and softmax in the final layers of the network \cite{Brownlee2021}. Linear final layers are used for regression problems, whereas sigmoid and softmax functions are typical for classification problems. The sigmoid function is used for binary and softmax for multiclass classification. In general the softmax function is an extension of the sigmoid function to the multiclass case, which can be proofed easily. The softmax and sigmoid functions normalize the network output to a probability distribution over the predicted output classes.  Deciding for the activation functions in the hidden layers is a little more difficult. All just mentioned functions have different characteristics which lead to individual advantages and disadvantages. The sigmoid and tanh function look pretty similar. Both squeeze the inputs in values between -1 and 1. Both functions can suffer from the vanishing gradient problem since the derivative of these functions is close to zero for very big or small inputs. A solution for that is the ReLU function which solves that problem but is limited due to the mapping of negative inputs to zero (dead ReLU) \cite{Brownlee2021}. In table \ref{tab:activation_functions} some of the most popular activation functions are described. \newline
+\newline
 
-\subsubsection{ReLU}
 
-\begin{equation}
-ReLU(z) = \lambda
-\left\{
-\begin{matrix}
-0 \quad , if \enspace z < 0\\
-z \quad, if \enspace z > 0 \qquad \cite{Nwankpa2021}.
-\end{matrix}
-\right.
-\label{eq:relu}
-\end{equation}
 
-\vskip 0.4in
+\begin{tabular}{ c c c c }
+\hline 
+Formula & Formulation s(x) & Derivative $\frac{ds(x)}{dx}$ & Function output range \\ \hline                        
+ReLU &   \begin{cases} 0 & \text{, for }x < 0\\
+	x & \text{, for }x \geqslant 0 \end{cases} & \begin{cases} 0 & \text{, for }1 < 0\\
+	1 & \text{, for }x \geqslant 0 \end{cases} & [ 0, \infty)\\
 
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-  \includegraphics[keepaspectratio=true,scale=0.6]{Activations/relu.pdf}}
-\captionof{figure}{ReLU Functions}\label{fig:activations_relu}  
-\end{minipage}
+\rule{0pt}{5ex}%  EXTRA vertical height 
 
-\vskip 0.4in
+Leaky ReLU &   \begin{cases} \alpha x & \text{, for }x < 0\\
+	x & \text{, for }x \geqslant 0 \end{cases} & \begin{cases} \alpha & \text{, for }1 < 0\\
+	1 & \text{, for }x \geqslant 0 \end{cases} & (-- \infty, \infty)\\
 
-\subsubsection{Sigoid and Softmax}
+\rule{0pt}{5ex}%  EXTRA vertical height 
 
-\begin{equation}
-Sigmoid: \sigma(z) = \frac{1}{1+e^{-z}} \qquad \cite{Nwankpa2021}.
-\label{eq:sigmoid}
-\end{equation}
+ELU &   \begin{cases} \alpha(e^{x} - 1) & \text{, for }x < 0\\
+	x & \text{, for }x \geqslant 0 \end{cases} & \begin{cases} \alpha e^{x} & \text{, for }x < 0\\
+	1 & \text{, for }x \geqslant 0 \end{cases} & [−\alpha, \infty)\\
+	
+\rule{0pt}{5ex}%  EXTRA vertical height 
+	
+Sigmoid & $\frac{1}{1+e^{-x}}$ & $\frac{e^{-x}}{(1+e^{-x})^{2}}$ & (0,1)\\
 
-\begin{equation}
-Softmax: \sigma(z)_{i} = \frac{e^{-z_{i}}}{\sum_{j=1}^{K}e^{-z_{j}}} \qquad \cite{Nwankpa2021}.
-\label{eq:softmax}
-\end{equation}
+\rule{0pt}{5ex}%  EXTRA vertical height 
 
-\vskip 0.4in
+Softmax & $\frac{e^{x_{i}}}{\sum_{j=1}^{K} e^{x_{j}}}$ & $\frac{e^{-x}}{(1+e^{-x})^{2}}$ & (0,1)\\
 
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-  \includegraphics[keepaspectratio=true,scale=0.6]{Activations/sigmoid.pdf}}
-\captionof{figure}{Sigmoid Functions}\label{fig:activations_sigmoid}  
-\end{minipage}
+\rule{0pt}{5ex}%  EXTRA vertical height 
 
-\vskip 0.4in
+tanh & $\frac{e^{2x}-1}{e^{2x}+1}$ & $1-tanh^{2}(x)$ & (-1,1) \\
+\hline  
+\label{tab:activation_functions}
 
-\subsubsection{Tanh}
+\end{tabular}
+\captionof{table}{Overview activation functions}
 
-\begin{equation}
-tanh(z) = \frac{e^{x}-e^{-x}}{e^{x}+e^{-x}} \qquad \cite{Nwankpa2021}.
-\label{eq:tanh}
-\end{equation}
 
-\vskip 0.4in
 
-\begin{minipage}{\linewidth}
-\makebox[\linewidth]{
-  \includegraphics[keepaspectratio=true,scale=0.6]{Activations/tanh.pdf}}
-\captionof{figure}{Tanh Functions}\label{fig:activations_tanh}  
-\end{minipage}
 
 \subsection{Optimization}
 When training neural networks one has to decide for a loss function and an optimizer. 
@@ -126,7 +108,8 @@ Applying gradient descent based optimizer, the weights and biases are updated wi
 where $w_{old}$ are the old, $w_{new}$ are the new model parameters, $\eta$ is the learning rate and $\frac{\delta L}{\delta w_{old}}$ is the derivative of the loss with respect to the current model weights \cite{ShilohPerl2020}. 
 Most optimizer rely only on the gradients (first order methods). Using second-order methods do generally converge faster but also require the computation of the Hessian. This is especially expansive for big datasets and models. For this reason Stochastic Gradient Descent is an optimization option which randomly picks samples to optimize the model. For this reason Stochastic Gradient Descent (SGD) is used, which calculates the gradient for single randomly picked samples from the dataset. Since the choice of these samples is random, the optimization suffers from instability and fluctuation. Instead of regular SGD one can use mini-batch gradient descent. This is a compromise between the regular SGD and gradient descent method. The gradient and model update is neither performed for a single sample nor for the whole dataset, but it is performed on a small randomly picked subset of the dataset, which accelerates the convergence of the training.\newline
 \newline
-In order to accelerate and stabilize the optimization even more one can also include historical gradients. First and second Momentum is a method that helps accelerate SGD in the relevant direction and dampens oscillations \cite{ShilohPerl2020} . Instead of updating with a fixed stepsize in the direction of the negative gradient one can use first and second momentum to adapt the stepsize of the optimization in the different dimensions. In the following four different optimizer which use first, second momentum or a combination of those. An optimization with first momentum works as follows:
+\textbf{Momentum}\newline
+In order to accelerate and stabilize the optimization one can also include historical gradients. First and second Momentum is a method that helps accelerate SGD in the relevant direction and dampens oscillations \cite{ShilohPerl2020} . Instead of updating with a fixed stepsize in the direction of the negative gradient one can use first and second momentum to adapt the stepsize of the optimization in the different dimensions. In the following four different optimizer which use first, second momentum or a combination of those. An optimization with first momentum works as follows:
 
 \begin{equation}
   \begin{aligned}
@@ -138,8 +121,10 @@ In order to accelerate and stabilize the optimization even more one can also inc
 
 where $M_{t}$ is the momentum, which calculates a moving average over the past gradients, $\nabla_{\theta}L(W_{t})$ is the derivative of the loss with respect to the current model weights, $\beta$ defines the relationship between current gradient and momentum in the moving average, $W_{t-1}$ are the current and $W_{t}$ the updated model weights \cite{Ruder2016}.\newline
 \newline
-Another well known optimizer of this kind is Nesterov accelerated gradient (NAG) which works just like described in  \ref{eq:moment}. The only difference is that that the gradient is not estimated for the current, but for some pre-udpated model weights. In a first step the gradient is calculated for the old model weights, which are updated with the momentum from the previous iteration $\nabla_{\theta}L( W_{t-1} - \gamma v_{t-1})$. In a second step the current model weights  are updated with the moving average of the momentum and gradient as described in \label{eq:moment} \cite{Ruder2016}.\newline
+\textbf{Nesterov accelerated gradient (NAG)}\newline
+Another well known optimizer of this kind is NAG which works just like described in  \ref{eq:moment}. The only difference is that that the gradient is not estimated for the current, but for some pre-udpated model weights. In a first step the gradient is calculated for the old model weights, which are updated with the momentum from the previous iteration $\nabla_{\theta}L( W_{t-1} - \gamma v_{t-1})$. In a second step the current model weights  are updated with the moving average of the momentum and gradient as described in \label{eq:moment} \cite{Ruder2016}.\newline
 \newline
+\textbf{Adagrad}\newline
 Instead of using first momentum, Adagrad builds a moving average of the the past squared gradients (second momentum):
 
 \begin{equation}
@@ -151,7 +136,8 @@ Instead of using first momentum, Adagrad builds a moving average of the the past
 
 where  $W_{t-1}$ are the current and $W_{t}$ the updated model weights, $\nabla_{\theta}L(W_{t})$ is the derivative of the loss with respect to the current model weights, $G_{t}$ is second momentum and $\epsilon$ denotes a small quantity which prevents the division by zero  \cite{Ruder2016}.\newline
 \newline
-The Adaptive Moment Estimation (Adam) is one of the most popular optimizer. ADAM combines the idea of first and second momentum: 
+\textbf{Adaptive Moment Estimation (ADAM)}\newline
+The Adam is one of the most popular optimizer. ADAM combines the idea of first and second momentum: 
 \begin{equation}
   \begin{aligned}
    &m_{t} =  \beta_{1} m_{t-1} +  (1-\beta_{1}) \nabla_{\theta}L(W_{t-1}) &\\
@@ -167,17 +153,133 @@ where $m_{t}$ and $v_{t}$ are the first and second momentum, $\hat{m}_{t}$ and $
 
 
 
-\section{Convolutional Neural Network}
-Convolutional Neural Networks (CNN) are a special type of neural networks which are popular in the computer vision community. Fig. \ref{fig:CNN_overview} gives an overview over a simple CNN.
+\section{Convolutional Neural Network (CNN)}
+
+Equally to regular neural networks CNNs consist of several neurons embedded in a fixed architecture. CNNs focus on processing images and therefore the architecture is set up such that dealing with images is optimized. In CNNs the neurons are structured in layers just like in normal neural networks. In regular networks the neurons of one layer are are organized in one dimension and in CNNs in three dimensions (height, width, depth).
+
+The functionality of CNNs are visualized in \ref{fig:CNN_overview}. One can identify four main compounts of a CNN, which are described more detailed in the following:
+
+\begin{itemize}
+    \item [1.] Data which is organized in a structured 1D or 2D form is fed into the CNN as input layer. Each element in this structure is called a pixel. A pixel contains a specific value and position in the structure. 
+    
+    \item [2.] The convolutional layer contains kernels which are convolved with the input. The kernels contain weights and biases which are learned during training. The rectified linear unit (ReLu) aims to apply as an ’elementwise’ activation function to the kernel outputs.
+    
+    \item [3.] The pooling layer downsamples along the spatial dimensionality. This reduces the size of the feature maps which are fed through the network in order to minimize the learnable parameters in the network.
+    
+    \item [4.] In the end fully-connected layers attempt to predict a class label for each input sample. Also Relu can be used as activation functions in these layers.
+\end{itemize}
+
 \begin{figure}[htpb]
   \centering
-  \includegraphics[width=0.9\textwidth]{CNN_overview.pdf}
-  \caption {CNN Arcitecture}
+  \includegraphics[width=0.9\textwidth]{cnn/cnn_architecture.pdf}
+  \caption {Overview over CNN architecture \cite{OShea2015}}
   \label{fig:CNN_overview}
 \end{figure}
+Besides operations like Batch-Normalization, which are also common in regular neural networks, CNNs apply pooling layers. Pooling layers are responsible for downsampling the feature maps along the spatial dimensionality to reduce the complexity of the model. In the following typical CNN layers are described more in detail. 
+
+
+\subsubsection{Kernels}
+The convolutional layers are the core layers of a CNN. The learnable paramaters in a convolutional layer are the weights and biases of each kernel. During the optimization each kernel learns to extract expressive features. Usually the spartial dimensions (width, height) are reduced throughout the network in order to go from extracting global features in the beginning to more local features in the end. Since the kernels are applied at different regions of the input the kernel scans different locations for the learned features. The depth of a kernel is defined by the depth of the input. Each kernel produces a feature map of depth one. It is possible to apply several equal kernels such that the total depth of the feature map is increased. Each channel corresponds to the features extracted by one single kernel \cite{OShea2015}. Looking at fig. \label{fig:kernel_number} one can see how the kernel of depth 3 (orange) is applied on the input of depth 3 (blue). By using 128 kernels the resulting feature map is of depth 128.
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{cnn/kernel_number.pdf}
+  \caption {2D convolution with 128 kernels of depth 3 \cite{Ganesh2019}}
+  \label{fig:kernel_number}
+\end{figure}
+\FloatBarrier 
+
+In a convolutional layer each kernel is convolved with the data across the whole spatial dimensionality. A feature map of new spatial dimension is created \cite{OShea2015}. To make things easier the convolution is shown for the 1D case:
+
+\begin{equation}
+  y(p_{0}) = \sum_{p_{n} \in R} w(p_{n}) \cdot x(p_{0} + p_{n}), 
+  \label{eq:kernel}
+\end{equation}
+
+where $p_{n}$ is one of the $R$ cells in the kernel, $p_{0}$ is the starting pixel of the input. Each kernel cell is multiplied with the corresponding pixel in the input and the $R$ outputs are summed up in the pixel $p_{0}$ of the feature map \cite{Ganesh2019}. This process is also visualized in fig. \ref{fig:kernel}, where $p_{n}$ is one of the three cells within the kernel, $R$ is three in this case and $p_{0}$ marks the the position of the convolution in the input and feature map. In this case $p_{0}$ is two since the first pixel of the input is not used and the second pixel in the feature map is calculated.
+
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{cnn/kernel_calculation.pdf}
+  \caption {Convolution of kernel an input \cite{Ganesh2019}}
+  \label{fig:kernel}
+\end{figure}
+
+Compared to regular neural networks CNNs profit a lot from it's weight sharing concept. The kernel weights are learned throughout the training. Since the kernel is applied on different parts of the input, it is not necessary to train a weight for each input pixel. This reduces the number of learnable parameters in the network \cite{OShea2015}. Since the kernel is applied on different input locations, the feature search is insensitive to feature location in the image.
+
+\subsubsection{Dilated convolution}
+
+The dimensionality of the input which is processed by the kernel is called receptive field. When increasing the receptive field more global and otherwise more local features of the input are extracted. When defining a CNN architecture one has to find a trade-off between a model which is complex enough to capture the important information from the data and also keep the number of parameters low. Several hyperparameters can be used to reduce or increase the complexity of the model. After a convolutional layer three hyperparameters can be used to define the width and height of the resulting feature map. Dilated convolution, shwon in fig.\ref{fig:dilated_cnn}, is the same as regular convolution but it involves pixel skipping, so as to cover a larger area of the input. The kernel is not applied on a every neighbouring pixel \cite{Ganesh2019}.
+
+\begin{figure}[htpb!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{cnn/dilation_cnn.pdf}
+  \caption {Receptive field for convolution with different dilation factors}
+  \label{fig:dilated_cnn}
+\end{figure}
+\FloatBarrier 
+
+\subsubsection{Stride}
+By increasing the stride the kernel skips several pixels while shifting over the input. The effects of an different stride factors are shown in fig.\ref{fig:stride_cnn}. The resulting feature map is decreased with an increased stride factor \cite{OShea2015}.
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{cnn/stride_cnn.pdf}
+  \caption {Convolution with different stride factors}
+  \label{fig:stride_cnn}
+\end{figure}
+\FloatBarrier 
+
+\subsubsection{Zero padding}
+Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a border of zeros, which increases the resulting feature map \cite{OShea2015}.
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{cnn/zero_padding_cnn.pdf}
+  \caption {Convolution with different zero padding}
+  \label{fig:zero_padding_cnn}
+\end{figure}
+\FloatBarrier 
+
+
+\subsubsection{Spatial dimensionality}
+
+ The spatial dimensionality of the feature map right after a convolutional layer can be calculated as follows:
+
+\begin{equation}
+  \frac{(V-R)+2Z}{S+1}, 
+  \label{eq:spatial_dimensionality_cnn_feature map}
+\end{equation}
+where V is the input size, R is the size of the receptive field, Z is the amount of zero padding and S refers to the stride.
+
+\subsubsection{Pooling layer}
+To change the spatial dimensionality of the data feed through the network one can also include pooling layers. There exist different variants like max-pooling and average pooling. In general these layers work identical as convolutional layers just that they do not have learnable parameters. Also pooling kernels are shifted over the input. For each kernel position all pixels covered by the kernel are merged to a single value. Max-pooling returns the maximal pixel value and average-pooling the average over all pixels. Often convolutional and pooling layers are applied consecutively \cite{OShea2015}.
 
 
 \section{Domain adaptation and Transfer Learning}
+
+In the computer vision community domain adaption and transfer-learning techniques recently received more and more attention. Knowledge learned from the supervised training data, denoted as source domain, is transferred to the unsupervised testing data, denoted as target domain. The target and source domain data come from different problems which must be related and structured similarly. Generally transfer learning approaches can be grouped in four different types. 
+
+\begin{itemize}
+\item \textbf{Instance-based transfer learning} where different weights are assigned to data samples from the source domain. These weights are proportional to the similarity between sample and target domain.
+\item \textbf{Feature-based transfer learning} which has the goal to find a feature space in which the discrepancy between the domains is reduced.
+\item \textbf{Model-based transfer learning} which uses classifiers that can be transfered directly or fine-tuned to make the model perform well on the target domain.
+\item \textbf{Relation-based transfer learning} where the goal is to find and utilize similarities between the two domains to transfer knowledge \cite{AZAMFAR2020103932}. 
+\end{itemize}
+
+In order to compensate the domain shift problem in health monitoring tasks, domain adaption and transfer learning approaches are promising. Since the data from the source and target domain include the same machine health conditions and shared underlying features exist between them, domain adaptation approaches to compensate the domain shift are investigated. Fig.\ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaption can be used to find a cross-domain classifier which accurately separates source and target domain data in a domain invariant feature space \cite{Pandhare2021}.
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=1\textwidth]{Domain_adaption_intro}
+  \caption {Domain adaption for health monitoring of machines with different working conditions \cite{Pandhare2021}} \label{fig:Domain_adaption_intro}
+\end{figure}
+
+
+
+
+
 
 \section{Maximum Mean Discrepancy}
 Maximum Mean Discrepancy (MMD) is a criterion which estimates the discrepancy between two distribution. MMD can be used to optimize the network such that the distribution discrepancy is reduced in a data domain-invariant feature space. The discrepancy is measured as squared distance between the distribution kernel embeddings in the reproducing kernel Hilbert space (RKHS). The distribution discrepancy across domains is measured in the layers of the neural network in order to avoid feature transferability degradation. One has to pay attention to not transfer noise or irrelevant information. This destroys the structure of the source and target domain data and therefore makes the classification task even more difficult \cite{li2020domain}. 

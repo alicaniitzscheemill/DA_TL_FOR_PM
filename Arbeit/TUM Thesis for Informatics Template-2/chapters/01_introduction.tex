@@ -17,19 +17,3 @@ As shown in fig. \ref{fig:hand_crafted_features_physical_models_deep_learning} h
 \end{figure}
 
 \section{Domain Adaption and Transfer Learning}
-In the computer vision community domain adaption and transfer-learning techniques recently received more and more attention. Knowledge learned from the supervised training data, denoted as source domain, is transferred to the unsupervised testing data, denoted as target domain. The target and source domain data come from different problems which must be related and structured similarly. Generally transfer learning approaches can be grouped in four different types. 
-
-\begin{itemize}
-\item \textbf{Instance-based transfer learning} where different weights are assigned to data samples from the source domain. These weights are proportional to the similarity between sample and target domain.
-\item \textbf{Feature-based transfer learning} which has the goal to find a feature space in which the discrepancy between the domains is reduced.
-\item \textbf{Model-based transfer learning} which uses classifiers that can be transfered directly or fine-tuned to make the model perform well on the target domain.
-\item \textbf{Relation-based transfer learning} where the goal is to find and utilize similarities between the two domains to transfer knowledge \cite{AZAMFAR2020103932}. 
-\end{itemize}
-
-In order to compensate the domain shift problem in health monitoring tasks, domain adaption and transfer learning approaches are promising. Since the data from the source and target domain include the same machine health conditions and shared underlying features exist between them, domain adaptation approaches to compensate the domain shift are investigated. Fig.\ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaption can be used to find a cross-domain classifier which accurately separates source and target domain data in a domain invariant feature space \cite{Pandhare2021}.
-
-\begin{figure}[htpb]
-  \centering
-  \includegraphics[width=1\textwidth]{Domain_adaption_intro}
-  \caption {Domain adaption for health monitoring of machines with different working conditions \cite{Pandhare2021}} \label{fig:Domain_adaption_intro}
-\end{figure}
