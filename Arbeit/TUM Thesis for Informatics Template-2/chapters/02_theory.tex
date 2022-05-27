@@ -259,25 +259,42 @@ To change the spatial dimensionality of the data feed through the network one ca
 
 \section{Domain adaptation and Transfer Learning}
 
-In the computer vision community domain adaption and transfer-learning techniques recently received more and more attention. Knowledge learned from the supervised training data, denoted as source domain, is transferred to the unsupervised testing data, denoted as target domain. The target and source domain data come from different problems which must be related and structured similarly. Generally transfer learning approaches can be grouped in four different types. 
+In the computer vision community domain adaption and transfer-learning techniques recently received more and more attention. In domain adaption a model is trained on the labeled training data, denoted as source domain. The model is then applied to solve an equal task on the unlabeled testing data, denoted as target domain. The target and source domain data come from different distributions, anyhow the data must be related in any sense and structured similarly. The conditional and marginal distribution for the source and target domain data differ. Transfer learning, also called multi-task learning, is related to domain adaption. The goal is to train a model solving a specific task on a given dataset. The model should then be used to solve a different task on the same data. For this reason the data distribution used for the two tasks has the same marginal distribution but different conditional distribution. This makes sense since the data used is equally distributed, but in different tasks relation between samples and labels will differ. In general one can say domain adaption is used to reduce the discrepancy between data distributions. This allows to train a model using the same task on data which is distributed differently. Transfer learning on the other hand learns a model, which is able to solve different tasks on the same data distribution. The differences are visualized in fig. \label{fig:domain_adaption_vs_transfer_learning}
 
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=.8\textwidth]{domain_adaption_vs_transfer_learning.pdf}
+  \caption {Transfer Learning vs. Domain Adaption} \label{fig:domain_adaption_vs_transfer_learning}
+\end{figure}
+\FloatBarrier 
+
+Since the focus of this thesis is to analyse domain adaption approaches the following passages are domain-adaption specific
+\subsection{Notation}
+The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally the target domain data is separated in labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. Usually it is assumed that there is a large amount of labeled data in the source and a small amount of labeled data in the target domain: $N_{tl} \ll N_{s}$. In this conext $x_{i}$ is referred as the observation and $y_{i}$ as the corresponding label  \cite{Patel2015}. Depending on the data available during training one differs between different branches of domain adaption \cite{Patel2015}: 
 \begin{itemize}
-\item \textbf{Instance-based transfer learning} where different weights are assigned to data samples from the source domain. These weights are proportional to the similarity between sample and target domain.
-\item \textbf{Feature-based transfer learning} which has the goal to find a feature space in which the discrepancy between the domains is reduced.
-\item \textbf{Model-based transfer learning} which uses classifiers that can be transfered directly or fine-tuned to make the model perform well on the target domain.
-\item \textbf{Relation-based transfer learning} where the goal is to find and utilize similarities between the two domains to transfer knowledge \cite{AZAMFAR2020103932}. 
+\item \textbf{Semi-supervised domain adaptation}, where a function is learned using the data from $S$, $T_{l}$
+\item \textbf{Unsupervised domain adaptation}, where a function is learned using the data from $S$ and $T_{u}$ 
 \end{itemize}
 
-In order to compensate the domain shift problem in health monitoring tasks, domain adaption and transfer learning approaches are promising. Since the data from the source and target domain include the same machine health conditions and shared underlying features exist between them, domain adaptation approaches to compensate the domain shift are investigated. Fig.\ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaption can be used to find a cross-domain classifier which accurately separates source and target domain data in a domain invariant feature space \cite{Pandhare2021}.
+From a statistical point of view the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. It is required that the data from source and target have the same data space and label space, while the marginal and conditional distribution differs $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
+
+\subsection{Different types of transfer learning}
+Generally domain adaption approaches can be grouped in four different types \cite{AZAMFAR2020103932}:  
+
+\begin{itemize}
+\item \textbf{Instance-based transfer learning} where different weights are assigned to data samples from the source domain. These weights are indicate the similarity between sample and target domain. When target and source domain samples show great similarity weights should be high such that those source samples are used preferably during training. This allows a training with source domain data which do not suffer that much from the domain discrepancy. 
+\item \textbf{Feature-based transfer learning} which has the goal to find a feature space in which the discrepancy between domains is reduced. All source and target samples are transferred in the domain-invariant feature space where classification is easier. Fig.\ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaption can be used to find a cross-domain classifier which accurately separates source and target domain data in a domain invariant feature space \cite{Pandhare2021}. 
+\item \textbf{Model-based transfer learning} which uses classifiers that can be transferred directly or fine-tuned to make the model perform well on the target domain.
+\item \textbf{Relation-based transfer learning} where the goal is to find and utilize similarities between the two domains to transfer knowledge. 
+\end{itemize}
+
 
 \begin{figure}[htpb]
   \centering
   \includegraphics[width=1\textwidth]{Domain_adaption_intro}
   \caption {Domain adaption for health monitoring of machines with different working conditions \cite{Pandhare2021}} \label{fig:Domain_adaption_intro}
 \end{figure}
-
-
-
+\FloatBarrier 
 
 
 
