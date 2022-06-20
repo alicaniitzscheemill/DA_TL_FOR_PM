@@ -296,7 +296,79 @@ Generally domain adaption approaches can be grouped in four different types \cit
 \end{figure}
 \FloatBarrier 
 
+\section{Deep belief network}
 
+A Deep Belief Network(DBN) is a generative model that generates depth by stacking of Restricted Boltzmann machines (RBMs), which are widely used in research and application. Since DBMs are generative model they are used in an unsupervised or a supervised manner, which means, they are able to do feature learning/extraction and classification. RBMs consits of two groups of nodes where one is defined as hidden and the other as visible unit. The visible layer stores information about the input into the network and is therefore known. The hidden layer represents in the input in a new and feature space and is therefore unknown. DBNs use Restricted Boltzmann machines (RBMs), which are a variation of regular Boltzmann machines with the restriction that it's units must form a bipartite graph. This requires that all RBM units are separated in two disjoint and independent subsets (hidden and visible subset). The visible and hidden units are connected through weighted connections but not the units belonging to the same layer. The units in the hidden and visible layer are binary. The matrix $W \in \mathbb{R}^{mxn}$ contains all the weights for connecting the m nodes of the hidden and n nodes of visible unit. $a \in \mathbb{R}^{m}$ and $b \in \mathbb{R}^{n}$ contains the biases of the hidden and visible unit \cite{Hinton2010}. The connection of the visible and hidden unit is visualized in \ref{fig:RBM}.
+
+RBMs are Energy-based models, where for each combination of visible and hidden layer units $\mathbf{v,h}$ the following energy is calculated:
+
+\begin{equation}
+\begin{aligned}
+    E(v,h) = -\sum_{i \in visible} a_{i}v_{i}-\sum_{j \in hidden} b_{j}h_{j}-\sum_{i,j} v_{i}h_{j}w_{ij},
+\end{aligned}
+\end{equation}
+where $v_{i}$, $h_{j}$ are the binary states of the ith and jth unit in the visible and hidden layer. $a_{i}$, $b_{j}$ and $w_{ij}$ are the biases and weights corresponding to the ith unit in the visible and the jth unit in the hidden layer. Based on this energy the network assigns a probability to every possible combination of visible and hidden layer units:
+
+\begin{equation}
+\begin{aligned}
+    p(\mathbf{v,h}) = \frac{1}{Z} e^{-E(\mathbf{v,h})},
+\end{aligned}
+\end{equation}
+where Z is a "partition function". By summing over all possible combinations of hidden and visible layers the the probability $p(\mathbf{v,h})$ is normalized to a value between 0 and 1:
+
+\begin{equation}
+\begin{aligned}
+    Z = \sum_{\mathbf{v,h}}e^{-E(\mathbf{v,h})}.
+\end{aligned}
+\end{equation}
+
+The network assigns a probability for each training sample by summing $p(\mathbf{v,h})$ for all possible hidden vectors:
+\begin{equation}
+\begin{aligned}
+    p(\mathbf{v}) = \frac{1}{Z} \sum_{h} e^{-E(\mathbf{v,h})}.
+    \label{eq:prob_visible_layer}
+\end{aligned}
+\end{equation}
+
+Since the units of RBMs must form a bipartite graph there are no connection between two hidden or visible units. Given a training sample the visible units can be calculated with eq. \ref{eq:prob_visible_layer}. From there the hidden units can be calculated as following:
+\begin{equation}
+\begin{aligned}
+    P(v_{i}|h) = \sigma(a_{i} + \sum_{j=1}^{n} W_{i,j} h_{j}),
+    \label{eq:prob_hidden_layer}
+\end{aligned}
+\end{equation}
+where $h_{j}$ is the jth unit in the hidden layer and $v_{i}$ the ith unit in the visible layer. Afterwards the units of the visible layer can be reconstructed as following:
+\begin{equation}
+\begin{aligned}
+    P(h_{i}|v) = \sigma(b_{j} + \sum_{i=1}^{n} W_{i,j} v_{i}).
+    \label{eq:prob_reconstructed_visible_layer}
+\end{aligned}
+\end{equation}
+This iterative process of reevaluating the units in the hidden and visible layer with the eq. \ref{eq:prob_hidden_layer} and \ref{eq:prob_reconstructed_visible_layer} is also visualized in fig. \ref{fig:RBM}. The weights and biases of the network can be updated according to the reconstruction error:
+
+\begin{equation}
+\begin{aligned}
+    \Delta w_{ij} = \epsilon(\langle v_{i}, h_{j}\rangle_{data}- \langle v_{i}, h_{j}\rangle_{reconstructed}), 
+    \label{eq:RBM_weight_update}
+\end{aligned}
+\end{equation}
+where the angle brackets denote expectations under the distribution specified in the subscripts. The subscript $data$ refers to the combination of hidden visible vectors $\mathbf{v,h}$ after the update of the hidden layer with eq. \ref{eq:prob_hidden_layer} and the subscript $reconstructed$ to those after the reconstruction of the visible units with eq. \ref{eq:prob_reconstructed_visible_layer}. A better training is achieved if more steps of alternating updating the visible and hidden layer are performed before collecting the statistics for the second term $\langle v_{i}, h_{j}\rangle_{reconstructed}$ in the learning rule \cite{Hinton2010}.
+
+RBMs are generative models which make guesses about the probability distribution of the original input. By training the RBM the divergence between the true input distribution and the reconstructed ones is minimized \cite{Hinton2010}. Stacking several RBMs in DBN as visualized in \ref{fig:DBN} generates an even more powerful model. 
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=1\textwidth]{RBM.pdf}
+  \caption {Optimization of RBM} \label{fig:RBM}
+\end{figure}
+\FloatBarrier 
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=1\textwidth]{DBN.pdf}
+  \caption {Stacking RBMs to construct a DBN} \label{fig:DBN}
+\end{figure}
+\FloatBarrier 
 
 \section{Maximum Mean Discrepancy}
 Maximum Mean Discrepancy (MMD) is a criterion which estimates the discrepancy between two distribution. MMD can be used to optimize the network such that the distribution discrepancy is reduced in a data domain-invariant feature space. The discrepancy is measured as squared distance between the distribution kernel embeddings in the reproducing kernel Hilbert space (RKHS). The distribution discrepancy across domains is measured in the layers of the neural network in order to avoid feature transferability degradation. One has to pay attention to not transfer noise or irrelevant information. This destroys the structure of the source and target domain data and therefore makes the classification task even more difficult \cite{li2020domain}. 

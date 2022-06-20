@@ -126,8 +126,37 @@ The number of IMFs extracted roughly equls $log_{2}(N)$ where $N$ is the number 
 
 
 \section{Domain adaptation approaches for Predictive Maintenance}
+In recent years, intelligent data-driven machine condition monitoring systems have replaced traditional approaches to a great extent. When using such monitoring systems for long time horizons operational conditions and therefore fault characteristics might change. This leads to unsatisfactory diagnosis performance \cite{AZAMFAR2020103932}. Furthermore, there are scenarios where not all fault classes are known during training. Due to the unexpected nature of faults, and the correlation and dependency between different parts of the system, faults can have numerous causes and can influence the systems in different ways. Therefore it is unlikely that the data used for training the model includes all system states and fault scenarios. Monitoring systems which can handle unseen classes and expand its knowledge adequately during test time seems helpful for industrial fault diagnosis systems \cite{Michau2017}. In order to address those issues domain adaption approaches seem promising in the area of fault diagnosis. In the literature deep-learning based domain-adaption is a hot topic. With its origin in the computer vision community it also made its way into the area of predictive maintenance, which will be discussed in the following. 
 
-\subsection{Maximum Mean Discrepancy}
+\subsection{Deep distance metric learning}
+A domain adaption algorithm which optimizes the inter- and intra-class distance in the latent feature space was presented by Li et al \cite{Li2018}. The expectation and variance of the samples belonging to one class is measured from the source dataset. The inter and intra class distance is calculated as following:
+
+\begin{equation}
+    \begin{aligned}
+       &D_{inter} = |E[f^{(m)}x^{(i)}]-E[f^{(m)}x^{(j)}]|_{2}-\sqrt{Var[f^{(m)}x^{(i)}]}-\sqrt{Var[f^{(m)}x^{(j)}]}\\
+       &D_{intra} = 
+        \sum_{i=1}^{N_{class}} \sqrt{Var[x^{(i)}]},
+    \end{aligned}
+\end{equation}
+
+where $x^{(k)}$ denote the raw input sample of class k, $N_{class}$ is the number of the classes, $f^{(m)}x^{(k)}$ denotes the output at the m-th layer in the network and $E[f^{(m)}x^{(i)}]$ and $Var[x^{(i)}]$ are the  expectation and variance of of the samples belonging to class k in the mth layer. Optimizing the network with $J_{Cluster} = - D_{inter} + \eta D_{inter}$ reduces the distance between samples of the same class and maximizes the distance between samples of different classes. This increases the separability between samples of different classes and the the compactness of samples belonging to the same class, which makes the algorithm more robust against environmental noises. Since $J_{Cluster}$  requires labels for each sample the optimization is restricted to the source domain data. Furthermore, Li et al applies a MMD loss to reduce the discrepancy between target and source domain: 
+
+\begin{equation}
+    \begin{aligned}
+    J_{MMD,m} = MMD_{k}(P^{f(m}, Q^{f(m}),
+    \end{aligned}
+\end{equation}
+where $P^{f(m}$ and $Q^{f(m}$ denote the representation of source and target samples in the mth hidden layer. Lastly, a cross entropy loss in the final layer optimzies the network to classify the source samples correctly. In total the network is optimized with the following weighted average of losses: 
+
+\begin{equation}
+    \begin{aligned}
+    J_{total} = \alpha J_{Cluster} + \beta J_{MMD} + \gamma J_{CE}, 
+    \end{aligned}
+\end{equation}
+where $J_{Cluster}$ is the cluster loss, $J_{MMD}$ the MMD loss,  $J_{CE}$ the cross entropy loss and $\alpha$, $\beta$ and $\gamma$ are the weights for calculating the weighted average \cite{Li2018}.
+
+
+
 \subsection{Generative Adversarial Networks}
 
 Since in this thesis Relu and Selu activation functions were mainly used in hidden and Softmax in final layer, those are described more in detail . The formula \ref{eq:relu} and \ref{eq:selu} show the definition of the Selu and Relu and \ref{eq:softmax} of the softmax activation functions: 

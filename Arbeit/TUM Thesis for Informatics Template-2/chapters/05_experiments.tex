@@ -14,7 +14,7 @@ The focus of the experiments is to investigate different levels of abrasion in t
   \caption {Experimental Setup: A: side-view of the machine, B: Upper LGS, C: BSD, C: Lower LGS}
   \label{fig:experimental_setup}
 \end{figure}
-
+\FloatBarrier 
 
 
 An overview over the the tracked health condition states of the LGSs and BSDs is visualized in table \ref {tab:BSDs_states} and table \ref {tab:LGSs_states}. The ID specifies the damage class, the component the affected parts of the industrial machine and the preload in N the force measured in the LGSs and BSDs. Since just two LGSs consisting of two parts and the threaded shaft of the BSD are supervised each BSD damage ID maps to one component and each LGS damage ID maps to four components. 
@@ -224,6 +224,7 @@ In this work a simple Dummy Dataset was established to evaluate the effect of th
   \caption {Data Window Samples for each domain and class}
   \label{fig:samples_domain_class_dummy}
 \end{figure}
+\FloatBarrier 
 
 In fig. \ref{fig:samples_domain_class_dummy_influence_noise} one can see how the applied perturbation and noise during the sampling process changes the data sequences belonging to the same class and domain. 
 
@@ -234,20 +235,25 @@ In fig. \ref{fig:samples_domain_class_dummy_influence_noise} one can see how the
   \caption {Influence of perturbation when sampling several data sequences for one class and domain}
   \label{fig:samples_domain_class_dummy_influence_noise}
 \end{figure}
-
+\FloatBarrier 
 
 
 
 \section{Proposed training with MMD and cross entropy loss} \label{sec:Proposed_training}
 
-In the following the training of deep-learning based domain adaption models which use a source cross-entropy and MMD loss is explained and visualized in fig. \ref{fig:Training_Process_MMD}. In the given domain adaption task the model processes data from the labeled source and unlabeled target domain. In a first step the data is preprocessed and split into several smaller sequences. Each sequence is fed into the model. A 1D CNN extracts expressive features and subsequently a fully connected layers predicts the health condition classes of each sample. The MMD loss estimates the discrepancy between latent feature vectors of source and target domain samples in several layers of the neural network. Source and target domain samples are groped up randomly in pairs of two. For each pair the MMD loss is calculated in several hidden layers and added up. By applying a source cross-entropy loss the model learns to predict correct labels for the source domain samples. Fig. \ref{fig:MMD_Loss_and_CE_loss} symbolically shows how the MMD as well as the source cross-entropy loss is extracted from the model.
+For the trainig of the deep-learning based domain adaption model a combination of cross-entrop and MMD loss is used. The repetitive training of the model is visualized in fig. \ref{fig:Training_Process_MMD}. For training the model data from the target and source domain is used in parallel. Firstly, the data used for the training is preprocessed. This step includes the collection, sorting and windowing of the data from different data sources. Also wavelet or fourier transforms can be included in order to generate more informative data for the model. The model used for predictive maintenance is concluded of a CNN and a classifier. In a first step the 1D CNN extracts expressive features, which are subsequently fed into a fully connected network to predict the health condition classes of each sample. The MMD loss estimates the discrepancy between latent feature vectors of source and target domain samples in several layers of the neural network. Source and target domain samples are grouped up in pairs of two. For each such randomly grouped latent feature vectors the MMD loss is calculated. Besides that the cross entropy loss, which is applied in the final layer evaluates the classification performance of the network. Fig. \ref{fig:MMD_Loss_and_CE_loss} symbolically shows how the MMD as well as the source cross-entropy loss is extracted from the different layers of the model.
 
 \begin{figure}[htpb]
   \centering
   \includegraphics[width=1\textwidth]{MMD_loss_visualization}
   \caption {Cross Entropy Loss and MMD Loss in Neural Networks} \label{fig:MMD_Loss_and_CE_loss}
 \end{figure}
-The cross entropy loss is used to solve the classification problem and the MMD loss to reduce the domain discrepancy. When including several losses, a weighted average must be defined in order to train neural networks. Often these weighting factors are hyperparameters which need to be defined before training. The following equation presents the weighted cross entropy and MMD loss average which is used to optimize the model:
+\FloatBarrier 
+
+
+Due to the MMD loss the model learns to extract features which are domain independent. By applying a source cross-entropy loss, the model learns to predict correct labels for the source domain samples.
+
+The cross entropy loss is used to solve the classification problem. The MMD loss reduces the domain discrepancy, by extracting features which are more domain independent. When including several losses, a weighted average must be defined in order to train neural networks. These weighting factors are hyperparameters which need to be defined before training. The following equation presents the weighted average between cross entropy and MMD loss, which is used to optimize the model:
 
 \begin{align}
     \mbox{Total Loss} = \mbox{Source Cross-Entropy Loss} + \mbox{GAMMA} * \mbox{MMD Loss}
@@ -260,7 +266,7 @@ In general the training is repeated until the maximum number of epochs is reache
   \includegraphics[width=0.8\textwidth]{training_process_mmd.pdf}
   \caption {Model training iteration} \label{fig:Training_Process_MMD}
 \end{figure}
-
+\FloatBarrier 
 
 \section{Model}
 In the MMD experiments different model architectures and optimizer were used. Generally the model consist of a 1D CNN which is responsible to extract expressive features. The CNN consists of 3 convolutional layers. With increasing depth of the network the kernel size decreases. This helps to extract more general and global features in shallow and more specific and local features in deeper layers. Depending of the underlying data complexity in the different experiments max pooling layers are included in order to avoid overfitting and exploding gradients. Including batch normalization after convolutional layers helps to make the training faster and more stable. This is done by fixing the means and variances of the layers inputs for each batch. After iteratively applying these three types of layers the output of the CNN is flattend to a 1D vector. This vector is used as an input for the subsequent classifier. The latent space size of the Classifier is reduced in each layer. The 2D output of the neural network represents the prediction probability for the two health condition classes.

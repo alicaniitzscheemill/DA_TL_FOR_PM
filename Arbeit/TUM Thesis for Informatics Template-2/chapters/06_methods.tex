@@ -30,13 +30,10 @@ In the following section the influence of the weighting factor GAMMA on the trai
   \includegraphics[width=1.1\textwidth]{model_feature_extraction_test}
   \caption {Data distribution: Influence of GAMMA to the model training with MMD loss} \label{fig:model_feature_extraction_test}
 \end{figure}
+\FloatBarrier 
 
 
 The data distribution of the source and target domain samples in the 3D penultimate hidden layer of the classifier is visualized in fig. \ref{fig:point_cloud_mmd}. Fig. \ref{fig:learning_curves_influence_mmd_feature_extractor} shows the development of the MMD and cross entropy loss throughout the training process. When picking a small GAMMA, the model suffers from a bad separability of the two classes across the two domains. In this case the source cross-entropy loss dominates the training. Instead of reducing the domain discrepancy the model training focuses solely on predicting source samples correctly. When picking a big GAMMA the training is dominated by the MMD loss such that the correct prediction of source domain samples becomes irrelevant. Since the target labels are unknown, the MMD loss is calculated between source and target samples of the same and different classes. The MMD loss reduces the inter and intra class distance between the latent space feature vectors of source and target samples. The separability of the classes is reduced. A trivial solution for this optimization problem is a model which processes all samples such that they collapse at the same point in the latent feature space.
-
-
-
-
 
 
 
@@ -66,7 +63,7 @@ The data distribution of the source and target domain samples in the 3D penultim
   \caption{Data distribution: Influence of GAMMA on model training, with GAMMA = 0.1 (top), GAMMA = 0,5 (middle), GAMMA = 30 (bottom)}
   \label{fig:point_cloud_mmd}
 \end{figure}
-
+\FloatBarrier 
 
 
 
@@ -93,7 +90,7 @@ The data distribution of the source and target domain samples in the 3D penultim
   \caption{MMD and Source CE-Loss curves: Influence of GAMMA on model training, with GAMMA = 0.1 (top), GAMMA = 0,5 (middle), GAMMA = 30 (bottom)}
   \label{fig:learning_curves_influence_mmd_feature_extractor}
 \end{figure}
-
+\FloatBarrier 
 
 
 
@@ -143,11 +140,11 @@ The idea behind domain adaption is to aggregate knowledge while solving one prob
   \caption{Data distribution: labeled (top) vs. unlabeled MMD (bottom) at epoch 0 (left) and epoch 6 (right)}
   \label{fig:learning_curves_influence_mmd_feature_extractor}
 \end{figure}
-
+\FloatBarrier 
 
 
 \subsection{Influence of latent feature space choice in MMD loss}
-This section analyses the efficiency of reducing the domain discrepancy with varying MMD losses including features from different hidden layers. Fig. \ref{fig:visualization_extraction_loss} visualizes the calculation of two MMD losses by extracting different latent features from the classifier and the CNN. The evalaution is based on the model presented in fig. \ref{fig:model_latent_feature_space_test_dumm}. The model is trained in three different phases. During the MMD-Loss phase a weighted average of the MMD and cross entropy loss and during the CE-Loss phase just a cross entropy loss is applied. In both phases ADAM is used as optimizer with gamma1 = 0.9, gamma2 = 0.99 and a learning rate of 1e-2 for the CNN and 1e-4 for the classifier. The "regular FC MMD" loss calculates the source and target discrepancy from the latent features in the fully connected layers of the classifier. The "regular FC + CNN MMD" loss additionally considers the feature maps extracted right after the convolutional layers in the CNN. 
+This section analyses the efficiency of reducing the domain discrepancy with varying MMD losses including features from different hidden layers. Fig. \ref{fig:visualization_extraction_loss} visualizes the calculation of two MMD losses by extracting different latent features from the classifier and the CNN. The evaluation is based on the model presented in fig. \ref{fig:model_latent_feature_space_test_dumm}. The model is trained in three different phases. During the MMD-Loss phase a weighted average of the MMD and cross entropy loss and during the CE-Loss phase just a cross entropy loss is applied. In both phases ADAM is used as optimizer with gamma1 = 0.9, gamma2 = 0.99 and a learning rate of 1e-2 for the CNN and 1e-4 for the classifier. The "regular FC MMD" loss calculates the source and target discrepancy from the latent features in the fully connected layers of the classifier. The "regular FC + CNN MMD" loss additionally considers the feature maps extracted right after the convolutional layers in the CNN. 
 
 \begin{figure}[htpb]
   \centering
@@ -185,7 +182,7 @@ The development of the accuracy, the source cross-entropy and MMD loss during th
   \caption{Accuracy curves of regular CNN MMD Loss (left) and regular FC MMD Loss (right)}
   \label{fig:accuracy_cnn_and_no_cnn_mmd}
 \end{figure}
-
+\FloatBarrier 
 
 
 
@@ -205,7 +202,7 @@ The development of the accuracy, the source cross-entropy and MMD loss during th
   \caption{Loss curves of regular CNN MMD loss (left) and regular FC MMD loss(right)}
   \label{fig:loss_cnn_and_no_cnn_mmd}
 \end{figure}
-
+\FloatBarrier 
 
 
 
@@ -221,6 +218,7 @@ In the following section the performance of different MMD-based domain adaption 
   \includegraphics[width=1.1\textwidth]{model_real_data}
   \caption {MMD Model for real data} \label{fig:model_real_data}
 \end{figure}
+\FloatBarrier 
 
 On the real machine dataset the three approaches regular FC + CNN MMD loss,  regular FC MMD and no MMD loss are evaluated. The accuracies on the source and target domain are visualized in fig. \ref{fig:accuracy_real_world}. In each figure three curves are presented representing different phases of the training. During the MMD Loss phase the whole model consisting of CNN and classifier are optimized with a weighted average of MMD and cross entropy loss. In the CE-Loss phase just the classifier is optimized according to a cross-entropy loss. During both phases an ADAM optimizer with a learning rate of 1e-2, beta1 of 0.9 and beta2 of 0.99 is used . In the val phase the model is evaluated. Before the training the data is split for these three phases accordingly (MMD-Loss: 60\%, CE-Loss: 20\%, Val: 20\%). Therefore all experiments follow a proper train validation split. It becomes obvious that the accuracies achieved on the validation set of the target domain were able to be increased with about 10\% by using the two MMD variations. The MMD and cross entropy loss seems to be decreased more smoothly when including CNN features into the MMD loss for the optimization of the model. Also the accuracy achieved on the target validation set achieved the regular FC + CNN MMD loss beat the one achieved with the regular FC MMD loss. Without using any MMD loss the model performance on the target domain could be increased by just around 2\%. When using the regular FC MMD loss sometimes the performance of the model breaks down  little bit. Often times this can be seen in the accuracy of the target and source domain. An example for this phenomena can be seen in fig. \ref{fig:accuracy_real_world} when looking at the accuracies of regular FC MMD (middle). In epoch ~27 the accuracy breaks down on the target and source domain. Especially during the combined training with the MMD and cross entropy loss this effect becomes especially obvious. Like mentioned in previous chapters this shows that when not including the latent features of the CNN in the MMD loss the cross entropy and MMD loss seem to work against each other, which makes the optimization less stable.
 
@@ -229,12 +227,14 @@ On the real machine dataset the three approaches regular FC + CNN MMD loss,  reg
   \includegraphics[width=1.1\textwidth]{accuracy_real_world}
   \caption {Accuracies for model training with Regular FC + CNN MMD loss (left), Regular FC MMD (middle) and No MMD loss (right)} \label{fig:accuracy_real_world}
 \end{figure}
+\FloatBarrier 
 
 \begin{figure}[htpb]
   \centering
   \includegraphics[width=1.1\textwidth]{loss_real_world}
   \caption {Loss for model training with Regular FC + CNN MMD loss (left), Regular FC MMD (middle) and No MMD loss} \label{fig:loss_real_world}
 \end{figure}
+\FloatBarrier 
 
 In fig. the development of the source domain cross entropy MMD loss is shown. It can be seen, that the hyperparameter GAMMA was picked well, such that the MMD as well as the source cross entropy loss were able to be reduced smoothly throughout the trainings process. 
 
