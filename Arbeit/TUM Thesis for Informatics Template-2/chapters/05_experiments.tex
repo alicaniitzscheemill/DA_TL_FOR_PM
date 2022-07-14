@@ -1,0 +1,260 @@
+\chapter{Experiments}\label{chapter:experiments}
+
+
+
+
+\section{Experimental Setup: Ball Screw Drive}
+In order to evaluate different predictive maintenance approaches, data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori were collected. The machine tool’s spindle and housing, as well as the machine tool table, rotatory axes, peripherals, the cladding and the machine tools housing were removed. The TNC control iTNC530 HSCI from Heidenhain GmbH was used. The focus of the experiments is to investigate how different levels of abrasion of the linear guiding shoes (LGSs) affect the prediction of health condition states of the ball screw drives (BSDs) in machine. The machine component damages are separated in different types, pitting (P) and no pitting (C). Generally, pitting damages were just detected for the BSDs. The health condition state of each component is specified by one letter and two digits. The letter indicates the damage type, the first digit specifies the preload class and the second digit the number of the observation. In the experiment three preload classes were differed, indicating the component's level of abrasion. An overview over the the tracked health condition states of the BSDs and LGSs is visualized in table \ref {tab:BSDs_states} and table \ref {tab:LGSs_states}. The ID specifies the damage class, the component name the machine part of interest and the preload the measured force (N) in the LGSs and BSDs. Since one experiment contains two LGSs, consisting of two parts, and one BSD threaded shaft, each BSD damage ID maps to one and each LGS damage ID to four components. 
+
+
+\begin{center}
+\begin{longtable}{||c c c||} 
+ \hline
+ ID & component name & preload in N \\ [0.5ex] 
+ \hline
+ P1 & 721-14448-6-G6 & 2 070 \\ 
+ P2 & 721-14448-4-G4 & 2 160 \\ 
+ C11 & 721-14448-3-G3 & 2 950 \\ 
+ C12 & 721-95859-4 & 845 \\ 
+ C21  & 721-14448-1-G1 & 1 450 \\ [1ex] 
+ C22  & 721-95859-2 & 1 293 \\ [1ex] 
+ C31  & 721-14448-2-G2 & 2 390 \\ [1ex] 
+ C32  & 721-95859-3 & 2 328 \\ [1ex] 
+ C33 & 721-95859-1 & 2 031 \\ [1ex]
+   \hline
+\caption {BSDs states}
+\label {tab:BSDs_states}
+\end{longtable}
+\end{center}
+
+
+\begin{center}
+\begin{longtable}{||c c c||} 
+ \hline
+ ID & component name & preload in  \\ [0.5ex] 
+ \hline\hline
+ C1 & C1 & 4 060 \\ 
+    & C2 & 4 430 \\ 
+    & C3 & 4 430 \\
+    & F1 & 3 880 \\ 
+ \hline
+ C2 & B1 & 8 860 \\ 
+    & B2 & 9 700 \\ [1ex] 
+    & B3 & 9 070 \\ [1ex]
+    & E1 & 8 230 \\ [1ex]
+ \hline
+ C3 & A9 & 13 470 \\ 
+    & A10 & 14 530 \\ [1ex] 
+    & A11 & 12 840 \\ [1ex]
+    & D3 & 12 840 \\ [1ex]
+ \hline
+\caption {LGSs states}
+\label {tab:LGSs_states}
+\end{longtable}
+\end{center}
+
+Fig. \ref{fig:experimental_setup} shows the experimental setup. The investigation focuses on the moving hanger assembly of the machine tool. The machine tool can be moved in the three spatial directions. The experiments are restricted to the movement of the machine tool along the x-Axis. For this reason just the single threaded shaft of the BSD and the two counterparts each belonging to one of the two LGSs are supervised.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{experimental_setup}
+  \caption {Experimental Setup: A: side-view of the machine, B: Upper LGS, C: BSD, C: Lower LGS}
+  \label{fig:experimental_setup}
+\end{figure}
+
+
+ Via TNC Scope internal control data and via TNC Opt internal control data is accessed. Three triaxial Kistler 8762A10 piezo-eletric accelerometers were used to track accelerations in the spatial directions X.
+
+\section{Dataset: Ball Screw Drive}
+For the sake of reproducibility the experiments are executed with a defined test cycle, which is defined in fig. \ref{fig:test_cycle}. Machine data is collected during constant speed, direction change and sweep excitement along the machine tools X-axis. During the constant speed excitement the machine tools are moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation the movement of the machine tools is restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions are changed with a high frequency. In the sweep excitement the motor, moving the machine tools along the different axis, receives a target speed in form of a sine sweep. Before recording data, the machine is warmed up in order to create equivalent circumstances for each run. A constant speed excitement is applied for 60 min. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{test_cycle}
+  \caption {Flow chart explaining the test cycle used in the presented dataset}
+  \label{fig:test_cycle}
+\end{figure}
+
+In total 49 different features are recorded during one sub cycle and stored as individual sequences. The features are specified in more detain in table. \ref{tab:description_of_the_49_recorded_features}
+
+\begin{center}
+\begin{longtable}{||c c c c||} 
+ \hline
+ name & sensor & frequency & samples \\ [0.5ex] 
+ \hline\hline
+ C:s ist/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:s soll/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:s diff/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:v (n ist)/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:v (n soll)/X& TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:P mech./X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:Pos. Diff./X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:I ist/X & TNC Scope & 10 kHz & 75000 \\ 
+  \hline
+ C:I soll/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ C:x bottom & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:y bottom & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:z bottom & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:x nut & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:y nut & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:z nut & Acc & 10 kHz & 75000 \\ 
+ \hline
+  C:x top & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:y top & Acc & 10 kHz & 75000 \\ 
+ \hline
+ C:z top & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:s ist/X & TNC Scope & 10 kHz & 75000 \\
+ \hline
+ D:s soll/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:s diff/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:v (n ist)/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:v (n soll)/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:P mech./X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:Pos. Diff./X & TNC Scope & 10 kHz & 75000 \\ 
+  \hline
+ D:I ist/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:I soll/X & TNC Scope & 10 kHz & 75000 \\ 
+ \hline
+ D:x bottom & Acc & 10 kHz & 75000 \\ 
+  \hline
+ D:y bottom & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:z bottom & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:x nut & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:y nut & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:z nut & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:x top & Acc & 10 kHz & 75000 \\
+  \hline
+ D:y top & Acc & 10 kHz & 75000 \\ 
+ \hline
+ D:z top & Acc & 10 kHz & 75000 \\ 
+ \hline
+ S:x bottom & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:y bottom & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:z bottom & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:x nut & Acc & 10 kHz & 153601 \\ 
+  \hline
+ S:y nut & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:z nut & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:x top & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:y top & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:z top & Acc & 10 kHz & 153601 \\ 
+ \hline
+ S:Nominal rotational speed & TNC opt & 1 kHz & 16384 \\
+  \hline
+ S:Actual rotational speed & TNC opt & 1 kHz & 16384 \\ 
+ \hline
+ S:Actual position of the position encoder(dy/dt) & TNC opt & 1 kHz & 16384 \\ 
+ \hline
+ S:Actual position of the motor encoder(dy/dt)  & TNC opt & 1 kHz & 16384  \\ [1ex] 
+ \hline
+\caption {feature description of the 49 different time-series}
+\label {tab:description_of_the_49_recorded_features}
+\end{longtable}
+\end{center}
+
+Due to abrasion, the different machine components wear down. LGSs are separated in three and the BSDs in four different health condition classes. Usually the lifteime of BSDs is shorter than that of the LGSs. This means that ball screws need to be replaced in shorter internals. Different combinations of LGSs and BSDs health condition classes were recorded, which are shown in the following table. \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions}
+
+\begin{table}[ht]
+  \large
+  \centering
+  \begin{tabular}{c|c||*{9}{c|}}
+    \multicolumn{2}{c}{} & \multicolumn{9}{c}{BSD} \tabularnewline
+    \cline{2-11}
+    \multirow{5}*{\rotatebox{90}{LGS}} &
+&    \bfseries C31 & \bfseries C21 & \bfseries C11 & \bfseries P1 & \bfseries C22 &\bfseries C12 & \bfseries C32 &\bfseries C33 &\bfseries P2  \tabularnewline[1 ex] 
+\cline{2-11}
+&    \bfseries C3 & 1 &  2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 \tabularnewline [1ex] 
+    \cline{2-11}
+&    \bfseries C2 & 10 &  11 &  12 &  13 & 14 & 15 & 16 & 17 & 18\tabularnewline [1ex] 
+    \cline{2-11}
+&    \bfseries C1 & 18 & 19 & 20 & 21 & 23 & 24 & 25 & 26 & 27 \tabularnewline [1ex] 
+    \cline{2-11}
+  \end{tabular}
+\caption {Recorded combinations of LGS and BSD health conditions}
+\label {tab:recorded_combinations_of_LGS_and_BSD_health_conditions}
+\end{table} 
+
+
+For the experiments two domains were defined. The source domain consists of the health condition states 2, 3, 11, 12, 20, 21 and the target domain of 5, 6, 14, 15, 23, 24. The models are trained for binary classification to predict health condition classes of the BSDS. Both the source and target domain includes two BSD and all three LGS preload classes. For the experiments the same set of LGSs observed with three different preload classes (1,2,3) but two different BSDs each observed with two preload classes (1,2) are used. The source and target domain include data from just one of the two used BSDs. Source and target domain therefore includes the same combination of BSD and LGSs preload classes. The domain discrepancy solely comes from the usage of two different BSDs which are observed with the same preload classes. This discrepancy is enough to drastically to lower the target domain performance of a model solely trained on the source domain. The domain shift between target and source domain can be explained by marginal differences in the production and installation of these two sets of BSDs.
+
+\section{Dummy Dataset}
+In order to study the applicability of different domain-adaption approaches in the context of predictive maintenance a synthetic dummy data set
+was created. A dummy data set is a synthetic data set which is structured equally and shows similar patterns as the corresponding real-world data set. The complexity of the data and therefore the task can be tuned arbitrarily. A data set like that can help to understand underlying mechanisms of new and unknown approaches. Besides that it serves as a prior evaluation for the approach's applicability for a given real world task. In this work a simple dummy data set was established to evaluate the usability of the MMD loss to establish a more domain-invariant feature extraction. Since one has to deal with irregularities, outliers and noise in real-world data it is helpful to evaluate the MMD loss on a data set which is not disturbed by these effects. Similarly to predictive maintenance applications the model in the dummy data set processes time sequences. In the dummy example the time sequences consist of 1000 data points which are sampled from a cosinus curve. In order to create a data set which simulates a classification problem with two classes and two domains the sequences are sampled from four cosinus curves each with characteristic amplitudes and frequencies. By adjusting the amplitude and frequency the domain adaption problem can be made more or less difficult. In order to sample several differing sequences for the same class and domain the sampling process must include a certain randomness. For every sampling step the domain- and class-specific amplitude and frequency of the cosinus curve is perturbed. This changes the underlying characteristic of each sequence. Besides that noise is added on each of the 1000 data points within that sequence. This is necessary to generate a periodic signal which is closer to noisy real-world vibration signals. For the sake of simplicity the data set contains just 1-D sequences. This simulates a single featured sequence classification problem. In Fig. \ref{fig:samples_domain_class_dummy} four data sequences are shown representing one example sequence for each class and domain. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy/ex_dummy_source_class_0.pdf}
+  \hspace{.3cm}
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy/ex_dummy_source_class_1.pdf}
+
+  \vspace{.1cm}
+
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy/ex_dummy_target_class_0.pdf}
+  \hspace{.3cm}
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy/ex_dummy_target_class_1.pdf}
+
+  \caption{Data Window Samples for each domain and class}
+  \label{fig:samples_domain_class_dummy}
+\end{figure}
+
+
+In fig. \ref{fig:samples_domain_class_dummy_influence_noise} one can see how the applied perturbation and noise during the sampling process changes the data sequences belonging to the same class and domain. 
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{samples_domain_class_dummy_influence_noise}
+  \caption {Influence of perturbation when sampling several data sequences for one class and domain}
+  \label{fig:samples_domain_class_dummy_influence_noise}
+\end{figure}
+
+
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy_influence_noise/ex_dummy_target_class_0_ex_0.pdf}
+  \hspace{.3cm}
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy_influence_noise/ex_dummy_target_class_0_ex_1.pdf}
+
+  \vspace{.1cm}
+
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy_influence_noise/ex_dummy_target_class_1_ex_0.pdf}
+  \hspace{.3cm}
+  \includegraphics[width=.44\textwidth]{samples_domain_class_dummy_influence_noise/ex_dummy_target_class_1_ex_1.pdf}
+
+  \caption{Influence of perturbation when sampling several data sequences for one class and domain}
+  \label{fig:samples_domain_class_dummy_influence_noise}
+\end{figure}
