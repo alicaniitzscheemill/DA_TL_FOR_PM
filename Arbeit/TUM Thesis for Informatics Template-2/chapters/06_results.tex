@@ -19,15 +19,15 @@ In the following section, the sensitivity of the weighting factor GAMMA on the t
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch0_0_1.pdf}
+  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch0_0_05.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch8_0_1.pdf}
+  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch8_0_05.pdf}
 
   \vspace{.1cm}
 
-  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch0_0_5.pdf}
+  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch0_0_4.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch8_0_5.pdf}
+  \includegraphics[width=.44\textwidth]{GAMMA_distribution/mmd_epoch8_0_4.pdf}
 
   \vspace{.1cm}
 
@@ -40,7 +40,7 @@ In the following section, the sensitivity of the weighting factor GAMMA on the t
   \includegraphics[width=.15\textwidth]{labeled_vs_unlabeled_point_cloud/legend.pdf}
 
 
-  \caption{Data distribution: Influence of GAMMA on model training, with GAMMA = 0.1 (top), GAMMA = 0,5 (middle), GAMMA = 30 (bottom)}
+  \caption{Data distribution: Influence of GAMMA on model training, with GAMMA = 0.05 (top), GAMMA = 0,4 (middle), GAMMA = 30 (bottom)}
   \label{fig:point_cloud_mmd}
 \end{figure}
 
@@ -50,15 +50,15 @@ In the following section, the sensitivity of the weighting factor GAMMA on the t
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.45\textwidth]{GAMMA_plot/mmd_loss_0_1.pdf}
+  \includegraphics[width=.45\textwidth]{GAMMA_plot/mmd_loss_0_05.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.45\textwidth]{GAMMA_plot/source_ce_loss_0_1.pdf}
+  \includegraphics[width=.45\textwidth]{GAMMA_plot/source_ce_loss_0_05.pdf}
 
   \vspace{.3cm}
 
-  \includegraphics[width=.45\textwidth]{GAMMA_plot/mmd_loss_0_5.pdf}
+  \includegraphics[width=.45\textwidth]{GAMMA_plot/mmd_loss_0_4.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.45\textwidth]{GAMMA_plot/source_ce_loss_0_5.pdf}
+  \includegraphics[width=.45\textwidth]{GAMMA_plot/source_ce_loss_0_4.pdf}
 
   \vspace{.3cm}
 
@@ -66,7 +66,7 @@ In the following section, the sensitivity of the weighting factor GAMMA on the t
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{GAMMA_plot/source_ce_loss_30.pdf}
 
-  \caption{MMD and Source CE-Loss curves: Influence of GAMMA on model training, with GAMMA = 0.1 (top), GAMMA = 0,5 (middle), GAMMA = 30 (bottom)}
+  \caption{MMD and Source CE-Loss curves: Influence of GAMMA on model training, with GAMMA = 0.05 (top), GAMMA = 0.4 (middle), GAMMA = 30 (bottom)}
   \label{fig:learning_curves_influence_mmd_feature_extractor}
 \end{figure}
 
@@ -142,6 +142,7 @@ By passing data through the model, features with varying levels of abstraction a
 
 
 \section{Real-world dataset}
+\begin{comment}
 In the following section the performance of different MMD-based domain adaption approaches are evaluated on the real-world ball screw dataset. The model used for this evaluation is presented in fig. \ref{fig:model_real_data}. From the 49 features in the dataset just three (\verb|'C:x_bottom'|, \verb|'C:y_bottom'|, \verb|'C:z_bottom'|) are used. For this reasons three sequences of length 1024 are fed into the CNN.
 
 \begin{figure}[H]
@@ -171,3 +172,68 @@ In fig. the development of the source domain cross entropy MMD loss is shown. It
 
 
 Unfortunately the MMD loss could just minimize the domain discrepancy by a little. The domain discrepancy problem couldn't be solved completely. Still the idea of the MMD loss becomes more clear in the experiments. Also the positive effect of the MMD loss for the training is obvious. For the complex multi-dimensional dataset the MMD loss is probably not sophisticated enough to detect and effectively fight the domain discrepancy.
+\end{comment}
+
+\begin{figure}[H]
+  \centering
+
+  \includegraphics[width=.43\textwidth]{GAMMA_influence_real_data/P_mech_X_data_distribution_0_GAMMA_0.pdf}
+  \hspace{.1cm}
+  \includegraphics[width=.43\textwidth]{GAMMA_influence_real_data/P_mech_X_data_distribution_40_GAMMA_0.pdf}
+
+  \vspace{.3cm}
+
+  \includegraphics[width=.43\textwidth]{GAMMA_influence_real_data/P_mech_X_data_distribution_0_GAMMA_0_05.pdf}
+  \hspace{.1cm}
+  \includegraphics[width=.43\textwidth]{GAMMA_influence_real_data/P_mech_X_data_distribution_40_GAMMA_0_05.pdf}
+
+  \vspace{.3cm}
+
+  \includegraphics[width=.43\textwidth]{GAMMA_influence_real_data/P_mech_X_data_distribution_0_GAMMA_1.pdf}
+  \hspace{.1cm}
+  \includegraphics[width=.43\textwidth]{GAMMA_influence_real_data/P_mech_X_data_distribution_40_GAMMA_1.pdf}
+
+
+  \caption{Data distribution: Influence of GAMMA on model training, with GAMMA = 0(top), GAMMA = 0.05 (middle), GAMMA = 1 (bottom)}
+  \label{fig:distribution_GAMMA_influence_real_data}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+  \centering
+
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/CNN_MMD/Accuracy_Target_Domain_1.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FC_MMD/Accuracy_Target_Domain_1.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FULL_MMD/Accuracy_Target_Domain_1.pdf}
+
+  \vspace{.1cm}
+
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/CNN_MMD/Accuracy_Target_Domain_2.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FC_MMD/Accuracy_Target_Domain_2.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FULL_MMD/Accuracy_Target_Domain_2.pdf}
+
+  \vspace{.1cm}
+
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/CNN_MMD/Accuracy_Target_Domain_3.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FC_MMD/Accuracy_Target_Domain_3.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FULL_MMD/Accuracy_Target_Domain_3.pdf}
+  
+    \vspace{.1cm}
+
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/CNN_MMD/Accuracy_Target_Domain_4.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FC_MMD/Accuracy_Target_Domain_4.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FULL_MMD/Accuracy_Target_Domain_4.pdf}
+  
+    \vspace{.1cm}
+    
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/CNN_MMD/Accuracy_Target_Domain_5.pdf}
+  \hspace{.1cm}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FC_MMD/Accuracy_Target_Domain_5.pdf}
+  \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FULL_MMD/Accuracy_Target_Domain_5.pdf}
+
+
+  \caption{Accuracy Target Domain: Influence of layer choice for MMD loss, with CNN MMD (left), FC MMD (middle), FULL MMD (right)}
+  \label{fig:target_accuracy_MMD_layer}
+\end{figure}
