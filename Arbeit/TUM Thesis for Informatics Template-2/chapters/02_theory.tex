@@ -1,10 +1,19 @@
 \chapter{Theory}\label{chapter:theory}
 
-\section{Neural network}
-The big data ecosystem is constantly evolving, and new technologies are coming up continuously, with many of them reacting more and more to the demands of IT industries. Big data refers to an increasing volume of unstructured data, high sampling rates and a variety of different data sources. Modern technologies become relevant when processing this data and retrieving information to optimize processes in production lines. Machine learning is applied to automatize this process and to reduce human labor in this context. Deep Learning is a specific branch of machine learning. Inspired by the nature, neural networks try to imitate the function of human brains. The increased amount of data and computational power makes deep learning applications more attractive for real world use. Neural networks are hierarchically structured non-linear processing layers which try to learn hierarchical representations of data. Due to the increasing interest, the deep learning community recently came up with various new deep learning architectures. In the following, some of those are explained more in detail.
+\section{Ball Screw}
+As shown in fig. \ref{fig:Ball_Screw} ball screws consist of five main components, the steel balls, screw shaft, nuts, seals, and tube. The steel balls serve as ball bearing between the screw shaft and the nuts. The screw shaft is mounted by fixed and free bearings is actuated by a motor. The nuts, which typically carry the load, move linearly along the screw shaft when the shaft is rotating. While the steel balls are rotated under external load and friction, the ball screw shaft is under constant compressive stress. Defects usually occur in the grooves of the screw shaft, guiding the steel balls, and the steel balls, which are subject to rolling friction. Defects usually start with little defects occurring on the surface of the ball screw shaft. When continuing to rotate the ball screw shaft, the system repetitively takes shocks each time the steel balls pass the surface defects. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies. For this reason analysing recorded vibration signals seems promising for PHM systems \cite{Lee2015}. Of course surface defects also lower the efficiency of the system. Exemplary, one can imagine that the reduced efficiency leads to an increased demand of motor torque to move the load with the same speed and acceleration. This might become visible when looking at the electrical current of the motor. For this reason, also investigating the control signals of the industrial machine might be a good indicator for PHM systems.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{Ball_Screw.pdf}
+  \caption {Ball Screw \cite{DENG2020}} \label{fig:Ball_Screw}
+\end{figure}
+
+\section{Neural Network}
+The big data ecosystem is constantly evolving, and new technologies are coming up continuously, with many of them reacting more and more to the demands of the industry. Big data refers to an increasing volume of unstructured data, high sampling rates and a variety of different data sources. Modern technologies become relevant when processing this data to retrieve useful information. Machine learning is a research domain of algorithms that can recognize patterns in existing datasets by automatically evolving features during a training process. Deep Learning is a specific branch of machine learning. Inspired by the nature, neural networks try to imitate the function of human brains. The increased amount of data and computational power makes deep learning applications more attractive for real world use. Neural networks are hierarchically structured non-linear processing layers which try to learn hierarchical representations of data. Due to the increasing interest, the deep learning community recently came up with various new deep learning architectures. In the following, some of those are explained more in detail.
 
 \subsection{Neural Network Architecture}
-Neural networks consist of neurons which are layered in a hierarchical architecture. The neurons of consecutive layers are connected through weights and biases. During the optimization of the model the weights and biases are updated. Fig. \ref{fig:neural_network_overview} shows the organisation of neurons in an architecture with fully-connected layers. Each neuron from layer i is connected with all neurons from layer i+1 and shares information with them.
+Neural networks consist of neurons which are layered in a hierarchical architecture. The neurons of consecutive layers are connected through weights and biases. During the optimization of the model, the weights and biases are updated. Fig. \ref{fig:neural_network_overview} shows the organization of neurons in an architecture with fully-connected layers. Each neuron from layer i is connected with all neurons from layer i+1 and shares information with them.
 
 \begin{figure}[H]
   \centering
@@ -12,11 +21,10 @@ Neural networks consist of neurons which are layered in a hierarchical architect
   \caption {Layer overview neural network}
   \label{fig:neural_network_overview}
 \end{figure}
-The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neuron's outputs and a bias is estimated. Afterwards, the result is processed by an activation function, which gives the neural network a non-linear property. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that a wide variety of functions can be represented by the neural network when given appropriate weights \cite{HORNIK1991}. Without activation functions neural network could only make linear assignments of inputs x to outputs y. With rising data complexity the demand for a "non-linear" mapping from x to y is necessary. Without a non-linearity the set of learnable functions is identical for neural networks with several and one hidden layer. Such neural networks would not mathematically realise complex relationships in the data. Fig. \ref{fig:neural_network_optimization} shows the forward and backward pass in a neural network at the example of one single neuron. First the outputs of the neurons $i$ from the previous layers $l-1$ which are connected with the neuron of interest $j$ in layer $l$ are summed up together with a bias $b_{j}$. The resulting logits $z_{j}$ are then processed by the activation function $\phi$. Different activation functions can be used throughout the network. After passing several consecutive hidden layers a loss function evaluates the prediction with the ground truth label in the end of the network.
-
+The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neuron's outputs and a bias is estimated. Afterwards, the result is processed by an activation function, which gives the neural network a non-linear property. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that a wide variety of functions can be represented by the neural network when given appropriate weights \cite{HORNIK1991}. Without activation functions, neural networks could only make linear assignments of inputs x to outputs y. With rising data complexity, the demand for a "non-linear" mapping from x to y is necessary. Without a non-linearity, the set of learnable functions is identical for neural networks with several and one hidden layer. Such neural networks would not mathematically realize complex relationships in the data. Fig. \ref{fig:neural_network_optimization} shows the forward and backward pass in a neural network at the example of one single neuron. First, the outputs of the neurons $i$ from the previous layers $l-1$, which are connected with the neuron of interest $j$ in layer $l$, are multiplied with its weights and summed up together with a bias $b_{j}$. The resulting logits $z_{j}$ are then processed by the activation function $\phi$. Different activation functions can be used throughout the network. After passing several consecutive hidden layers, a loss function evaluates the prediction with the ground truth label in the end of the network.
 
 \subsection{Activation Function}
-Different problems and network layers require different activation functions. One typically uses tanh, sigmoid and ReLU activations in hidden layers and a linear, sigmoid and softmax function in the final layer \cite{Brownlee2021}. Linear final layers are restricted to regression problems, whereas sigmoid and softmax functions are used for classification problems. The sigmoid function is used for binary and softmax for multiclass classification. In general the softmax function is an extension of the sigmoid function to the multiclass case, which can be proofed easily. The softmax and sigmoid functions normalize the network output to a probability distribution over the predicted output classes. Deciding for activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics which lead to individual advantages and disadvantages. The sigmoid and tanh activation function squeeze the inputs in values between -1 and 1. Both functions can suffer from the vanishing gradient problem since the derivative of these functions is close to zero for very big or small inputs. A solution for that is the ReLU activation function which solves that problem but maps all negative inputs to zero. This so called dead ReLU problem is solved by the Leaky Relu und ELU activation functions.  \cite{Brownlee2021}. In table \ref{tab:activation_functions} some of the most popular activation functions are described. \newline
+Different problems and network layers require different activation functions. One typically uses tanh, sigmoid and ReLU activations in hidden layers and a linear, sigmoid and softmax function in the final layer \cite{Brownlee2021}. Linear final layers are restricted to regression problems, whereas sigmoid and softmax functions are used for classification problems. The sigmoid function is used for binary and softmax for multiclass classification. In general, the softmax function is an extension of the sigmoid function to the multiclass case, which can be proofed easily. The softmax and sigmoid functions normalize the network output to a probability distribution over the predicted output classes. Deciding for activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid and tanh activation function squeeze the inputs in values between -1 and 1. Both functions can suffer from the vanishing gradient problem, since the derivative of these functions is close to zero for very big or small inputs. A solution for that is the ReLU activation function, which solves that problem but maps all negative inputs to zero. This so-called dead ReLU problem is solved by the Leaky Relu und ELU activation functions.  \cite{Brownlee2021}. In table \ref{tab:activation_functions} some of the most popular activation functions are described. \newline
 \newline
 
 \begin{tabular}{ c c c c }
@@ -59,13 +67,13 @@ tanh & $\frac{e^{2x}-1}{e^{2x}+1}$ & $1-tanh^{2}(x)$ & $(-1,1)$ \\
 When training neural networks one has to decide for a loss function and an optimizer. 
 
 \subsubsection{Loss}
-The loss function acts as a model evaluation criterion and the optimizer is responsible for changing the model according to the criterion. Deep learning can be applied in two different use cases: (1) regression tasks and (2) classification tasks. In a regression problem the goal is to learn a mapping function from input variables to a continuous output variable. Contrariwise, in a classification problem the model aims to predict a class label for each input variable \cite{ShilohPerl2020}. Typically the mean square error (MSE) is applied as criterion in regression tasks:
+The loss function acts as a model evaluation criterion and the optimizer is responsible for changing the model according to the criterion. Deep learning can be applied in two different use cases: (1) regression tasks and (2) classification tasks. In a regression problem, the goal is to learn a mapping function from input variables to a continuous output variable. Contrariwise, in a classification problem, the model aims to predict a class label for each input sample \cite{ShilohPerl2020}. Typically, the mean square error (MSE) is applied as criterion in regression tasks:
 
 \begin{equation}
 L(X) =  \sum_{x}(\hat{y}(x)-y(x))^2,
 \end{equation}
 
-where $y(x)$ is the ground truth and $\hat{y}(x)$ the predicted class label \cite{ShilohPerl2020}. On the other hand a Cross Entropy Loss is common for classification tasks: 
+where $y(x)$ is the ground truth and $\hat{y}(x)$ the predicted class label \cite{ShilohPerl2020}. On the other hand, a Cross Entropy Loss is common for classification tasks: 
 
 \begin{equation}
 L(X) = \sum_{x} y(x) log(p(x)),
@@ -73,17 +81,17 @@ L(X) = \sum_{x} y(x) log(p(x)),
 where p(x) is the predicted probability of the sample $x$ belonging to the ground truth class $y(x)$ \cite{ShilohPerl2020}.
 
 \subsection{Training Loop}
-During training the model's weights and biases need to be adapted such that the criterion is minimized. This optimization takes place in a two stage process:
+During training, the model's weights and biases need to be adapted such that the criterion is minimized. This optimization takes place in a two stage process:
 \begin{itemize}
     \item \textbf{Forward pass}: Calculating the neuron values throughout the network and the loss from the model prediction and the ground truth values or classes.
     \item \textbf{Backward pass}: Calculating the derivative of the criterion with respect to the model parameter and updating those to reduce the loss.
 \end{itemize}
-Iteratively these two steps are performed to optimize the model. The process is visualized in fig. \ref{fig:neural_network_optimization}. By calculating the partial derivatives of each layer and concatenating them in a reverse order of the forward pass, the gradients used for updating the model parameters can be established. For concatenating the partial derivatives the chain rule is used:
+Iteratively, these two steps are performed to optimize the model. The process is visualized in fig. \ref{fig:neural_network_optimization}. By calculating the partial derivatives of each layer and concatenating them in a reverse order of the forward pass, the gradients used for updating the model parameters can be established. For concatenating the partial derivatives, the chain rule is used:
 \begin{equation}
  \frac{\delta L_{i}}{\delta w_{i}} = \frac{\delta L_{i}}{\delta \hat{y_{i}}} * \frac{\delta \hat{y_{i}}}{\delta z_{i}} * \frac{\delta z_{i}}{\delta w_{i}}, 
  \label{chain_rule}
 \end{equation}
-where $\frac{\delta L_{i}}{\delta \hat{y_{i}}}$ is the derivative of the loss with respect to the activation in the final layer, $\frac{\delta \hat{y_{i}}}{\delta z_{i}}$ is the derivative of the used activation function.  $\frac{\delta z_{i}}{\delta w_{i}}$ is the derivative of the logits $z_{i}$ with respect to the weights and biases used to connect the last two layers of the network \cite{ShilohPerl2020}. The gradients for all the previous layers needs to be estimated and concatenated to update all parameters in the model.
+where $\frac{\delta L_{i}}{\delta \hat{y_{i}}}$ is the derivative of the loss with respect to the activation in the final layer, $\frac{\delta \hat{y_{i}}}{\delta z_{i}}$ is the derivative of the used activation function.  $\frac{\delta z_{i}}{\delta w_{i}}$ is the derivative of the logits $z_{i}$ with respect to the weights and biases used between the last two layers of the network \cite{ShilohPerl2020}. The gradients for all the previous layers needs to be estimated and concatenated equally to update all parameters in the model.
 
 \begin{figure}[H]
   \centering
@@ -93,15 +101,13 @@ where $\frac{\delta L_{i}}{\delta \hat{y_{i}}}$ is the derivative of the loss wi
 \end{figure}
 
 \subsection{Optimizer}
-Calculating the gradient for the whole dataset is computationally expensive. A common practice is therefore to separate the dataset in several subsets, so called mini-batches. For each mini-batch the gradients are calculated and the model is updated. This process is repeated for all the mini-batches retrieved from the dataset. Each training loop including the whole dataset is called an epoch. As soon as the loss converges the training can be terminated. Despite convergence an optimal solution is not assured since the most neural network problems are not convex \cite{ShilohPerl2020}.
+Calculating the gradient for the whole dataset is computationally expensive. A common practice is therefore to separate the dataset in several subsets, so called mini-batches. For each mini-batch, the gradients are calculated and the model is updated. This process is repeated for all the mini-batches retrieved from the dataset. Each training loop including the whole dataset is called an epoch. As soon as the loss converges the training can be terminated. Despite convergence, an optimal solution is not assured since the most neural network problems are not convex \cite{ShilohPerl2020}.
 
-Most optimization methods are first order methods, which rely on gradients to update the model parameters. Second-order methods combine second and first order derivatives, which generally makes the method converge faster. These methods require the computation of the Hessian, which is especially expansive for big data sets and models. Also first order methods can suffer from long training times when calculating gradients for big data sets (batch gradient descent). A method which tries to circumnavigate this problem is the Stochastic Gradient Descent (SGD). Repetitively, the model is updated with gradients based on a single sample which is picked randomly from the data set. Since the choice of these samples is random, the optimization suffers from instability and fluctuation. The mini-batch gradient descent is a compromise between the regular SGD and batch gradient descent. The gradient and model update is neither performed for a single sample nor for the whole data set. It is performed on a small randomly picked subset of the data, which accelerates the convergence of the training.
-In order to accelerate and stabilize the optimization one can also include historical gradients and update the model weights with a moving average over the past gradients. First and second order momentums are methods which accelerate SGD in the relevant direction and dampens oscillations \cite{ShilohPerl2020}. This variant of the regular gradient descent allows and optimization with an adaptive step size in the different dimensions of the latent feature space. The step size can be increased in the relevant and decreased in the irrelevant directions.
-\newline
-\newline
+Most optimization methods are first order methods, which rely on gradients to update the model parameters. Second-order methods combine second and first order derivatives, which generally makes the method converge faster. These methods require the computation of the Hessian, which is especially expansive for big datasets and models. Also, first order methods can suffer from long training times when calculating gradients for big datasets (batch gradient descent). A method which tries to circumnavigate this problem is the Stochastic Gradient Descent (SGD). Repetitively, the model is updated with gradients based on a single sample, which is picked randomly from the dataset. Since the choice of these samples is random, the optimization suffers from instability and fluctuation. The mini-batch gradient descent is a compromise between the regular SGD and batch gradient descent. The gradient and model update is neither performed for a single sample nor for the whole dataset. It is performed on a small and randomly picked subset of the data, which accelerates the convergence of the training.
+In order to accelerate and stabilize the optimization, one can also include historical gradients and update the model weights with a moving average over the past gradients. First and second order momenta are methods which accelerate SGD in the relevant direction and dampens oscillations \cite{ShilohPerl2020}. This variant of the regular gradient descent allows an optimization with an adaptive step size in the different dimensions of the latent feature space. To learn faster, the step size can be increased in the relevant and decreased in the irrelevant directions. Each training loop including the whole dataset is called an epoch. As soon as the loss converges, the training can be terminated. Despite convergence an optimal solution is not assured since the most neural network problems are not convex \cite{ShilohPerl2020}.\newline\newline
+
 \textbf{Momentum}
-\newline
-Updating the model parameters with momentum is a procedure which includes two steps. In a first step the moving average over the past gradients is calculated and in a second step the model parameters are updated accordingly:
+Updating the model parameters with momentum is a procedure which includes two steps. In a first step, the moving average over the past gradients is calculated and in a second step the model parameters are updated accordingly:
 
 \begin{equation}
   \begin{aligned}
@@ -111,12 +117,12 @@ Updating the model parameters with momentum is a procedure which includes two st
   \end{aligned}
 \end{equation}
 
-where $v_{t}$ is the updated and $v_{t-1}$ the current momentum, $W_{t}$ are the updated and $W_{t-1}$ the current model weights, $\nabla_{\theta}L(W_{t-1})$ is the derivative of the loss with respect to the current model weights, $\eta$ is the learning rate and $\gamma$ defines the relationship between the current momentum and gradient for calculating the updated momentum \cite{Ruder2016}.
+where $v_{t}$ is the updated and $v_{t-1}$ the current momentum, $W_{t}$ is the updated and $W_{t-1}$ the current model weights, $\nabla_{\theta}L(W_{t-1})$ is the derivative of the loss with respect to the current model weights, $\eta$ is the learning rate and $\gamma$ defines the relationship between the current momentum and gradient for calculating the updated momentum \cite{Ruder2016}.
 \newline
 \newline
 \textbf{Nesterov accelerated gradient (NAG)}
 \newline
-Another well known optimizer of this kind is NAG, which extends the regular first order momentum update rules. When calculating the first order momentum NAG calculates the gradient not with respect to the current but to the pre-updated weights: 
+Another well known optimizer of this kind is NAG, which extends the regular first order momentum update rules. When calculating the first order momentum, NAG calculates the gradient not with respect to the current but to the pre-updated weights: 
 
 \begin{equation}
     \nabla_{\theta}L( W_{t-1} - \gamma v_{t-1}),
@@ -155,20 +161,18 @@ Adam is one of the most popular optimizer. ADAM combines the idea of first and s
 
 where $m_{t}$ and $v_{t}$ are the first and second momentum, $\hat{m}_{t}$ and $\hat{v}_{t}$ are the bias-corrected first and second moment estimates, $\beta_{1}$ and $\beta_{2}$ are the weighting factors for the moving average and $W_{t-1}$ and  $W_{t}$ are the current and updated model weights \cite{Ruder2016}.
 
-\section{Convolutional Neural Network (CNN)}
+\section{Convolutional Neural Network}
 
-Equally to regular neural networks CNNs consist of several neurons embedded in a fixed architecture. Developed for computer vision applications, the architecture of CNNs is optimized to process images. In CNNs the neurons are structured in layers just like in normal neural networks. In regular networks the neurons of one layer are organized in one dimension and in CNNs in three dimensions (height, width, depth).
-
-The functionality of CNNs is visualized in \ref{fig:CNN_overview}. One can identify four main compounts of a CNN, which are described more detailed in the following:
+Equally, to regular neural networks, convolutional neural networks (CNNs) consist of several neurons embedded in a fixed architecture. Developed for computer vision applications, the architecture of CNNs is optimized to process images. In CNNs the neurons are structured in layers just like in normal neural networks. In regular networks the neurons of one layer are organized in one dimension and in CNNs in three dimensions (height, width, depth). The functionality of CNNs is visualized in \ref{fig:CNN_overview}. One can identify four main compounds of a CNN, which are described more detailed in the following:
 
 \begin{itemize}
-    \item [1.] The input data is organized in a structured and grid-like form. Each element in this structure is called a pixel, which contains a specific value and position in the structure. The data is stored in arrays with spatial dimension (height x width) and depth (channel size).
+    \item [1.] The input data is organized in a structured and grid-like form. Each element in this structure is called a pixel, which described by its specific value and position. The data is stored in arrays with spatial dimension (height x width) and depth (channel size).
     
-    \item [2.] Convolutional layers contain kernels which are convolved with the input. The kernels contain weights and biases which are learned during training. The rectified linear unit (ReLu) acts as ’elementwise’ activation function to the kernel outputs.
+    \item [2.] Convolutional layers contain kernels which are convolved with the input. The kernel contains weights and biases which are learned during training. An 'elementwise' activation function is applied to the kernel outputs.
     
-    \item [3.]  Pooling layers downsample along the spatial dimension. This reduces the size of the feature maps which are fed through the network, which minimize the learnable parameters in the network.
+    \item [3.]  Pooling layers downsample the spatial dimension. This reduces the height and width of the feature maps throughout the network. This minimizes the learnable network parameters.
     
-    \item [4.] In the end fully-connected layers attempt to predict a class label for each input sample. Also Relu can be used as activation functions in these layers.
+    \item [4.] In the end fully-connected layers coupled with activation functions attempt to predict class labels for the input data.
 \end{itemize}
 
 \begin{figure}[H]
@@ -180,9 +184,8 @@ The functionality of CNNs is visualized in \ref{fig:CNN_overview}. One can ident
 
 In the following typical CNN layers are described more in detail. 
 
-
-\subsubsection{Kernels}
-The convolutional layers are the core elements in a CNN. The learnable parameters in a convolutional layer are the weights and biases of the kernel. During the optimization each kernel learns to extract expressive features. The depth of a kernel is defined by the depth of the layer input and the number of kernels applied in one convolutional layer defines the depth of the subsequent feature map. Each channel corresponds to the features extracted by the convolving one single kernel with the data across the whole spatial dimension. Usually the spatial dimensions (width, height) are reduced and the depth of the latent feature space is increased throughout the network. This can be achieved by applying a small number of kernels with big spatial dimension in the beginning and a big number of kernels with small spatial dimensions in the end of the network. Therefore, the network extracts more global features in the beginning and more local features in the end of the network.  \cite{OShea2015}. Looking at fig. \label{fig:kernel_number} one can see how the kernel of depth 3 (orange) is applied on the input of depth 3 (blue). By using 128 kernels the resulting feature map is of depth 128.
+\subsection{Kernel}
+The convolutional layers are the core elements in a CNN. The learnable parameters in a convolutional layer are the weights and biases of the kernel. During the optimization, each kernel learns to extract expressive features. The depth of a kernel is defined by the depth of the input layer and the number of applied kernels defines the depth of the subsequent feature map. Each channel corresponds to the features extracted by the convolution of a single kernel with the data across the whole spatial dimension. Usually, the spatial dimensions (width, height) are reduced and the depth of the latent feature map is increased throughout the network. Therefore, the network extracts more global features in the beginning and more local features in the end of the network.  \cite{OShea2015}. Looking at fig. \label{fig:kernel_number} one can see how the kernel of depth 3 is applied to the input of depth 3. By using 6 kernels, the resulting feature map is of depth 6.
 
 \begin{figure}[H]
   \centering
@@ -191,7 +194,6 @@ The convolutional layers are the core elements in a CNN. The learnable parameter
   \label{fig:kernel_number}
 \end{figure}
 
-
 To make things easier a single convolution of a kernel with a subspace of the input data is shown for the 1D case:
 
 \begin{equation}
@@ -199,7 +201,7 @@ To make things easier a single convolution of a kernel with a subspace of the in
   \label{eq:kernel}
 \end{equation}
 
-where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel of the input data subspace involved in the convolution. Each kernel cell is multiplied with a corresponding pixel in the input and the $R$ outputs are summed up in the pixel $p_{0}$ of the subsequent feature map \cite{Ganesh2019}. This process is also visualized in fig. \ref{fig:kernel}, where $p_{n}$ is one of the three cells within the kernel, $R$ is three in this case and $p_{1}$ marks the most left pixel position of the input feature map and the pixel which sums all the information from the convolution in the output feature map.
+where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel position of the input subspace involved in the single convolutional operation. Each kernel cell is multiplied with a corresponding pixel in the input and the $R$ outputs are summed up in the pixel $p_{0}$ of the subsequent feature map \cite{Ganesh2019}. Typically, a bias value is included in this weighted sum and a non-linearity is applied consecutively. The convolutional process is also visualized in fig. \ref{fig:kernel}, where $p_{n}$ is one of the three cells within the kernel, $R$ is three in this case and $p_{1}$ marks the lower bound pixel position of the input feature map and the pixel which sums all the information from the convolution in the output feature map.
 
 
 \begin{figure}[H]
@@ -209,14 +211,14 @@ where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel o
   \label{fig:kernel}
 \end{figure}
 
-Compared to regular neural networks CNNs profit a lot from it's weight sharing concept. The kernel weights are learned throughout the training. Since the same kernel is applied on different areas of the input, it is not necessary to train a weight for every pixel along the whole spatial dimension of the input. This reduces the number of learnable parameters in the network \cite{OShea2015}. Since the kernel is applied on different areas of locations, the feature search is insensitive to feature location in the image.
+Compared to regular neural networks CNNs profit a lot from its weight sharing concept. The kernel weights are learned throughout the training. Since the same kernel is applied on different areas of the input, it is not necessary to train a weight for every pixel along the whole spatial dimension of the input. This reduces the number of learnable parameters in the network \cite{OShea2015}. Since the kernel is applied on different areas of locations, the feature search is insensitive to feature location in the image.
 
-\subsubsection{Convolution Parameters}
+\subsection{Convolution Parameters}
 
-The dimension of the input, which is processed by the kernel, is called receptive field. When increasing the receptive field more global and otherwise more local features of the input are extracted. When defining a CNN architecture one has to find a trade-off between a model which is complex enough to capture important information from the data and also keep the number of parameters low. Several hyperparameters can be used to reduce or increase the complexity of the model. After a convolutional layer three hyperparameters can be used to define the width and height of the resulting feature map. 
+The dimension of the input, which is processed by the kernel, is called receptive field. When increasing the receptive field, more global and otherwise more local features of the input are extracted. When defining a CNN architecture, one has to find a trade-off between a model which is complex enough to capture important information from the data and also keep the number of parameters low. Several hyperparameters can be used to reduce or increase the complexity of the model. After a convolutional layer, three hyperparameters can be used to define the width and height of the resulting feature map. 
 
-\subsubsection{Dilated convolution}
-Dilated convolution, shown in fig.\ref{fig:dilated_cnn}, is the same as regular convolution but it involves input pixel skipping during the convolutional operation, so as to cover a larger area of the input. The kernel is not applied on an input subspace which does not cover every neighbouring pixel. This decreases the spatial dimension of the resulting feature map \cite{Ganesh2019}.
+\subsection{Dilated convolution}
+Dilated convolution, shown in fig.\ref{fig:dilated_cnn}, is the same as regular convolution, but it involves input pixel skipping during the convolutional operation,to cover a larger area of the input. The kernel is applied to an input subspace which does not cover every neighboring pixel. This decreases the spatial dimension of the resulting feature map \cite{Ganesh2019}.
 
 \begin{figure}[H]
   \centering
@@ -226,8 +228,8 @@ Dilated convolution, shown in fig.\ref{fig:dilated_cnn}, is the same as regular 
 \end{figure}
 
 
-\subsubsection{Stride}
-By increasing the stride the kernel skips several input pixels while shifting the kernel. The effects of different stride factors are shown in fig.\ref{fig:stride_cnn}. Also this convolution variant decreases the spatial dimension of the resulting feature map \cite{OShea2015}.
+\subsection{Stride}
+By increasing the stride, the kernel skips several input pixels while shifting the kernel. The effects of different stride factors are shown in fig.\ref{fig:stride_cnn}. Also, this convolution variant decreases the spatial dimension of the resulting feature map \cite{OShea2015}.
 
 \begin{figure}[H]
   \centering
@@ -237,8 +239,8 @@ By increasing the stride the kernel skips several input pixels while shifting th
 \end{figure}
 
 
-\subsubsection{Zero padding}
-Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a border of zeros. During the convolution the kernel needs to cover an increased spatial dimension of the input, which increases the the spatial dimension of the resulting feature map \cite{OShea2015}.
+\subsection{Zero padding}
+Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a border of zeros. During the convolution, the kernel covers an increased spatial dimension of the input, which increases the spatial dimension of the resulting feature map \cite{OShea2015}.
 
 \begin{figure}[H]
   \centering
@@ -249,7 +251,7 @@ Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a
 
 
 
-\subsubsection{Spatial dimension}
+\subsection{Spatial dimension}
 
  The spatial dimension of the feature map right after a convolutional layer can be calculated as follows:
 
@@ -259,16 +261,16 @@ Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a
 \end{equation}
 where V is the input size, R is the size of the receptive field, Z is the amount of zero padding and S refers to the stride.
 
-\subsubsection{Pooling layer}
-To change the spatial dimension of the latent feature spaces throughout the network one can also include pooling layers. There exist different variants like max- and average-pooling. In general the functionality is similar to convolutional layers with the only difference that no learnable parameters are involved. Also pooling kernels are shifted over the input. For each kernel position all pixels covered by the kernel are merged to a single value. Max-pooling returns the maximal pixel value and average-pooling the average over all pixels. Often convolutional and pooling layers are applied consecutively \cite{OShea2015}.
+\subsection{Pooling layer}
+To change the spatial dimension of the latent feature spaces throughout the network, one can also include pooling layers. There exist different variants like max- and average-pooling. In general, the functionality is similar to convolutional layers with the only difference that no learnable parameters are involved. Also pooling kernels are shifted over the input. For each kernel position, all pixels covered by the kernel are merged to a single value. Max-pooling returns the maximal pixel value and average-pooling the average over all pixels. Often convolutional and pooling layers are applied consecutively \cite{OShea2015}.
 
-\section{Generative Adversarial Networks (GAN)}
-GANs are generative models which recently became more and more popular. Generative models can capture the data distribution of samples seen during training. Such models are able to generate new instances which seem to belong to the distribution of the input data but are not actually part of it. They can be used in an unsupervised or a supervised manner, which means, they are able to perform feature learning/extraction and classification. GANs inlcude two different models. A generator network (G) learns the data distribution of the training data. Given noise the generator network produces synthetic data. The discriminator (D) model tries to classify the seen data between synthetic generator's output and true data. D(x) represents the probability that x comes from the real data rather than from the generator. The optimization process of GANs is a minimax game process:
+\section{Generative Adversarial Network}
+Generative Adversarial Networks (GANs) are generative models which recently became more and more popular. Generative models can capture the data distribution of samples seen during training. Such models are able to synthetically generate new instances belonging to the train data distribution without actually being part of that dataset. They can be used in an unsupervised or a supervised manner, which means, they are able to perform feature learning/extraction and classification. GANs include two different models. A generator network (G) learns the data distribution of the training data. Given noise, the generator network produces synthetic data. The discriminator (D) model tries to classify the seen data between synthetic generator's output and true data. D(x) represents the probability that x comes from the real data rather than from the generator. The optimization process of GANs is a minimax game process:
 \begin{equation}
     \min_{G} \max_{D} \mathbb{E}_{x \sim P_{r}} [log(D(x))] + \mathbb{E}_{\tilde{x} \sim P_{g}}[log(1-D(\tilde{x}))],
     \label{eq:GAN_Training}
 \end{equation}
-where $P_{r}$ is the data distribution of real and $P_{g}$ is the data distribution from the generator, which is defined by  $\tilde{x}  \sim G(z)$. A Uniform or Gaussian distribution can be used to sample the noise $z \sim p(z)$. In theory the generator should be learned such that eq. \ref{eq:GAN_Training} is minimized. This is achieved if the discriminator falsely classifies the real and the synthetic generator's outputs ($D(x) \sim 0$ and $D(\tilde{x}) \sim 1$). On the other hand, the discriminator should be learned such that eq. \ref{eq:GAN_Training} is maximized, which means that the discriminator correctly labels all samples ($D(x) \sim 1$ and $D(\tilde{x}) \sim 0$). The discriminator and generator are optimized in an alternating procedure \cite{Goodfellow2014}. In order to prevent overfitting one should alternate between k steps of optimizing D and one step of optimizing G \cite{Goodfellow2014}. The optimization of GANs proposed by Goodfellow et al \cite{Goodfellow2014} is described in the Algorithm \ref{alg.GAN_optimization}.
+where $P_{r}$ is the distribution of the real input data and $P_{g}$ is the data distribution from the generator's output, which is defined by  $\tilde{x}  \sim G(z)$. A Uniform or Gaussian distribution can be used to sample the noise $z \sim p(z)$. In theory the generator should be learned such that eq. \ref{eq:GAN_Training} is minimized. This is achieved if the discriminator falsely classifies the real and the synthetic generator's outputs ($D(x) \sim 0$ and $D(\tilde{x}) \sim 1$). On the other hand, the discriminator should be learned such that eq. \ref{eq:GAN_Training} is maximized, which means that the discriminator correctly labels all samples ($D(x) \sim 1$ and $D(\tilde{x}) \sim 0$). The discriminator and generator are optimized in an alternating procedure \cite{Goodfellow2014}. In order to prevent overfitting, one should alternate between k steps of optimizing D and one step of optimizing G \cite{Goodfellow2014}. The optimization of GANs proposed by Goodfellow et al \cite{Goodfellow2014} is described in the Algorithm \ref{alg.GAN_optimization}.
 
 \begin{algorithm}
 \caption{Iterative optimization of GANs}\label{alg:cap}
@@ -283,7 +285,7 @@ where $P_{r}$ is the data distribution of real and $P_{g}$ is the data distribut
         \end{equation*}
     \EndWhile
     \State $\cdot$ Sample m noise samples ${\pmb{z}^{(1)}, . . . , \pmb{z}^{(m)}}$ from noise distribution $p(\pmb{z})$
-    \State $\cdot$ Update the generator by ascending its stochastic gradient:
+    \State $\cdot$ Update the generator by descending its stochastic gradient:
     \begin{equation*}
         \nabla_{\theta_{g}} \frac{1}{m} \sum_{i=1}^{m} log(1-D(G(\pmb{z}^{(i)}))).
     \end{equation*}
@@ -292,28 +294,28 @@ where $P_{r}$ is the data distribution of real and $P_{g}$ is the data distribut
 \end{algorithmic}
 \end{algorithm}
 
-Besides that, eq. \ref{eq:GAN_Training} does not deliver sufficient gradients for gradient-based optimization of GANs. The problem is, that in early stages the generator performance is poor, such that the discriminator rejects all synthetic generator's outputs, which prevents the generator training. Instead the generator can be trained to maximize $D(\tilde{x})$. This objective achieves the same results as eq. \ref{eq:GAN_Training} but delivers stronger gradients in early learning stages \cite{Goodfellow2014}. Fig \ref{fig:GAN_training_vizualization} shows the alternating optimization of the discriminator and generator. 
+Besides that, eq. \ref{eq:GAN_Training} does not deliver sufficient gradients for gradient-based optimization of GANs. The problem is, that in early stages the generator performance is poor, such that the discriminator rejects all synthetic generator's outputs, which prevents the generator training. Instead, the generator can be trained to maximize $D(\tilde{x})$. This objective achieves the same results as eq. \ref{eq:GAN_Training} but delivers stronger gradients in early learning stages \cite{Goodfellow2014}. Fig \ref{fig:GAN_training_vizualization} shows the alternating optimization of the discriminator and generator. 
 
 \begin{figure}[p]
   \centering
   \includegraphics[width=1\textwidth]{GAN_training_vizualization.pdf}
-  \caption{When optimizing GANs the discriminator and generator are optimized simultanously in an alternating procedure. The blue dashed line represents the discriminator probability of x belonging to the real data distribution rather than being created by the generator. The black dashed line represents the generative distribution and the green solid line the real data distribution. (a) shows a generator, discriminator pair near convergence, (b) shows the GAN performance after passing the inner loop of Algorithm \ref{alg.GAN_optimization}, which optimizes the discriminator. (c) shows the GAN performance after passing through one whole training loop in Algorithm \ref{alg.GAN_optimization}. Now the generator as well as the discriminator is optimized. (d) shows the GAN performance after several training iterations. The generator completely learned the real data distribution, such that the discriminator is not able to separate between samples from the real data distribution and synthetic generator outputs \cite{Goodfellow2014}.}
+  \caption{When optimizing GANs the discriminator and generator are optimized simultaneously in an alternating procedure. The blue dashed line represents the discriminator probability of x belonging to the real data distribution rather than being created by the generator. The black dashed line represents the generative distribution and the green solid line the real data distribution. (a) shows a generator, discriminator pair near convergence, (b) shows the GAN performance after passing the inner loop of Algorithm \ref{alg.GAN_optimization}, which optimizes the discriminator. (c) shows the GAN performance after passing through one whole training loop in Algorithm \ref{alg.GAN_optimization}. Now the generator and the discriminator are both optimized. (d) shows the GAN performance after several training iterations. The generator completely learned the real data distribution, such that the discriminator is not able to separate between samples from the real data distribution and synthetic generator outputs \cite{Goodfellow2014}.}
   \label{fig:GAN_training_vizualization}
 \end{figure}
 
-\section{Deep belief network (DBN)}
+\section{Deep Belief Network}
 
-DBNs are generative models, which contain stacked Restricted Boltzmann machines (RBMs), which are widely used in research and application.
+Deep belief networks (DBNs) are generative models, which contain stacked Restricted Boltzmann machines (RBMs), which are widely used in research and industry.
 
-\subsection{Restricted Boltzmann machines}
-RBMs consist of hidden and visible layers each containing several units. DBNs use Restricted Boltzmann machines (RBMs), which are a variation of regular Boltzmann machines with the restriction that it's units must form a bipartite graph. This requires that all RBM units are separated in two disjoint and independent subsets (hidden and visible subset). Visible and hidden units are connected through weighted connections but not the units belonging to the same layer. The units in the hidden and visible layer are binary. The matrix $W \in \mathbb{R}^{mxn}$ contains all the weights for connecting the m nodes of the hidden and n nodes of visible unit and $a \in \mathbb{R}^{m}$ and $b \in \mathbb{R}^{n}$ include the biases of the hidden and visible unit \cite{Hinton2010}. The connection of the visible and hidden unit is visualized in \ref{fig:RBM}. RBMs are energy-based models. For each combination of visible $\mathbf{v}$ and hidden layer units $\mathbf{h}$ the energy is calculated as following:
+\subsection{Restricted Boltzmann Machine}
+RBMs consist of hidden and visible layers, each containing several units. DBNs use RBMs, which are a variation of regular Boltzmann machines with the restriction that it's units must form a bipartite graph. This requires that all RBM units are separated in two disjoint and independent subsets (hidden and visible subset). Visible and hidden units are connected through weighted connections, but not the units belonging to the same layer. The units in the hidden and visible layer are binary. The matrix $W \in \mathbb{R}^{mxn}$ contains all the weights for connecting the m nodes of the hidden and n nodes of visible unit and $a \in \mathbb{R}^{m}$ and $b \in \mathbb{R}^{n}$ include the biases of the hidden and visible unit \cite{Hinton2010}. The connection of the visible and hidden unit is visualized in \ref{fig:RBM}. RBMs are energy-based models. For each combination of visible $\mathbf{v}$ and hidden layer units $\mathbf{h}$ the energy is calculated as following:
 
 \begin{equation}
 \begin{aligned}
     E(v,h) = -\sum_{i \in visible} a_{i}v_{i}-\sum_{j \in hidden} b_{j}h_{j}-\sum_{i,j} v_{i}h_{j}w_{ij},
 \end{aligned}
 \end{equation}
-where $v_{i}$, $h_{j}$ are the binary states of the ith and jth unit in the visible and hidden layer. $a_{i}$, $b_{j}$ and $w_{ij}$ are the biases and weights corresponding to the ith unit in the visible and the jth unit in the hidden layer. Based on this energy the network assigns a probability to every possible combination of visible and hidden layer units:
+where $v_{i}$, $h_{j}$ are the binary states of the i-th and j-th unit in the visible and hidden layer. $a_{i}$, $b_{j}$ and $w_{ij}$ are the biases and weights corresponding to the i-th unit in the visible and the j-th unit in the hidden layer. Based on this energy, the network assigns a probability to every possible combination of visible and hidden layer units:
 
 \begin{equation}
 \begin{aligned}
@@ -328,7 +330,7 @@ where Z is a "partition function", which sums up the probabilities of all hidden
 \end{aligned}
 \end{equation}
 
-The network assigns a probability for each visible unit by summing $p(\mathbf{v,h})$ for all possible hidden vectors:
+The network assigns a probability for each visible unit by summing up $p(\mathbf{v,h})$ for all possible hidden vectors:
 \begin{equation}
 \begin{aligned}
     p(\mathbf{v}) = \frac{1}{Z} \sum_{h} e^{-E(\mathbf{v,h})}.
@@ -336,21 +338,21 @@ The network assigns a probability for each visible unit by summing $p(\mathbf{v,
 \end{aligned}
 \end{equation}
 
-Since the units of RBMs must form a bipartite graph there are no connection between two hidden or visible units. Given a training sample the visible units can be calculated with eq. \ref{eq:prob_visible_layer}. From there the hidden units can be calculated as following:
+Since the units of RBMs must form a bipartite graph, there are no connection between two hidden or visible units. Given a training sample, the visible units can be calculated with eq. \ref{eq:prob_visible_layer}. From there, the hidden units can be calculated as following:
 \begin{equation}
 \begin{aligned}
     P(h_{i}|v) = \sigma(b_{j} + \sum_{i=1}^{n} W_{i,j} v_{i}).
     \label{eq:prob_hidden_layer}
 \end{aligned}
 \end{equation}
-where $h_{j}$ is the jth unit in the hidden layer and $v_{i}$ the ith unit in the visible layer. Afterwards the units of the visible layer can be reconstructed as following:
+where $h_{j}$ is the j-th unit in the hidden layer and $v_{i}$ the i-th unit in the visible layer. Afterwards the units of the visible layer can be reconstructed as following:
 \begin{equation}
 \begin{aligned}
     P(v_{i}|h) = \sigma(a_{i} + \sum_{j=1}^{n} W_{i,j} h_{j}),
     \label{eq:prob_reconstructed_visible_layer}
 \end{aligned}
 \end{equation}
-This iterative RMB training is separated in two phases. The positive phase is the one where the hidden units are updated based on the visible units, which is defined in eq. \ref{eq:prob_hidden_layer}. In the negative phase the visible units are updated based on the previously calculated hidden units, which is defined in eq. \ref{eq:prob_reconstructed_visible_layer}. This process is also visualized in fig. \ref{fig:RBM}. The weights and biases of the network can be updated such that the reconstruction error is minimized:
+This iterative RMB training is separated in two phases. The positive phase is the one where the hidden units are updated based on the visible units, which is defined in eq. \ref{eq:prob_hidden_layer}. In the negative phase, which is defined in eq. \ref{eq:prob_reconstructed_visible_layer}, the visible units are reconstructed based on the previously calculated hidden units. This process is also visualized in fig. \ref{fig:RBM}. The weights and biases of the network can be updated such that the reconstruction error is minimized:
 
 \begin{equation}
 \begin{aligned}
@@ -358,7 +360,7 @@ This iterative RMB training is separated in two phases. The positive phase is th
     \label{eq:RBM_weight_update}
 \end{aligned}
 \end{equation}
-where the angle brackets denote expectations under the distribution specified in the subscripts. The subscript $data$ refers to the expectation of the training set and subscript $reconstructed$ to the expectation of the defined model. A better training is achieved if more steps of alternating updating the visible and hidden layer are performed before collecting the statistics for the second term $\langle v_{i}, h_{j}\rangle_{reconstructed}$ in the learning rule \cite{Hinton2010}.
+where the angle brackets denote expectations under the distribution specified in the subscripts. The subscript $data$ refers to the expectation of the train dataset and subscript $reconstructed$ to the expectation of the defined model. A better training is achieved if more steps of alternating visible and hidden layer updates are performed before collecting the statistics for the second term $\langle v_{i}, h_{j}\rangle_{reconstructed}$ in the learning rule \cite{Hinton2010}.
 
 \begin{figure}[H]
   \centering
@@ -369,8 +371,8 @@ where the angle brackets denote expectations under the distribution specified in
 
 RBMs are generative models which make guesses about the probability distribution of the original input. By training the RBM the divergence between the true input distribution and the reconstructed ones is minimized \cite{Hinton2010}.
 
-\subsection{Training Deep belief networks}
-As shown in fig. \ref{fig:DBN} DBNs connect several RBMs in a specific order. The output of one RBM is used as input for the consecutive RBM. In a first step the units of the visible layer of the first RBM is calculated. Applying the positive and negative phase of the RBM training, the hidden visible layer of that RBM can be updated. The hidden layer of one RBM is treated as visible layer for the consecutive RBMs. This greedy learning algorithm is applied until all RBMs in the DBN are trained. After this layer to layer update is completed the supervised training of the DBN is started. The backpropagation training considers all layers simultanously while updating weights and biases in order to increase the classification accuracy of the DBN \cite{Zhang2017}.
+\subsection{Training Deep Belief Network}
+As shown in fig. \ref{fig:DBN} DBNs connect several RBMs in a specific order. The units of the visible and hidden layer of the first RBM are updated by applying the positive and negative phase in an alternating manner. The hidden layer of this RBM is treated as visible layer for the consecutive RBMs. This greedy learning algorithm is applied until all RBMs in the DBN are trained. After this layer to layer update is completed, the supervised training of the DBN is started. The backpropagation training considers all layers simultaneously while updating weights and biases to increase the classification accuracy of the DBN \cite{Zhang2017}.
 
 \begin{figure}[H]
   \centering
@@ -381,7 +383,7 @@ As shown in fig. \ref{fig:DBN} DBNs connect several RBMs in a specific order. Th
 
 \section{Domain adaptation and Transfer Learning}
 
-In the computer vision community domain adaption and transfer-learning techniques recently received more and more attention. Domain adaption refers to problems in which a model is trained on labeled training data, denoted as source domain. The model is then applied to solve an equal task on the unlabeled testing data, denoted as target domain. The target and source domain data come from different distributions, anyhow the data must be related in any sense and structured similarly. The conditional and marginal distribution for the source and target domain data differ. Transfer learning, also called multi-task learning, is a problem related to domain adaption. The goal is to train a model solving a specific task on a given dataset. The model should then be used to solve a different task on the same data. For this reason the data distribution used for the two tasks has the same marginal distribution but different conditional distribution. The data used is equally distributed, but in different tasks the relation between samples and labels differs. Generally, one can say domain adaption is used to reduce the discrepancy between data distributions. In this sense a model is trained to solve the same task on differntly distributed data. Transfer learning on the other hand learns a model, which is able to solve different tasks on the same dataset. The differences are visualized in fig. \label{fig:domain_adaption_vs_transfer_learning}
+In the computer vision community, domain adaption and transfer-learning techniques recently received more and more attention. Transfer learning, also called multi-task learning, is a problem related to domain adaption. The goal is to train a model to solve a specific task on a given dataset. The model should then be used to solve a different task on the same data. The data used in the tasks is equally distributed, but in different tasks the relation between samples and ground truth outputs differs. For this reason, the conditional distribution differs, whereas the marginal distribution is the same for the different tasks. Domain adaption refers to problems in which a model is trained on labeled train data, denoted as source domain. The model is then applied to solve an equal task on the unlabeled test data, denoted as target domain. The target and source domain data come from different distributions, anyhow the data must be related in any sense and structured similarly. The conditional and marginal distribution for the source and target domain data differ. Generally, one can say domain adaption is used to reduce the discrepancy between data distributions. In this sense, a model is trained to solve the same task on differently distributed data. Transfer learning on the other hand learns a model, which is able to solve different tasks on the same dataset. The differences are visualized in fig. \label{fig:domain_adaption_vs_transfer_learning}
 
 \begin{figure}[H]
   \centering
@@ -390,24 +392,24 @@ In the computer vision community domain adaption and transfer-learning technique
 \end{figure}
 
 
-Since the focus of this thesis is to analyse domain adaption approaches the following passages explain the different aspects of domain-adaption.
+Since the focus of this thesis is to analyze domain adaption approaches, the following passages explain the different aspects of domain-adaption.
 \subsection{Notation}
-The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally the target domain data is separated in labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. Usually it is assumed that there is a large amount of labeled data in the source and a small amount of labeled data in the target domain: $N_{tl} \ll N_{s}$. In this conext $x_{i}$ is referred as the observation and $y_{i}$ as the corresponding label  \cite{Patel2015}. Depending on the data available during training one differs between different branches of domain adaption: 
+The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated in labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. Usually, it is assumed that there is a large amount of labeled data in the source and a small amount of labeled data in the target domain: $N_{tl} \ll N_{s}$. In this conext $x_{i}$ is referred as the observation and $y_{i}$ as the corresponding label  \cite{Patel2015}. Depending on the data available during training, one differs between different branches of domain adaption: 
 \begin{itemize}
-\item \textbf{Semi-supervised domain adaptation}, where a function is learned using the data from $S$, $T_{l}$
+\item \textbf{Semi-supervised domain adaptation}, where a function is trained to use the data from $S$, $T_{l}$
 \item \textbf{Unsupervised domain adaptation}, where a function is learned using the data from $S$ and $T_{u}$ \cite{Patel2015} 
 \end{itemize}
 
-From a statistical point of view the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. It is required that the data from source and target have the same data space and label space, but the marginal and conditional distribution may differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
+From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. It is required that the data from source and target have the same data space and label space, but the marginal and conditional distribution may differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
 
-\subsection{Different types of transfer learning}
-Generally domain adaption approaches can be grouped in four different types \cite{AZAMFAR2020103932}:  
+\subsection{Different types of Transfer Learning}
+Generally, domain adaption approaches can be grouped in four different types \cite{AZAMFAR2020103932}:  
 
 \begin{itemize}
-\item \textbf{Instance weighting methods} can be used to address this covariate shift problem by integrating weights into a loss function that estimates the discrepancy between source and target. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. When a source domain sample has a high probability to be in the target domain, this means that the source domain sample is quiet similar to the target domain samples. Samples like that should be strongly included in the training in order to optimize the model to work well target domain data.
-\item \textbf{Feature-based transfer learning} has the goal to find a feature space in which the domain discrepancy is reduced. All source and target samples are transferred in the domain-invariant feature space where the classification of data from both domains works well. Fig.\ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaption can be used to find a cross-domain classifier which accurately separates source and target domain data \cite{Pandhare2021}. 
-\item \textbf{Model-based transfer learning} aims to find a classifiers trained on the source domain, which can be transferred or fine-tuned to perform well on the target domain.
-\item \textbf{Relation-based transfer learning} has the goal to find and utilize similarities between the two domains, which helps transferring knowledge. 
+\item \textbf{Instance weighting methods} can be used to address this covariate shift problem by integrating weights into a loss function that estimates the discrepancy between source and target. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. When a source domain sample has a high probability to be in the target domain, this means that the source domain sample is quite similar to the target domain samples. Samples like that should be strongly included in the training to optimize the model to work well on the target domain data.
+\item \textbf{Feature-based transfer learning} has the goal to find a feature space in which the domain discrepancy is reduced. All source and target samples are transferred in the domain-invariant feature space, where the classification of data from both domains works well. Fig. \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaption can be used to find a cross-domain classifier which accurately separates source and target domain data \cite{Pandhare2021}. 
+\item \textbf{Model-based transfer learning} aims to find a classifier trained on the source domain, which can be transferred or fine-tuned to perform well on the target domain.
+\item \textbf{Relation-based transfer learning} has the goal to find and utilize similarities between the two domains, which helps to transfer knowledge. 
 \end{itemize}
 
 \begin{figure}[H]
@@ -418,17 +420,16 @@ Generally domain adaption approaches can be grouped in four different types \cit
 
 
 \section{Maximum Mean Discrepancy}
-Maximum Mean Discrepancy (MMD) is a criterion which estimates the discrepancy between two distribution. MMD can be used to optimize a neural network such that the distribution discrepancy in it's latent feature space is reduced. In the reproducing kernel Hilbert space (RKHS) the discrepancy is measured as squared distance between the distribution kernel embeddings. The distribution discrepancy across domains can be measured in several layers of the neural network. Including this information in the optimization of the model helps to avoid feature transferability degradation. Anyhow, one has to pay attention to not transfer noise or irrelevant information, since this destroys the structure of the source and target domain data and makes the classification task even more difficult \cite{li2020}. 
+Maximum Mean Discrepancy (MMD) is a criterion which estimates the discrepancy between two distributions. MMD can be used to optimize a neural network such that the distribution discrepancy in its latent feature space is reduced. In the reproducing kernel Hilbert space (RKHS) the discrepancy is measured as squared distance between the distribution kernel embeddings. The distribution discrepancy across domains can be measured in several layers of the neural network. Including this information in the optimization of the model helps to avoid feature transferability degradation. Anyhow, one has to pay attention to not transfer noise or irrelevant information, since this destroys the structure of the source and target domain data and makes the classification task even more difficult \cite{li2020}. 
 
 \begin{align}
     M_{k}(P,Q) = \Bigl|  \boldsymbol{E_{P}}[\Phi(\boldsymbol{X^{s}})] - \boldsymbol{E_{Q}}[\Phi(\boldsymbol{X^{t}})]     \Bigl|^{2}_{Hk}
 \end{align}
 
-Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$. When taking the identity function as mapping function the discrepancy of the distribution means is measured. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature space of interest are represented by P and Q. $\boldsymbol{E_{P}[.]}$ is the expected value of the source distribution and $\boldsymbol{E_{Q}[.]}$. The kernel choice is of great importance when applying MMD for optimizing neural networks. For this reason it makes sense to combine several kernels in order to profit from their individual performance:
+Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$. When taking the identity function as mapping function, the discrepancy of the distribution means is measured. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature space of interest are represented by P and Q. $\boldsymbol{E_{P}[.]}$ is the expected value of the source distribution and $\boldsymbol{E_{Q}[.]}$. The kernel choice is of great importance when applying MMD for optimizing neural networks. For this reason, it makes sense to combine several kernels to profit from their individual performance:
 
 \begin{align}
     k(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}) = \sum_{i=0}^{N_{k}} k_{\sigma_{i}}(\boldsymbol{X^{s}}, \boldsymbol{X^{t}})
 \end{align}
 
-$N_{k}$ denotes the number of kernels used in the the RKHS and $k_{\sigma_{i}}$ represents one individual RBF kernels  \cite{li2020}. Also, other kernels like linear kernels could be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
-
+$N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents one individual RBF kernels  \cite{li2020}. Other kernels like linear kernels could be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
