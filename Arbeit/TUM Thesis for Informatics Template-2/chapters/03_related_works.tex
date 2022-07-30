@@ -8,7 +8,7 @@ In general, the methods applied can be categorized into physics-based, statistic
 \end{comment}
 
 
-\section{Non-stationary signal analysis for Prognostic and Health Management}
+\section{Non-Stationary Signal Analysis for Prognostic and Health Management}
 Non-stationary signal analysis, which refers to investigating signals with changing statistical properties over time, is one of the main topics in the field of machinery fault diagnosis. Signals can contain multiple frequencies and amplitudes which might change over time. Traditional signal analysis techniques make stationary assumptions. When applying those on non-stationary signals, solely statistical averages in time or frequency can be extracted \cite{FENG2013}. Therefore, the demand for analysis methods, which allows to ascertain features of non-stationary signals, is increasing. Especially for when extracting health related information from recorded machine data, such methods seem to be promising. Traditionally, Fourier transforms are an important tool in signal analysis. The Fourier transform relates the one-dimensional time- and frequency domains as following:
 
 \begin{equation}
@@ -24,13 +24,13 @@ Since both domains are not combined but just related, the time specific informat
 \begin{figure}[H]
   \centering
   \includegraphics[width=.75\textwidth]{preprocessing_transform/fourier.pdf}
-  \caption{Relation between time- and frequency domain through Fourier transformation}
+  \caption{Fourier Transformation: Relation of Time and Frequency Domain}
   \label{fig:fourier}
 \end{figure}
 
 Time–frequency representations (TFR) solve this problem by transforming the one-dimensional signal in the two-dimensional time-frequency plane, where each value corresponds to the dominance of a specific frequency at a certain point in time. Mathematically, the two-dimensional data is represented by the joint function $T_{x}(f,t)$, where $x$ is the data of interest and the arguments of the function is the time  $t$ and frequency  $f$. One separates different methods of this type by the relation dependency of $T_{x}(f,t)$ on the input signal $x(t)$. There exist linear, quadratic and non-linear relationships. The focus of this chapter is to describe linear and quadratic TFRs in more detail \cite{Hlawatsch1992}. 
 
-\subsubsection{Linear time–frequency representations}
+\subsubsection{Linear Time–Frequency Representations}
 When the signal of interest can be decomposed in several linearly related components, then the TFR of this signal can also be expressed as a linear combination of TFRs corresponding to each signal component:
 \begin{equation}
     \begin{aligned}
@@ -40,7 +40,7 @@ When the signal of interest can be decomposed in several linearly related compon
 
 
 All TFRs which fullfill this idea of linearity and superposition are called linear TFRs. The two most popular linear TFRs are the short-time Fourier and Wavelet transform \cite{Hlawatsch1992}. 
-\subsubsection{Short-time Fourier transform}
+\subsubsection{Short-Time Fourier transform}
 
 Short-time Fourier transform (STFT) is a method which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal's spectrum over time. STFT assumes the spectrum to be constant during a short time window. For each such window a Fourier spectrum is obtained and the time related changes are measured between such consecutive snapshots in the data. Window functions are defined which separate the signal. For each window a Fourier transform is applied. The process is mathematically expressed in the following:  
 \begin{equation}
@@ -48,7 +48,7 @@ Short-time Fourier transform (STFT) is a method which adds a time variable to th
 \end{equation}
 where  $w(\tau -t)$ is the window function centered around t which is multiplied with the signal $x(t)$. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ generates a local frequency spectrum of the signal for different points in time t \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in time or in frequency. The optimum window length will depend on main interest behind the signal analysis. For accurate time domain information the window size needs to be reduced and for frequency domain information increased. STFT  decomposes the signal in existing sinusoidals and determines it's frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
 
-\subsubsubsection{Wavelet transform}
+\subsubsection{Wavelet Transform}
 The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation which is described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (big scale) the wavelet is. The wavelet is shifted along the signal by changing its location. At each of its position, the wavelet is convolved with the signal \cite{Shawhin2020}. The convolution of the wavelet and the signal is mathematically expressed as following:
 \begin{equation}
     WT_{x}(t,a) = \frac{1}{\sqrt{a}} \int_{- \inf}^{+ \inf} x(\tau) \psi(\frac{\tau -t}{a}) d \tau,
@@ -68,7 +68,7 @@ The Wavelet transform decomposes the signals in several wavelets. A wavelet is a
   \hspace{.1cm}
   \includegraphics[width=.47\textwidth]{preprocessing_transform/wavelet_right_scale.pdf}
 
-  \caption{Ricker wavelet with different scale (top) and shifting (bottom) factors}
+  \caption{Ricker Wavelet: Big Scale (top left), Small Scale (top right), Big Shift (bottom right), Small Shift (bottom left)}
   \label{fig:ricker_wavelet}
 \end{figure}
 
@@ -78,8 +78,8 @@ The Wavelet transform decomposes the signals in several wavelets. A wavelet is a
 
 \begin{equation}
     \begin{aligned}
-        &SPEC_{x}(t,f) = \abs{STFT_{x}(t,f)}^{2} \\
-        &SCAL_{x}(t,f) = \abs{WT{x}(t,f)}^{2}, 
+        SPEC_{x}(t,f) &= |STFT_{x}(t,f)|^{2} \\
+        SCAL_{x}(t,f) &= |WT_{x}(t,f)|^{2}, 
     \end{aligned}
 \end{equation}
 
@@ -87,7 +87,7 @@ where $STFT_{x}(t,f)$ is the Short-time Fourier transform, $WT_{x}(t,f)$ the wav
 
 
 \begin{comment}
-\subsection{Adaptive non-parametric time–frequency analysis}
+\subsection{Adaptive Non-Parametric Time–Frequency Analysis}
 Adaptive non-parametric approaches include empirical mode decomposition (EMD) \cite{FENG2013}. Unlike other multiresolution analysis (MRA) techniques such as wavelet analysis EMD recursively extracts Intrinsic Mode Functions (IMF) from a non-stationary time series. According to Faltermeier et al. \cite{Faltermeier2010} IMFs have the following properties: 
 
 \begin{itemize}
@@ -126,11 +126,11 @@ where $x(t)$ is the signal, $x_{n}(t)$ the n-th IMF and $r(t)$ the residuum \cit
 The number of IMFs extracted roughly equals $log_{2}(N)$ where $N$ is the number of extrema in the signal. The EMD decomposes the non-stationary signal in its locally and non-overlapping component IMFs. This process does not need any predefined wave-forms like the wavelet transformations. The selection of the IMFs is an automatic and adaptive time-variant filtering \cite{Faltermeier2010}. Compared to the Fourier and Wavelet transform, the decomposition of the signal in several IMFS does not divide the signal into fixed frequency components, which gives this method a higher time-frequency resolution \cite{Verstraete2017}. The popular Hilbert-Huang Transform (HHT) combines the EMD with the Hilbert spectral analysis, where the Hilbert transform is applied to each of the detected IMFs. A corresponding analytical signal can be constructed. Also the Hilbert amplitude and energy spectrum can be derived. For more Hilbert-specific details Feng et al. \cite{FENG2013} can be studied.
 \end{comment}
 
-\section{Traditional approaches for Prognostic and Health Management}
+\section{Traditional Approaches for Prognostic and Health Management}
 
 Generally PHM algorithms are either model-based or data-driven. Model-based methods predict the health condition based on physical models, which describe the underlying mechanisms of degradation. Uncertainties in the machine processes as well as noise make the application of physical models difficult. Besides that, identifying all model parameters might be difficult and requires performing a lot of experiments. Data-driven methods learn the mapping relationship between the health condition state and monitoring data. Such methods do not use physical information about the degradation process. The performance of data-driven approaches highly depends on the quality and amount of the training data. Besides that data-driven models might lack from generality. The model is just optimized to perform well on those working conditions which are represented in the train data. Both, model-based and data-driven approaches suffer from different limitations. Therefore, combining both approaches in an hybrid model is promising. The challenge of hybrid models lies in the integration framework, which bridges the processes od the data-driven and physical model. In the following one example for each of the three approaches is presented \cite{DENG2020}. 
 
-\subsection{Prognostics and Health Management by calculating defect frequencies}
+\subsection{Prognostics and Health Management with Defect Frequencies}
 Lee et al \cite{Lee2015} propose a diagnosis system which in first place determines the frequencies for different defects. By searching for those defect frequencies in the machine signals, one can estimate the defect type and severity. Fig. \ref{fig:defect_frequency_model} visualizes the proposed approach. Lee et al use a method proposed by Harris and McCool \cite{Harris1996} to estimate the characteristic defect frequencies. This method treats the ball screw as a bearing, where the screw shaft is considered as inner and the nut as outer ring. From the construction details and the relative speed between the ball screw components, the defect frequencies can be calculated. Each defect frequency is ball pass frequencies of shaft (BPFS), ball pass frequency of nut (BPFN), and ball spin frequency (BSF): 
 \begin{equation}
     BPFS = \frac{1}{120}zn(1+\frac{D_{w}}{d_{m}}cos\alpha),
@@ -147,7 +147,7 @@ where $\alpha$ is the contact angle made by the ball, nuts, and screw shaft, $d_
 \begin{figure}[H]
   \centering
   \includegraphics[width=.6\textwidth]{models_state_of_the_art/defect_frequency_calc.pdf}
-  \caption{Ball screw as bearing for calculation of defect frequency \cite{Lee2015}}
+  \caption{Simplification of Ball Screw Drive as Bearing for Calculation of Defect Frequency \cite{Lee2015}}
   \label{fig:defect_frequency_calc}
 \end{figure}
 
@@ -164,7 +164,7 @@ where the meaning behind the used parameters is visualized in fig. \ref{fig:defe
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{models_state_of_the_art/defect_frequency_transfer.pdf}
-  \caption{Transfer the pitch parameter and number of steel balls from bearings to ball screw \cite{Lee2015}}
+  \caption{Transfering Pitch Parameter and Number of Steel Balls from Bearings to Ball Screw Drive \cite{Lee2015}}
   \label{fig:defect_frequency_transfer}
 \end{figure}
 
@@ -173,32 +173,32 @@ For supervising the health condition of the ball screw the equation \ref{eq:defe
 \begin{figure}[H]
   \centering
   \includegraphics[width=.95\textwidth]{models_state_of_the_art/defect_frequency_model.pdf}
-  \caption{Scheme of failure diagnosis system using wavelet transform \cite{Lee2015}}
+  \caption{Scheme of Failure Diagnosis System with Wavelet Transform \cite{Lee2015}}
   \label{fig:defect_frequency_model}
 \end{figure}
 
 
 
-\subsection{Data-driven model: Modal Analysis for Prediction and Health Monitoring}
+\subsection{Data-Driven Model: Modal Analysis for Prediction and Health Monitoring}
 An approach for PHM and estimation of remaining useful life (RUL) for ball screw drives in industrial machines was presented by Benker et al . This approach relies on the so-called modal parameters, resonance frequency, eigenvectors and damping for predicting the health condition of ball screw drives. External acceleration sensors can be used to identify these values. Since the installation and maintenance are costly, an automated identification of modal parameters exclusively on the basis of CNC control data is desired. Since the manual determination of modal parameters requires a lot of experience, approaches which do that autonomously became increasingly popular. Benker et al use the PolyMAX algorithm  for continuously determining the modal parameters. By combining several machine signals, features which are more sensitive to the degradation state can be extracted. Probabilistic classification on the mentioned parameters allows the identification of different levels of degradation. Estimates about the components remaining useful life can be made from there \cite{Benker2020}.
 
 
 
-\subsection{Hybrid model: Integrated Prognostics Method for Uncertainty Quantification in Gear Remaining Useful Life Prediction}
+\subsection{Hybrid Model: Integrated Prognostics Method for Uncertainty Quantification in Gear Remaining Useful Life Prediction}
 
 The model proposed by Zhao et al 
 
 
-\section{Domain adaptation approaches for Prognostic and Health Management}
+\section{Domain Adaptation Approaches for Prognostic and Health Management}
 In recent years, intelligent data-driven machine condition monitoring systems have replaced traditional approaches to a great extent. When using such monitoring systems for long time horizons operational conditions and therefore fault characteristics might change. This leads to unsatisfactory diagnosis performance \cite{AZAMFAR2020103932}. Furthermore, there are scenarios where not all fault classes are known during training. Due to the correlation and dependency between different parts of the system, faults can have numerous causes and can influence the systems in different ways. Therefore it is unlikely that the data used for training the model includes all system states and fault scenarios. PM systems which can handle unseen fault classes and robustly handles variations in fault characteristics seems helpful for industrial fault diagnosis systems \cite{Michau2017}. In order to address those issues domain adaption approaches seem promising for the industrial fault diagnosis. In the literature deep-learning based domain-adaption is a hot topic. With its origin in the computer vision community it also made its way into the area of PHM, which will be discussed in the following. 
 
-\subsection{Deep distance metric learning}
+\subsection{Deep Distance Metric Learning}
 A domain adaption algorithm which optimizes the inter- and intra-class distance in the latent feature space and reduces the domain discrepancy with an MMD loss was presented by Li et al \cite{Li2018}. As visualized in fig. \ref{fig:Deep_distance_metric_learning_model} the model proposed by Li et al contains a CNN with a consecutive classifier. In a pre-processing step the raw vibration signal is first transformed in the frequency domain by applying wavelet transforms. Max-pooling layers are included to reduce the data dimension. Batch-normalization layers are used to reduce the internal-covariate-shift by normalizing the input distributions of the hidden layers. As a regularization method dropout layers with a rate of 0.5 help to avoid overfitting. 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.75\textwidth]{models_state_of_the_art/Deep_distance_metric_learning_model.pdf}
-  \caption{Deep distance metric learning model \cite{Li2018}}
+  \caption{Deep Distance Metric Learning Model \cite{Li2018}}
   \label{fig:Deep_distance_metric_learning_model}
 \end{figure}
 
@@ -230,7 +230,7 @@ where $P^{f(m)}$ and $Q^{f(m)}$ denote the representation of source and target s
 where $J_{Cluster}$ is the cluster loss, $J_{MMD}$ the MMD loss,  $J_{CE}$ the cross entropy loss and $\alpha$, $\beta$ and $\gamma$ are the weights for calculating the weighted average \cite{Li2018}.
 
 
-\subsection{Deep convolutional transfer learning network}
+\subsection{Deep Convolutional Transfer Learning Network}
 PHM of rolling bearing is a task with high demand in the industry. Guo et al \cite{Guo2019} propose a Deep convolutional transfer learning network (DCTLN) which reduces the domain discrepancy by applying a MMD loss and using a domain classifier. The architecture of the model is visualized in fig. \ref{fig:DCTLN_model}. Features are extracted by a CNN containing 16 layers including one input layer, six convolutional layers, six pooling layers, two fully connected layers, and one output layer. Each convolutional layer is combined with a consecutive pooling layer.
 
 
@@ -250,11 +250,11 @@ The model is optimized with a combination of three losses
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/DCTLN_model.pdf}
-  \caption{DCTLN model \cite{Guo2019}}
+  \caption{DCTLN Model \cite{Guo2019}}
   \label{fig:DCTLN_model}
 \end{figure}
 
-\section{Modern learning-based approaches for Prognostic and Health Management }
+\section{Modern Learning-Based Approaches for Prognostic and Health Management }
 \subsection{Domain Conditioned Adaptation Network}
 Most domain adaption approaches reduce the domain discrepancy in task-specific layers but use a shared feature extractor backbone across all domains. Li et al \cite{li2020} assume that, if the domain discrepancy is tremendously large, these methods can only reduce the domain discrepancy, but not fundamentally eliminate it. In the proposed Domain Conditioned Adaptation Network (DCAN) Li et al present some alternative approaches to reduce the domain discrepancy more efficiently. Since the source and target domains are distributed differently and a supervised training is just possible with the source domain data, the CNN learns to extract features which are sensitive for the source domain but might not work well classifying the target domain data. Li et al recommend to extract domain-specific and -independent features in the feature extractor backbone. Since the source and target domains are correlated to some extend, it makes sense to extract domain-independent features to profit from the powerful feature extraction learned from the source when processing target domain data. Additionally the model extracts domain-specific features in the convolutional layers to improve the cross-domain feature alignment in the task-specific layers. In a second stage, the extracted features are adjusted by the Domain Conditioned Feature Correction Module with the goal to reduce the domain discrepancy. Lastly, the model is optimized with a conventional supervised source and a newly proposed unsupervised target cross-entropy loss defined as following:
 
@@ -264,7 +264,7 @@ Most domain adaption approaches reduce the domain discrepancy in task-specific l
 where $G(\cdot)$ is the learned predictive model, $n_{t}$ is the number of source domain samples, $C_{n}$ are the classes present in source and target domain and $\pmb{x}_{t}$ are target samples. The presented model is developed for computer vision applications and is never been evaluated in the context of PHM. Since PHM suffers from similar problems, this approach might still be relevant. The model is visualized in fig. \ref{fig:DCAN_model}. In the following, the two domain adaption modules are described in more detail \cite{li2020}. 
 
 \subsubsection{Domain Conditioned Channel Attention Mechanism}
-Li et al \cite{li2020} use ResNet as backbone network, which allows easy implementation of domain conditioned channel attention module in its residual block. In the latent feature maps the processed images are represented as $\pmb{X}_{t} = [X^{1}_{t},...,X^{C}_{t}] \in \mathbb{R}^{HxWxC}$,where H and W are the spatial dimension and C the number of image channels. First, a channel-wise global average pooling layer is applied which reduces the images to  $\pmb{g}_{t} = [g^{1}_{t},...,g^{C}_{t}] \in \mathbb{R}^{1x1xC}$. Afterwards, the data is split depending on its domain and passed through different fully connected layers. The upper flow is used for target and the lower flow for source domain samples. The two different source and target domain routes share parameters. For both domains, the attention mechanism is trained jointly to learn to activate different channels for the domains. This allows extracting more enriched domain specific features. In the fully connected layers the dimension is first reduced with a ratio ${1x1x\frac{C}{r}}$ and later reconstructed to its original size ${1x1xC$. Relu and Sigmoid functions are applied. The domain-wise feature selection is achieved by weighting the channels of the original feature $\pmb{X}_{s}$ and $\pmb{X}_{t}$ with the resulting channel attention vectors $\pmb{v}_{s}$ and $\pmb{v}_{t}$ from the Domain Conditioned Channel Attention Module:
+Li et al \cite{li2020} use ResNet as backbone network, which allows easy implementation of domain conditioned channel attention module in its residual block. In the latent feature maps the processed images are represented as $\pmb{X}_{t} = [X^{1}_{t},...,X^{C}_{t}] \in \mathbb{R}^{HxWxC}$,where H and W are the spatial dimension and C the number of image channels. First, a channel-wise global average pooling layer is applied which reduces the images to  $\pmb{g}_{t} = [g^{1}_{t},...,g^{C}_{t}] \in \mathbb{R}^{1x1xC}$. Afterwards, the data is split depending on its domain and passed through different fully connected layers. The upper flow is used for target and the lower flow for source domain samples. The two different source and target domain routes share parameters. For both domains, the attention mechanism is trained jointly to learn to activate different channels for the domains. This allows extracting more enriched domain specific features. In the fully connected layers the dimension is first reduced with a ratio ${1x1x\frac{C}{r}}$ and later reconstructed to its original size ${1x1xC}$. Relu and Sigmoid functions are applied. The domain-wise feature selection is achieved by weighting the channels of the original feature $\pmb{X}_{s}$ and $\pmb{X}_{t}$ with the resulting channel attention vectors $\pmb{v}_{s}$ and $\pmb{v}_{t}$ from the Domain Conditioned Channel Attention Module:
 
 \begin{equation}
     \begin{aligned}
@@ -299,11 +299,11 @@ where $R$ is a random subset of source domain samples and $S^{k}$ is the set of 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/DCAN_model.pdf}
-  \caption{DCAN model \cite{li2020}}
+  \caption{DCAN Model \cite{li2020}}
   \label{fig:DCAN_model}
 \end{figure}
 
-\subsection{Deep belief networks}
+\subsection{Deep Belief Networks}
 A domain adaption algorithm based on DBNs which uses wavelet packet transforms (WTPs) as a pre-processing step was proposed by Zang et al \cite{Zhang2017}. Degradation of ball screws lead to decreasing stiffness in the system which increases vibrations. These characteristic vibration signals are therefore promising for evaluating the degradation state of the ball screws \cite{Zhang2017}. Zang et al apply WTPs, which are an expansion of the discrete wavelet transform, as a pre-processing step. This feature extraction technique considers variations in the temporal and frequency band energy \cite{Besbes2016}. The packet energy of the WPT shows an exponential increase trend with increasing degradation and is therefore a good indicator for the degradation level. In order to have a better basis for decisions, multi-sensor data fusion methods are used to synthesize data from different sources. The proposed method presented by Zang et al is visualized in fig. \ref{fig:Deep_belief_networks_model} and described the following step by step:
 
 \begin{itemize}
@@ -319,12 +319,12 @@ A domain adaption algorithm based on DBNs which uses wavelet packet transforms (
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/Deep_belief_networks_model.pdf}
-  \caption{Deep belief networks model \cite{Zhang2017}}
+  \caption{Deep Belief Network Model \cite{Zhang2017}}
   \label{fig:Deep_belief_networks_model}
 \end{figure}
 
 
-\subsection{Wasserstein distance guided multi-adversarial network}
+\subsection{Wasserstein Distance Guided Multi-Adversarial Network}
 Zhang et al \cite{Zhang2019} present a Wasserstein distance guided multi-adversarial network (WDMAN) for rolling bearing fault diagnosis under different working conditions. The proposed architecture consists of a CNN feature mapper and a subsequent classifier. In the fully connected layers of the classifier, several Domain Critic Networks estimate the domain discrepancy by applying the Wasserstein-distance. The whole model and the applied losses can be seen in fig. \ref{fig:WDMAN_model}. In a pre-training phase, the feature mapper $\theta_{M}$ and classifier $\theta_{C}$ are optimized with the source cross entropy loss:
  
 \begin{equation}
@@ -352,14 +352,14 @@ where $P_{\tilde{x}}$ is a distribution of samples coming from the line connecti
  \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/WDMAN_model.pdf}
-  \caption{WDMAN model \cite{Zhang2019}}
+  \caption{WDMAN Model \cite{Zhang2019}}
   \label{fig:WDMAN_model}
 \end{figure}
  
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{models_state_of_the_art/WDMAN_workflow.pdf}
-  \caption{WDMAN workflow \cite{Zhang2019}}
+  \caption{WDMAN Workflow \cite{Zhang2019}}
   \label{fig:WDMAN_workflow}
 \end{figure}
  
