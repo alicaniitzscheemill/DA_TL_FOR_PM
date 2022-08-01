@@ -125,7 +125,7 @@ The number of IMFs extracted roughly equals $log_{2}(N)$ where $N$ is the number
 
 Generally PHM algorithms are either model-based or data-driven. Model-based methods predict the health condition based on physical models, which describe the underlying mechanisms of degradation. Uncertainties in the machine processes as well as noise make the application of physical models difficult. Besides that, identifying all model parameters might be difficult and requires performing a lot of experiments. Data-driven methods learn the mapping relationship between the health condition state and monitoring data. Such methods do not use physical information about the degradation process. The performance of data-driven approaches highly depends on the quality and amount of the training data. Besides that data-driven models might lack from generality. The model is just optimized to perform well on those working conditions which are represented in the train data. Both, model-based and data-driven approaches suffer from different limitations. Therefore, combining both approaches in an hybrid model is promising. The challenge of hybrid models lies in the integration framework, which bridges the processes od the data-driven and physical model. In the following one example for each of the three approaches is presented \cite{DENG2020}. 
 
-\subsection{Prognostics and Health Management with Defect Frequencies}
+\subsection{Model-Based Approach: Prognostics and Health Management with Defect Frequencies}
 Lee et al \cite{Lee2015} propose a diagnosis system which in first place determines the frequencies for different defects. By searching for those defect frequencies in the machine signals, one can estimate the defect type and severity. Fig. \ref{fig:defect_frequency_model} visualizes the proposed approach. Lee et al use a method proposed by Harris and McCool \cite{Harris1996} to estimate the characteristic defect frequencies. This method treats the ball screw as a bearing, where the screw shaft is considered as inner and the nut as outer ring. From the construction details and the relative speed between the ball screw components, the defect frequencies can be calculated. Each defect frequency is ball pass frequencies of shaft (BPFS), ball pass frequency of nut (BPFN), and ball spin frequency (BSF): 
 \begin{equation}
     BPFS = \frac{1}{120}zn(1+\frac{D_{w}}{d_{m}}cos\alpha),
@@ -173,15 +173,35 @@ For supervising the health condition of the ball screw the equation \ref{eq:defe
 \end{figure}
 
 
-
-\subsection{Data-Driven Model: Modal Analysis for Prediction and Health Monitoring}
+\begin{comment}
+\subsection{Data-Driven Approach: Modal Analysis for Prognostics and Health Monitoring}
 An approach for PHM and estimation of remaining useful life (RUL) for ball screw drives in industrial machines was presented by Benker et al . This approach relies on the so-called modal parameters, resonance frequency, eigenvectors and damping for predicting the health condition of ball screw drives. External acceleration sensors can be used to identify these values. Since the installation and maintenance are costly, an automated identification of modal parameters exclusively on the basis of CNC control data is desired. Since the manual determination of modal parameters requires a lot of experience, approaches which do that autonomously became increasingly popular. Benker et al use the PolyMAX algorithm  for continuously determining the modal parameters. By combining several machine signals, features which are more sensitive to the degradation state can be extracted. Probabilistic classification on the mentioned parameters allows the identification of different levels of degradation. Estimates about the components remaining useful life can be made from there \cite{Benker2020}.
 
+\end{comment}
 
+\subsection{Data-Driven Approach: Sensor Fusion with Principal Component Analysis for Prognostics and Health Monitoring }
 
-\subsection{Hybrid Model: Integrated Prognostics Method for Uncertainty Quantification in Gear Remaining Useful Life Prediction}
+Denkena et al \cite{Denkena2021} present a method to monitor the loss of preload in ball screw drives. Several hand-crafted statistical features were extracted from the signals. A sensor fusion approach based on principle component analysis is used to combine those features and in the end decision trees are used to solve the classification task. Denkena et al \cite{Denkena2021} separate the monitoring system in four steps:
 
-The model proposed by Zhao et al 
+\begin{itemize}
+    \item [\textbf{Data Acquisition:}] The method processes external control signals coming from three uniaxial acceleration sensors as well as internal control signals provided by the numerical control (NC) signals. The signals are concatenated and analyzed simultaneously.
+    \item [\textbf{Data Preprocessing:}] The signals are separated in parts of constant and changing ball screw drive speeds. 
+    \item [\textbf{Feature Extraction:}] Information about the preload class is extracted through statistical features. The features are extracted for each signal and segment. Each feature is evaluated by its robustness and statistical significance. The robustness is measured by the feature's dispersion around the median. After normalizing the feature with the z-score, the significance is investigated by the f-statistics.
+    
+    \begin{equation}
+        \textbf{Z-Score:}\qquad \tilde{x}_{i,j} = \frac{x_{i,j} - \bar x_{i}}{\sigma_{i}},
+    \end{equation}
+    
+    \begin{equation}
+        \textbf{F-Statistic:}\qquad f = \frac{\sum_{j=1}^{J} i \cdot (\bar x_{j} -\bar x)^{2}/(J-1)}{\sum_{j=1}^{J} \sum_{i=1}^{I} i \cdot (\bar x_{j,i} -\bar x_{j})^{2}/(J \cdot (I-1))},
+    \end{equation}
+
+    where ${x}_{i,j}$  denotes the feature value j for class i, $\bar {x}_{i}$ is the mean value,  ${s}_{i}$ is the standard deviation of the feature, I and J is the number of all features and classes. Denkena et al see features as eligible for the diagnosing system if the dispersion around the median is smaller than $\pm$ 10 and the f-statistics is higher than a critical value of 10. The selected features are merged with the goal of maintaining the robustness and increasing the f-statistics. The principal-component analysis is used to reduce the dimensions on the first two components.
+    
+
+    \item [\textbf{Classification:}] Denkena et al decided to use a decision trees to predict a preload class based on the extracted features. Due to its low classification effort and good traceability  decision trees seem suitable for the classification task. For each signal and segment a separate decision tree is used. 
+\end{itemize}
+
 
 
 \section{Domain Adaptation Approaches for Prognostic and Health Management}

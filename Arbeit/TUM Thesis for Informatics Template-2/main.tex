@@ -19,6 +19,58 @@
 \newcommand*{\getSubmissionDate}{15.Sept.2022}
 \newcommand*{\getSubmissionLocation}{Munich}
 
+%%%%% own inlcuded
+
+\DeclareSourcemap{
+                \maps[datatype=bibtex]{
+                               % remove fields that are always useless
+                               \map{
+                                               \step[fieldset=abstract, null]
+                                               \step[fieldset=pagetotal, null]
+                                               \step[fieldset=month, null]
+                               }
+                               % remove URLs for types that are primarily printed
+                               \map{
+                                               \pernottype{software}
+                                               \pernottype{online}
+                                               \pernottype{report}
+                                               \pernottype{techreport}
+                                               \pernottype{standard}
+                                               \pernottype{manual}
+                                               \pernottype{misc}
+                                               \step[fieldset=url, null]
+                                               \step[fieldset=urldate, null]
+                               }
+                               \map{
+                                               \pertype{inproceedings}
+                                               \pertype{article}
+                                               % remove mostly redundant conference information
+                                               %\step[fieldset=venue, null]
+                                               %\step[fieldset=eventdate, null]
+                                               %\step[fieldset=eventtitle, null]
+                                               % do not show ISBN for proceedings
+                                               \step[fieldset=isbn, null]
+                                               \step[fieldset=issn, null]
+                                               % Citavi bug
+                                               %\step[fieldset=volume, null]
+                               }
+                               \map{
+                                               \pertype{book}
+                                               \pertype{inbook}
+                                               \pertype{incollection}
+                                               % remove mostly redundant conference information
+                                               %\step[fieldset=venue, null]
+                                               %\step[fieldset=eventdate, null]
+                                               %\step[fieldset=eventtitle, null]
+                                               % do not show ISBN for proceedings
+                                               \step[fieldset=doi, null]
+                                               % Citavi bug
+                                               %\step[fieldset=volume, null]
+                               }
+                }
+}
+%%%%% own inlcuded
+
 \begin{document}
 
 % TODO: decide on used language

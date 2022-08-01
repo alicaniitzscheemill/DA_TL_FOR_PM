@@ -4,7 +4,7 @@ In the research community simplified synthetically generated datasets are quiet 
 \section{Dummy Dataset}
 Several experiments were performed on the dummy dataset to analyze the effects of the MMD loss in an easy and clear setting and to make first estimates about its applicability for PHM. The models used are the same as described in section \ref{sec:model}. The model in \ref{cnn_mmd_dummy} was optimized as explained in section \ref{sec:Proposed_training}. In the experiments of section \ref{sec:Balancing Cross-Entropy and MMD loss} and \ref{sec:Differences of labeled and unlabeled MMD loss} just one SGD optimizer with learning rate 0.01 in combination with a weighted average between the MMD and source cross-entropy loss was used.
 
-\subsection{Sensitive Balancing of Cross-Entropy and MMD Loss} \label{sec:Balancing Cross-Entropy and MMD loss}
+\subsection{Influence of GAMMA Choice on the MMD Loss} \label{sec:Balancing Cross-Entropy and MMD loss}
 
 In the following section, the sensitivity of the weighting factor GAMMA on the training is evaluated. The latent feature representation in FC2 for source and target domain is visualized in fig. \ref{fig:point_cloud_mmd}. The development of the MMD and cross entropy loss throughout the training is shown in fig. \ref{fig:learning_curves_influence_mmd_feature_extractor}.
 \begin{itemize}
@@ -93,7 +93,7 @@ The idea behind domain adaption is to aggregate knowledge while solving one prob
   \label{fig:point_cloud_labeled_unlabeled_mmd}
 \end{figure}
 
-\subsection{Influence of Latent Feature Space Choice in MMD Loss}
+\subsection{Influence of Latent Feature Space Choice on the MMD Loss}
 \label{cnn_mmd_dummy}
 This section analyzes the influence of applying the MMD loss in different latent feature maps of the CNN and classifier. The "regular FC MMD" loss calculates the source and target discrepancy from the three latent feature maps in the classifier (flattened output of CNN, FC1, FC2). The "regular FC + CNN MMD" loss additionally considers the feature maps of the three convolutional layers in the CNN (Conv 1, Conv 2 and Conv 3). The accuracy, the source cross-entropy and MMD loss during the training process are shown in fig. \ref{fig:accuracy_cnn_and_no_cnn_mmd} and fig. \ref{fig:loss_cnn_and_no_cnn_mmd}. The accuracies in source and target domain are higher when including the CNN feature maps into the MMD loss. Besides that, including the CNN feature maps in the MMD loss increases the stability of the training. The losses, as well as the accuracies, converge faster and smoother.
 
@@ -134,6 +134,42 @@ By passing data through the model, features with varying levels of abstraction a
 
 
 \section{Real-World Dataset}
+In the following section the performance of different MMD-based domain adaption models are evaluated on the real-world ball screw dataset. The goal of this chapter is to evaluate the benefits and problems of the presented approach for PHM on industrial machines. All presented models have the same architecture but differ in their optimization processes. Different GAMMA and MMD layer choices were evaluated. The performance of each model is compared with the base-line model, which does not use any MMD loss during training. In the following table the MMD layer choices of the different models are presented:
+
+\begin {table}[H]
+\centering
+
+\begin{tabular}{llllllll}
+  \toprule
+  Model          & Conv1 & Conv2 & Conv3 & FC1 & FC2 & FC3 \\
+  \midrule
+  
+\vspace{.5cm}
+
+ \parbox[t]{0mm}{\multirow{1}{*}{\rotatebox[origin=c]{90}{\thead{BASE- \\ LINE}}}} & - & - & - & - & - & -\\
+ 
+\vspace{.5cm}
+
+ \parbox[t]{0mm}{\multirow{1}{*}{\rotatebox[origin=c]{90}{\thead{FULL \\ MMD}}}} & \checkmark & \checkmark & - & \checkmark & \checkmark & \checkmark\\
+ 
+\vspace{.5cm}
+
+ \parbox[t]{0mm}{\multirow{1}{*}{\rotatebox[origin=c]{90}{\thead{FC \\ MMD}}}} & - & - & - & \checkmark & \checkmark & \checkmark\\
+ 
+\vspace{.5cm}
+
+ \parbox[t]{0mm}{\multirow{1}{*}{\rotatebox[origin=c]{90}{\thead{CNN \\ MMD}}}} & \checkmark & \checkmark & \checkmark & - & - & -\\
+
+ 
+  \bottomrule
+\end{tabular}
+
+\caption {MMD layer choice of presented models} \label{tab:MMD_layer_choice} 
+\end {table}
+
+Similarly to the dummy dataset, the influence of GAMMA and the MMD layer choice on the PHM performance are examined in the chapter \ref{ch:Influence_GAMMA_real_dataset} and \ref{ch:Influence_Layer_real_dataset}. Since the previously presented labeled MMD loss uses target labels, which all other models do not, the labeled MMD loss models were not included in the evaluation on the real data. To achieve good comparability just models with equal training conditions are considered. In the chapter \ref{ch:PHM_performance} the actual performance of different models for the PHM task on ball screw drives is evaluated by the target accuracy on the test data.  
+
+
 \begin{comment}
 In the following section the performance of different MMD-based domain adaption approaches are evaluated on the real-world ball screw dataset. The model used for this evaluation is presented in fig. \ref{fig:model_real_data}. From the 49 features in the dataset just three (\verb|'C:x_bottom'|, \verb|'C:y_bottom'|, \verb|'C:z_bottom'|) are used. For this reasons three sequences of length 1024 are fed into the CNN.
 
@@ -166,9 +202,17 @@ In fig. the development of the source domain cross entropy MMD loss is shown. It
 Unfortunately the MMD loss could just minimize the domain discrepancy by a little. The domain discrepancy problem couldn't be solved completely. Still the idea of the MMD loss becomes more clear in the experiments. Also the positive effect of the MMD loss for the training is obvious. For the complex multi-dimensional dataset the MMD loss is probably not sophisticated enough to detect and effectively fight the domain discrepancy.
 \end{comment}
 
-\begin{figure}[H]
-  \centering
 
+
+
+
+
+\subsection{Influence of GAMMA Choice on the PHM Performance}\label{ch:Influence_GAMMA_real_dataset}
+
+In the following three models are trained with a full MMD loss and different GAMMAs (0.05, 0.4, 20). The models were trained on the  D:P mech./X signal for 100 epochs. Similarly to the dummy dataset, the model training is very sensitive to the GAMMA choice. Just when GAMMA is chosen correctly, the source cross entropy and MMD loss can be reduced simultaneously. Both training goals, reducing the domain discrepancy in the models hidden layer and classifying the source domain samples correctly, can be pursued in parallel. Fig. \ref{fig:distribution_GAMMA_influence_real_data} shows the latent feature representation of the source and target domain samples of both classes in FC2. The left column shows the data distribution before training and the right one after 100 epochs. Applying the MMD loss with GAMMA of 0.05 increases the compactness of the classes from both domains. Due to the higher compactness also corresponding classes from the two domains overlap more, which reduces the domain discrepancy. From the plots it is hard to make a statement about the separability of the classes. When picking a GAMMA of 0.05 the structure of the data distribution seems to be clearer and smoother. This rises the assumption, that finding a separation between the classes of both domains might be easier. Anyhow, the actual performance gains due to the MMD loss is discussed later on. Generally, the MMD loss enables  domain invariant features which allows transferring knowledge learned from one domain to the other. If the MMD loss becomes too dominant also noise and unimportant information are transferred between the domains. Then the structure of the source and target domain data is destroyed, which makes the classification task impossible. When increasing GAMMA to 1, this scenario occurs. The feature representations of the samples from all classes and domains collapse at a small latent feature subspace.
+
+\begin{figure}[htp]
+  \centering
   \includegraphics[width=.47\textwidth]{GAMMA_Influence_real_data/P_mech_X_data_distribution_0_GAMMA_0_0.pdf}
   \hspace{.4cm}
   \includegraphics[width=.47\textwidth]{GAMMA_Influence_real_data/P_mech_X_data_distribution_40_GAMMA_0_0.pdf}
@@ -187,14 +231,20 @@ Unfortunately the MMD loss could just minimize the domain discrepancy by a littl
 
   \vspace{.1cm}
 
-  \caption{Data  distribution:  Influence  of  GAMMA  on  Training with D:P\_mech./X:  GAMMA  =  0.05  (top),GAMMA = 0,4 (middle), GAMMA = 20 (bottom), Epoch = 0 (left) , Epoch = 100(right)}
+  \caption{Data  distribution:  Influence  of  GAMMA  on  Training with D:P\_mech./X:  GAMMA  =  0  (top),GAMMA = 0.05 (middle), GAMMA = 1 (bottom)}
   \label{fig:distribution_GAMMA_influence_real_data}
 \end{figure}
 
 
 
 
-\begin{figure}[H]
+
+\subsection{Influence of Latent Feature Space Choice on the PHM Performance}\label{ch:Influence_Layer_real_dataset}
+This section analyses the effects of different MMD latent feature space choices on the model training. CNN MMD, FC MMD and FULL MMD model, which are defined as described in table \ref{tab:MMD_layer_choice}, were compared with each other. All models were trained with the D:I soll/X signal and a MMD loss with GAMMA of 1. The experiments were repeated five times. Fig \ref{fig:target_accuracy_MMD_layer} shows the target accuracy learning curves for those experiments. When the MMD loss is just applied in the FC layers, the training collapses in two of the five experiments (row 3 $\&$ 5). In the other three cases the accuracy has the tendency to decrease during the training. Usually the final model is picked in the end of the training. When the model's performance decreases throughout the training, one does not pick the best possible model. Compared to the FULL MMD model the CNN MMD model shows lower reproducibility in the training curves. In some of the CNN MMD experiments the target accuracy is increasing and in some decreasing during the training. Besides that, the fluctuations on the validation data cannot really be reduced throughout the training. The FULL MMD model training seems to be more stable. The fluctuations on the validation data are controlled a little bit better . Besides that, the learning curves show a higher reproducibility.  
+
+
+
+\begin{figure}[htp]
   \centering
 
   \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/CNN_MMD/Accuracy_Target_Domain_1.pdf}
@@ -236,9 +286,14 @@ Unfortunately the MMD loss could just minimize the domain discrepancy by a littl
   \includegraphics[width=.32\textwidth]{MMD_LAYER_influence_real_data/FULL_MMD/Accuracy_Target_Domain_5.pdf}
 
 
-  \caption{Target Accuracy: Influence of MMD layer Choice on Training with D:I\_soll/X with GAMMA = 1: CNN MMD (left), FC MMD (middle), FULL MMD (right)}
+  \caption{Target Accuracy: Influence of MMD layer Choice on Training: CNN MMD (left), FC MMD (middle), FULL MMD (right)}
   \label{fig:target_accuracy_MMD_layer}
 \end{figure}
+
+
+\subsection{PHM Performance}\label{ch:PHM_performance}
+
+In this chapter the utility and applicability of the presented approach on a real world task is evaluated by the target accuracy on the test data. During the training process the model with the highest balanced target accuracy on the validation data was picked to compare the approaches. In a first step the model performance on all of the 49 signals is evaluated without the MMD loss. Form there 7 promising signals were picked, which showed high classification accuracy. These signals were then used to evaluate FULL MMD, FC MMD and CNN MMD, each optimized with different GAMMAs (0.05 $\&$ 0.5 $\&$ 1). The 9 models were compared with a BASE-LINE model which was not optimized with a MMD loss. Table \ref{tab:Mean_Accuracy} shows the accuracy of each model on the different signals averaged over 5 equally executed experiments. For 4 of the 7 signals the FULL MMD and for the others the CNN MMD model performed best. The MMD loss increased the accuracy with up to 10.18$\%$. Table \ref{tab:Variance_Accuracy} shows the variance of each model and signal from the 5 experiments. The best performing model usually shows low to average target accuracy variances. A low variance shows a high degree of reproducibility, which demonstrates the meaningfulness of the presented results. This proves the applicability and utility of a MMD loss for reducing the domain discrepancy in PHM related tasks. Table \ref{tab:Average_Variance_Accuracy} shows the average variance over all 105 experiments for MMD-based models and 35 experiments for the BASE-LINE model. Sorted by the average variance the FULL MMD has the lowest and the FC CNN has the highest avereage variance from the MMD-based models. This shows that the FULL MMD model has the highest reproducibility and the lowest fluctuation during the training. As mentioned in the results of the dummy dataset, a reason might be the contradicting training goals when evaluating the MMD as well as the source cross entropy loss just in the FC layers. This might lead to instabilities and a training which is more prone to get stuck in local minima. 
 
 \begin {table}[H]
 \centering
@@ -247,21 +302,21 @@ Unfortunately the MMD loss could just minimize the domain discrepancy by a littl
   \toprule
   Model          & GAMMA    & D:I\_ist/X & D:I\_soll/X & D:P\_mech./X & C:z\_top & C:z\_nut & D:x\_nut & D:z\_top \\
   \midrule
-  \parbox[t]{2mm}{\multirow{2}{*}{\rotatebox[origin=c]{90}{\thead{BASE- \\ LINE}}}} &&&&&&&&\\
+  \parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{\thead{BASE- \\ LINE}}}} &&&&&&&&\\
                   & -      & 70,08 & 75,62 & 74,7 & 69,14 & 57,4 & 58,74 & 57,88\\
 \vspace{.1cm}
- \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\thead{FULL \\ MMD}}}} &&&&&&&&&\\
+ \parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\thead{FULL \\ MMD}}}} &&&&&&&&&\\
  
                   & 0.05   & 71,56 & 75,42 & \textbf{78,96} & 72,36 & 58,10 & 49,52 & \textbf{62,64}\\
                   & 0.5    & 73,78 & 74,84 & 52,78 & \textbf{75,92} & \textbf{64,76} & 50,52 & 49,94\\
                   & 1      & 72,98 & 75,18 & 49,80 & 74,12 & 57,02 & 50,62 & 50,52\\
 \vspace{.1cm}
- \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\thead{FC \\ MMD}}}} &&&&&&&&&\\
+ \parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\thead{FC \\ MMD}}}} &&&&&&&&&\\
                   & 0.05   & 73,60 & 76,38 & 74,98 & 71,36 & 57,48 & 52,44 & 61,3\\
                   & 0.5    & 70,74 & 74,86 & 72,62 & 69,32 & 59,76 & 50,12 & 53,22\\
                   & 1      & 73,42 & 65,46 & 76,96 & 62,34 & 58,86 & 50,92 & 53,96\\
 \vspace{.1cm}
- \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\thead{CNN \\ MMD}}}} &&&&&&&&&\\
+ \parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\thead{CNN \\ MMD}}}} &&&&&&&&&\\
                   & 0.05   & 71,62 & \textbf{76,44} & 51,80 & 73,20 & 59,30 & 58,04 & 53,82\\
                   & 0.5    & \textbf{73,90} & 75,86 & 51,58 & 72,28 & 55,76 & 68,04 & 51,72\\
                   & 1      & 73,80 & 73,82 & 51,12 & 72,18 & 54,28 & \textbf{68,92} & 51,28\\
@@ -283,21 +338,21 @@ Unfortunately the MMD loss could just minimize the domain discrepancy by a littl
   \toprule
   Model          & GAMMA    & D:I\_ist/X & D:I\_soll/X & D:P\_mech./X & C:z\_top & C:z\_nut & D:x\_nut & D:z\_top  \\
   \midrule
-  \parbox[t]{2mm}{\multirow{2}{*}{\rotatebox[origin=c]{90}{\thead{BASE- \\ LINE}}}} &&&&&&&&\\
+  \parbox[t]{2mm}{\multirow{3}{*}{\rotatebox[origin=c]{90}{\thead{BASE- \\ LINE}}}} &&&&&&&&\\
                   & -      & 2,07 & 0,27 & 2,20 & 2,55 & 1,11 & 1,04 & 1,22\\
 \vspace{.1cm}
- \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\thead{FULL \\ MMD}}}} &&&&&&&&&\\
+ \parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\thead{FULL \\ MMD}}}} &&&&&&&&&\\
  
                   & 0.05   & 1,06 & 0,74 & \textbf{1,79} & 1,80 & 2,04 & 1,39 & \textbf{2,48}\\
                   & 0.5    & 0,72 & 1,44 & 3,33 & \textbf{1,72} & \textbf{1,42} & 1,23 & 1,02\\
                   & 1      & 0,76 & 0,81 & 0,87 & 6,06 & 5,57 & 0,96 & 0,79\\
 \vspace{.1cm}
- \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\thead{FC \\ MMD}}}} &&&&&&&&&\\
+ \parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\thead{FC \\ MMD}}}} &&&&&&&&&\\
                   & 0.05   & 1,96 & 0,61 & 1,86 & 1,82 & 1,63 & 3,86 & 1,60\\
                   & 0.5    & 1,34 & 0,72 & 11,06 & 6,42 & 2,28 & 0,45 & 3,14\\
                   & 1      & 0,96 & 12,01 & 5,46 & 8,18 & 2,13 & 0,93 & 2,70\\
 \vspace{.1cm}
- \parbox[t]{2mm}{\multirow{4}{*}{\rotatebox[origin=c]{90}{\thead{CNN \\ MMD}}}} &&&&&&&&&\\
+ \parbox[t]{2mm}{\multirow{5}{*}{\rotatebox[origin=c]{90}{\thead{CNN \\ MMD}}}} &&&&&&&&&\\
                   & 0.05   & 2,13 & \textbf{0,53} & 2,39 & 1,12 & 4,01 & 4,18 & 7,26\\
                   & 0.5    & \textbf{0,25} & 1,57 & 1,08 & 1,22 & 3,27 & 3,51 & 3,22\\
                   & 1      & 0,51 & 1,25 & 2,02 & 2,51 & 4,54 & \textbf{2,54} & 2,34\\
