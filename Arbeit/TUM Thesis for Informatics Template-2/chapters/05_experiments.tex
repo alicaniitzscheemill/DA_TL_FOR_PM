@@ -1,7 +1,26 @@
 \chapter{Experiments and Methods}\label{chapter:experiments}
 
-\section{Experimental Setup: Ball Screw Drive}
-Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori were collected to evaluate different PHM approaches. The machine tool’s spindle and housing, as well as the machine tool table, rotatory axes, peripherals, the cladding and the machine tool's housing were removed. The TNC control iTNC530 HSCI from Heidenhain GmbH was used. The focus of the experiments is to investigate how different levels of abrasion of the linear guiding shoes (LGSs) affect the prediction of the health condition states of the ball screw drives (BSDs) in the machine. Besides the regular preload loss due to abrasion, the BSDs also show pitting damages. For this reason, the health condition classes of BSDs are separated in pitting damage (D) and no pitting damage (C). For the LGSs just no pitting damages (C) were observed. The health condition state of BSDs and LGSs is specified by one letter and two digits. The letter indicates the damage type (C or P), the first digit specifies the preload class and the second digit the number of the observation. In the experiments, three classes were differed, indicating the preload force within the component and therefore its level of abrasion. Low preload forces indicate stronger abrasion, leading to lower machine precision and higher risk for failure. Preload class C3 were labelled as “healthy”, C2 as "slightly degraded" and C1 as "strongly degraded". The experiments, which combine different LGS and BSD states, were repeated. The observation digit specifies different experiments with equal LGS and BSD setups. An overview over the tracked health condition states of the BSDs and LGSs is visualized in table \ref {tab:BSDs_states} and table \ref {tab:LGSs_states}. The ID specifies the health condition state of the BSD or LGS with one digit and two numbers as described before. The component name identifies the exact machine part evaluated in that experiment. Since one experiment contains two LGSs, consisting of two parts each, and one BSD threaded shaft, each BSD ID maps to one and each LGS ID to four components. The preload for the BSD and LGS is measured as force (N).
+In the course of the thesis several domain adaption approaches were applied on two datasets to investigate the performance gains in PHM for ball screw drives due to domain adaption. In the following, the used datasets, a synthetically generated dummy dataset and a dataset recorded on an industrial milling machine, are presented. Besides that, the binary classification task ,including a domain shift, is explained. Lastly, the final model and the corresponding training is shown.
+
+\section{Dataset: Ball Screw Drive}
+Testing the developed PHM methods on a real-world machine dataset is essential to make statements about the method's utility and applicability in the industry. In the following, the data collection from a milling machine is described in detail. Milling machines are common in the industry and contain several BSDs and LGSs, which suffer from continuous degradation. A continuous evaluation of the degradation state and replacement of these components is necessary. Due the relevance of PHM for BSDs and LGSs in the industry the created dataset is especially useful for the evaluation of the developed PHM approches in this thesis.
+
+\subsection{Experimental Setup}
+Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori was collected to evaluate different PHM approaches. The machine tool’s spindle and housing, as well as the machine tool table, rotatory axes, peripherals, the cladding and the machine tool's housing were removed. The TNC control iTNC530 HSCI from Heidenhain GmbH was used. Fig. \ref{fig:experimental_setup} shows the experimental setup. The investigation focuses on the moving hanger assembly of the machine tool. The machine tool can be moved in the three spatial directions. The dataset just includes data from machine tool movements along the x-axis. For this reason, just the single threaded shaft of the ball screw drive (BSD) and the two linear guiding shoes (LGSs), which are responsible for movements along the x-axis, are supervised.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{experimental_setup}
+  \caption {Experimental setup: s side-view of the machine, B: upper LGS, C: threaded shaft of BSD, C: lower LGS}
+  \label{fig:experimental_setup}
+\end{figure}
+
+\subsection{Sensors}
+The signals included in the dataset come from three different sources of measurement: acceleration sensors and internal control data accessed via TNC Scope and TNC Opt. The recordings of the three different sources was triggered by different software programs which were which were synchronized by a python script. Some time delay between the signals could not be eliminated. Three triaxial Kistler 8762A10 piezo-eletric accelerometers were placed at different locations of the machine, recording accelerations in x,y,z-directions. The positions are specified in fig. \ref{fig:experimental_setup}. Accelerometers are placed at the upper LGS (sub-figure B), the BSD nut (sub-figure C) and the lower LGS (sub-figure D). The software tool TNC Scope was used to access the internal contol data of the machine. TNC Opt is a software tool, which was originally intended for controller optimization. Besides that, it allows accessing control data channels, which differ from those of TNC Scope.
+
+\subsection{Definition of Degradation States}
+Preload classes were defined, specifying the preload loss in the BSDs and LGSs. Besides that, in some of the BSDs pitting damages were observed. The degradation of BSDs and LGSs is defined by an ID containing one letter and two digits. The letter indicates the damage types: no pitting (C) or pitting (P). The first digit specifies the preload class and the second digit the observation. The preload loss was separated in three distinct classes. The assignment of the recorded samples to one of those classes is based on the measured preload forces (N) in the components. Low preload forces are the result of a high preload loss, which indicates a strong degradation state. This leads to a lower machine precision and a higher risk of machine failure. Preload class C3 is labelled as “healthy”, C2 as "slightly degraded" and C1 as "strongly degraded". The dataset contains ten recordings of all 24 combinations of differently degraded BSDs and LGSs. Two sets of BSDs, each of them including all corresponding health condition classes, are part of the dataset. The observation digit helps to separate those equally degraded BSDs. The preload forces corresponding to the different health condition classes is specified differently for the observations. An overview over all BSD and LGS health condition classes included in the dataset is visualized in table \ref {tab:BSDs_states} and table \ref {tab:LGSs_states}. As described before the ID, containing one digit and two numbers, specifies the health condition of the BSD and LGS. The component name identifies the exact component used during that recording. The experimental setup includes two LGSs, each consisting of two counterparts, and one BSD threaded shaft. Therefore, each BSD ID maps to one and each LGS ID to four components. 
+Different combinations of LGSs and BSDs health condition classes are shown in the table \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions}.
 
 
 \begin{center}
@@ -11,19 +30,17 @@ Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori we
 \midrule
  P1 & 721-14448-6-G6 & 2 070 \\ 
  P2 & 721-14448-4-G4 & 2 160 \\ 
- C11 & 721-14448-3-G3 & 2 950 \\ 
+ C11 & 721-14448-3-G3 & 950 \\ 
  C12 & 721-95859-4 & 845 \\ 
  C21  & 721-14448-1-G1 & 1 450 \\ [1ex] 
  C22  & 721-95859-2 & 1 293 \\ [1ex] 
  C31  & 721-14448-2-G2 & 2 390 \\ [1ex] 
  C32  & 721-95859-3 & 2 328 \\ [1ex] 
- C33 & 721-95859-1 & 2 031 \\ [1ex]
 \bottomrule
-\caption {BSDs States}
+\caption {BSDs health condition states}
 \label {tab:BSDs_states}
 \end{longtable}
 \end{center}
-
 
 \begin{center}
 \begin{longtable}{c c c} 
@@ -45,33 +62,62 @@ Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori we
     & A11 & 12 840 \\ [1ex]
     & D3 & 12 840 \\ [1ex]
 \bottomrule
-\caption {LGSs States}
+\caption {LGSs health condition states}
 \label {tab:LGSs_states}
 \end{longtable}
 \end{center}
 
-Fig. \ref{fig:experimental_setup} shows the experimental setup. The investigation focuses on the moving hanger assembly of the machine tool. The machine tool can be moved in the three spatial directions. The experiments are restricted to the movement of the machine tool along the x-axis. For this reason, just the single threaded shaft of the BSD and the two counterparts each belonging to one of the two LGSs are supervised.
+\begin{comment}
+\begin{center}
+\begin{longtable}{c c c c c c c c c c} 
+\toprule
+%\multicolumn{10}{c}{BSD}
+&&&&BSD&&&&
+\cmidrule(lr){3-11}
+  & & C31 & C21 & C11 & P1 & C22 & C12 & C32 & P2  \\ [0.5ex] 
+\cmidrule(lr){3-11}
+                          & C1 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 9 \\ 
+LGS                       & C2 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 18  \\ 
+                          & C3 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 27  \\
+\bottomrule
+\caption {Combinations of LGS and BSD health condition states}
+\label {tab:recorded_combinations_of_LGS_and_BSD_health_conditions}
+\end{longtable}
+\end{center}
+\end{comment}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\textwidth]{experimental_setup}
-  \caption {Experimental Setup: A: side-view of the machine, B: Upper LGS, C: Threaded Shaft of BSD, C: Lower LGS}
-  \label{fig:experimental_setup}
-\end{figure}
 
-The software tool TNC Scope uses an oscilloscope to provide internal control data. Three triaxial Kistler 8762A10 piezo-eletric accelerometers are mounted at different positions (bottom, nut, top) and track the accelerations in all spatial directions when moving the machine tool along the x-axis.
 
-\section{Dataset: Ball Screw Drive}
-For the sake of reproducibility, the experiments are executed with a defined test cycle, which is defined in fig. \ref{fig:test_cycle}. Machine data is collected during constant speed, direction change and sweep excitement along the machine tools X-axis. During the constant speed excitement, the machine tools are moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation, the movement of the machine tools is restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions are changed with a high frequency. In the sweep excitement, the motor, moving the machine tools along the different axis, receives a target speed in the form of a sine sweep. Before recording data, the machine is warmed up to create equivalent circumstances for each run. A constant speed excitement is applied for 60 min. 
+
+
+
+\begin{center}
+\begin{longtable}{c c c c c c c c c c} 
+\toprule
+  &  &    &     &     &     \multicolumn{2}{c}{BSD}     &     &     &    \\ 
+  &  & C31 & C21 & C11 & P1  & C22 & C12 & C32 & P2 \\ 
+\midrule
+     & \multicolumn{1}{c|}{C1} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 9 \\ 
+ LGS & \multicolumn{1}{c|}{C2}& 10 & 11 & 12 & 13 & 14 & 15 & 16 & 18 \\  
+     & \multicolumn{1}{c|}{C3} & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 27 \\ 
+\bottomrule
+\caption {Combinations of LGS and BSD health condition states}
+\label {tab:recorded_combinations_of_LGS_and_BSD_health_conditions}
+\end{longtable}
+\end{center}
+
+
+\subsection{Recording of Dataset}
+For the sake of reproducibility, the experiments are executed with a defined test cycle, which is defined in fig. \ref{fig:test_cycle}. Machine data is collected during constant speed, direction change and sweep excitement along the machine tools X-axis. During the constant speed excitement, the machine tools are moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation, the movement of the machine tools is restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions are changed with a high frequency. In the sweep excitement, the motor receives a target speed in the form of a sine sweep. Before recording data, the machine is warmed up for 60min with a constant speed excitement to create equivalent circumstances for all runs.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{test_cycle.pdf}
-  \caption {Test Cycle for Recording the Dataset}
+  \caption {Test cycle for data recording}
   \label{fig:test_cycle}
 \end{figure}
 
-In total 49 different signals are recorded during one sub cycle. The signals are specified in more detail in table. \ref{tab:description_of_the_49_recorded_features}. All feature names starting with "C" correspond to the constant speed , "D" to the direction change and "S" to the sweep excitement.
+In total 49 different signals are recorded from the previously described three data sources. The signals are specified in more detail in table. \ref{tab:description_of_the_49_recorded_features}. All feature names starting with "C" correspond to the constant speed , "D" to the direction change and "S" to the sweep excitement.
 
 \begin{center}
 \begin{longtable}{c c c c} 
@@ -175,38 +221,17 @@ In total 49 different signals are recorded during one sub cycle. The signals are
  S:Actual position of the position encoder(dy/dt) & TNC opt & 1 kHz & 16384 \\ 
  S:Actual position of the motor encoder(dy/dt)  & TNC opt & 1 kHz & 16384  \\ [1ex] 
  \bottomrule
-\caption {Signal Description}
+\caption {Description of recorded signals}
 \label {tab:description_of_the_49_recorded_features}
 \end{longtable}
 \end{center}
 
-Due to abrasion, the different machine components wear down. LGSs are separated in three and the BSDs in four different health condition classes. Usually, the lifetime of BSDs is shorter than that of the LGSs. This means that ball screws need to be replaced in shorter internals. Different combinations of LGSs and BSDs health condition classes were recorded, which are shown in the following table. \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions}
 
-\begin{table}[ht]
-  \large
-  \centering
-  \begin{tabular}{c|c||*{9}{c|}}
-    \multicolumn{2}{c}{} & \multicolumn{9}{c}{BSD} \tabularnewline
-    \cline{2-11}
-    \multirow{5}*{\rotatebox{90}{LGS}} &
-&    \bfseries C31 & \bfseries C21 & \bfseries C11 & \bfseries P1 & \bfseries C22 &\bfseries C12 & \bfseries C32 &\bfseries C33 &\bfseries P2  \tabularnewline[1 ex] 
-\cline{2-11}
-&    \bfseries C3 & 1 &  2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 \tabularnewline [1ex] 
-    \cline{2-11}
-&    \bfseries C2 & 10 &  11 &  12 &  13 & 14 & 15 & 16 & 17 & 18\tabularnewline [1ex] 
-    \cline{2-11}
-&    \bfseries C1 & 18 & 19 & 20 & 21 & 23 & 24 & 25 & 26 & 27 \tabularnewline [1ex] 
-    \cline{2-11}
-  \end{tabular}
-\caption {Combinations of LGS and BSD Health Conditions}
-\label {tab:recorded_combinations_of_LGS_and_BSD_health_conditions}
-\end{table} 
-
-For the experiments, two domains were defined. The source domain consists of the health condition states 2, 3, 11, 12, 20, 21 and the target domain of 5, 6, 14, 15, 23, 24. The model is trained to predict the health condition class of the BSD. Both the source and target domain includes the four BSD health condition classes C1, C2, C3 and P1 combined with all three LGS preload classes C1, C2, C3. In order to generate a binary classification problem, the BSD states C1 and P1 were combined as "healthy" and C2 and C3 as "degraded" class. The source and target domain includes the same combination of BSD and LGS health condition classes, just from two different observations (source: observation 1, target:observation 2). In both observations, the used LGSs are the exact same components, but Contrariwise, different BSD components with similar degradation levels were used. The defined health condition classes of the BSDs are defined differently for the two observations. Table \ref {tab:BSDs_states} shows that the defined preload for C11 and C12, C21 and C22, C31 and C32 as well as P1 and P2 differ with up to 147 N. This inhomogeneous definition of the BSD health condition classes as well as marginal differences in the production and installation of the BSDs leads to a significant domain shift problem, which affects the performance of the model during the testing enormously. 
-
+\subsection{Definition PHM Task on the Ball Screw Drive Dataset}
+In this thesis a PHM model for binary classification of BSD health condition classes is developed. To create a binary classification problem C2 and C3 are combined in a "healthy" and C1 and P1 in a "degraded" class. A domain shift is generated by combining all samples recorded with BSDs from observation 1 in the source and from observation 2 in the target domain. Since the BSD preload classes are defined differently for both observations (table \ref{tab:BSDs_states}) a domain shift is guaranteed. Besides that, marginal differences in the production and installation of the BSDs can lead to domain shifts. Independent of the LGS abrasion level, the PHM model should be able to predict the BSD health condition class accurately. Usually, the lifetime of BSDs is shorter than that of LGSs. This means, that BSDs need to be replaced in shorter internals than LGSs. Throughout the lifetime of an industrial machine, it is very common that BSDs and LGSs with different levels of degradation are combined. For this reason the defined task for this thesis is quite realistic.
 
 \section{Dummy Dataset}
-The applicability of different domain-adaption approaches in the context of PHM was evaluated on a synthetic dummy dataset, which is structured equally and shows similar patterns as the corresponding real-world dataset. The complexity of the data and therefore the task can be tuned arbitrarily. A dataset like that can help to understand underlying mechanisms of new and unknown approaches. Besides that, it serves as a prior evaluation for the approach's applicability for a given real-world task. In this work, a simple dummy dataset was established to evaluate the MMD loss to learn a more domain-invariant feature extraction. Since one has to deal with irregularities, outliers and noise in real-world data, it is helpful to evaluate the MMD loss on a dataset which is not disturbed by these effects. Similarly to PHM applications, the model in the dummy dataset processes time sequences. In the dummy example, the time sequences consist of 1000 data points which are sampled from a cosine  curve. The synthetic dataset which simulates the classification problem with two classes and two domains is sampled from four cosine  curves, each with characteristic amplitudes and frequencies. By adjusting the amplitude and frequency, the domain adaption problem can be configured more or less difficult. The sampling process must include a certain randomness to allow differing sequences for the same class and domain. For every sampling step, the domain- and class-specific amplitude and frequency of the cosine  curve is perturbed. This changes the underlying characteristic of each sequence. Besides that, noise is added to each of the 1000 data points within that sequence. This is necessary to generate a periodic signal which is close to a noisy real-world vibration signal. For the sake of simplicity, the dataset contains just 1-D sequences. This simulates a health monitoring task on just one single signal. In Fig. \ref{fig:samples_domain_class_dummy} four data sequences are shown representing one example sequence for each class and domain. 
+As a first evaluation, different domain-adaption approaches for PHM applications were evaluated on a synthetically generated dummy dataset. Such a dataset is structured equally and shows similar patterns as the corresponding real-world dataset. The complexity of the data and therefore the task itself can be tuned arbitrarily. A dummy dataset can help to understand underlying mechanisms and processes when applying a new and unknown approach for a given task. Besides that, it serves as a prior evaluation for the approach's applicability for the corresponding real-world task. In this work, a simple dummy dataset was established to evaluate whether a MMD-loss can help to extract more domain invariant features in a neural network. Since one has to deal with irregularities, outliers and noise in real-world data, it is helpful to evaluate the MMD-loss on a dataset, which is not disturbed by these effects. Similarly to PHM applications, the dummy dataset contains one-dimensional time sequences. In the dummy example, the time sequences consists of 1000 data points, which are sampled from a cosine curve. In order to simulate the classification problem with two classes and two domains the data points are sampled from four cosine curves with characteristic amplitudes and frequencies. By adjusting the amplitude and frequency, the domain adaption problem can be configured more or less difficult. The sampling process must include a certain randomness to allow variations in sequences of the same class and domain. For every sampling step, the characteristic amplitude and frequency of the cosine curve is perturbed. This changes the underlying characteristic of each sequence. Besides that, noise is added to each of the 1000 data points. This is necessary to generate a periodic signal which is close to a noisy real-world vibration signal. Exemplary, fig. \ref{fig:samples_domain_class_dummy} shows four sequence for each class and domain. 
 
 \begin{figure}[H]
   \centering
@@ -220,13 +245,11 @@ The applicability of different domain-adaption approaches in the context of PHM 
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Target_Domain_Class_1_obs_0.pdf}
 
-  \caption{Data Window Samples for each Domain and Class}
+  \caption{Data window samples for each domain and class}
   \label{fig:samples_domain_class_dummy}
 \end{figure}
 
-
-In fig. \ref{fig:samples_domain_class_dummy_influence_noise} one can see how the applied perturbation and noise during the sampling process changes the data sequences belonging to the same class and domain. 
-
+In fig. \ref{fig:samples_domain_class_dummy_influence_noise} one can see how the perturbation and noise applied during the sampling process changes the data sequences belonging to the same class and domain. 
 
 \begin{figure}[H]
   \centering
@@ -240,18 +263,16 @@ In fig. \ref{fig:samples_domain_class_dummy_influence_noise} one can see how the
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_1.pdf}
 
-  \caption{Perturbation and Noise during Sampling Process}
+  \caption{Perturbation and noise during sampling process}
   \label{fig:samples_domain_class_dummy_influence_noise}
 \end{figure}
 
-
-
 \section{Methods}\label{chapter:introduction}
-In the following the model used in this thesis as well as the applied training concepts are presented
+In the following, the model architecture as well as the applied training concept, which were used in this thesis, are presented. The models applied on the dummy and real-world dataset do all have the same architecture. The presented training concept applies to all models used in the real world dataset. During the primary evaluation of different approaches on the dummy dataset, different training techniques were implemented. In section \ref{sec:results_dummy_dataset} the deviations from the mow presented training concepts are clarified.
 
 \subsection{Model}
 \label{sec:model}
-The model used during the experiments consists of a 1D CNN which is responsible to extract expressive features and a subsequent classifier predicting the health condition classes of the BSDs. A more detailed. visualization of the architecture is shown in fig.\ref{fig:proposed_model}. The CNN consists of 3 convolutional layers. With increasing network depth the spatial dimension of the feature map is decreased and its channel size increased. This helps to extract more global features in shallow and more specific and local features in deeper layers. The exact parameters of the convolutional layers are described in table \ref{tab:parameter_conv} 
+The model used during the experiments consists of a 1D CNN extracting expressive features and a subsequent classifier predicting the health condition class of the BSDs. A more detailed. visualization of the architecture is shown in fig.\ref{fig:proposed_model}. The CNN consists of 3 convolutional layers. With increasing network depth the spatial dimension of the feature map is decreased and its channel size increased. This helps to extract more global features in shallow and more specific and local features in deeper layers. The exact parameters of the convolutional layers are specified in table \ref{tab:parameter_conv} 
 
 \begin{longtable}{c c c c} 
 \toprule
@@ -263,41 +284,43 @@ padding size & 0 & 1 & 1 \\
 
 stride & 1 & 1 & 1 \\
 \bottomrule
-\caption {Parameter in Convolutional Layer}
+\caption {Parameter in convolutional layer}
 \label {tab:parameter_conv}
 \end{longtable}
 
-Several pooling layers are included after the convolutional layers to reduce the spatial dimension of the feature maps. Reducing the model complexity prevents problems like overfitting and exploding gradients. Applying batch normalization after convolutional layers fixes the means and variances of the layers inputs for each batch, which helps to make the training faster and more stable. After iteratively applying these three types of layers the output of the CNN is flattened and normalized to a 1D vector. This vector is used as an input for the subsequent classifier. The latent feature space dimension of the classifier is reduced constantly. The two neurons in the output layer of the neural network represents the prediction probability for the two defined BSD health condition classes.
+Several pooling layers are included after the convolutional layers to reduce the spatial dimension of the feature maps. Reducing the model complexity prevents problems like overfitting and exploding gradients. Applying batch normalization after convolutional layers fixes the means and variances of the layer's input for each batch. This helps to make the training faster and more stable. After iteratively applying these three types of layers the output of the CNN is flattened and normalized to a 1D vector. This vector is fed in the subsequent classifier. The latent feature space dimensions of the classifier are reduced constantly. The two neurons in the output layer of the neural network represent the prediction probability for the two defined BSD health condition classes.
 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{proposed_model.pdf}
-  \caption {Proposed Model} \label{fig:proposed_model}
+  \caption {Proposed model} \label{fig:proposed_model}
 \end{figure}
 
 
-\subsection{Proposed Training with MMD and Cross Entropy Loss} \label{sec:Proposed_training}
+\subsection{Proposed Training with MMD- and CE-Loss} \label{sec:Proposed_training}
 
-Firstly, the data used for the training is pre-processed. A dataloader is used to prepare the dataset. In a first step, the data is separated in shorter sequences of length 1024. These windows, which can include several of the recorded 49 signals, are fed as samples to the model. The sequences are cleaned from Nan values and synchronized afterwards. The dataset is randomly separated in a train, validation and test set with a split of 60\%/20\%/20\%. Also, the application of wavelet transforms, which can generate more informative data for the model, was partially investigated in this step. The repetitive training of the model is visualized in fig. \ref{fig:Training_Process_MMD}. A combination of a source cross-entropy and a MMD loss is applied to optimize the proposed deep-learning based domain adaption model. The MMD loss estimates the domain discrepancy in several latent feature maps. The MMD loss facilitates the extraction of more domain independent features within the model's layers. The cross entropy loss trains the model to increase the classification accuracy on the source domain. The domain discrepancy is measured as squared distance between distribution kernel embeddings in the reproducing kernel Hilbert space (RKHS). For the performance of the MMD loss, the kernel choice is of great importance. For this reason, several RBF kernels with bandwidth parameters 1, 2, 4, 8, 16 were combined in order to profit from their individual strength. For applying the MMD loss, two samples from each, source and target domain, are sampled randomly. For each such generated pair of samples, the MMD loss is calculated. The class of each sample is not considered in the MMD loss. Therefore, the MMD loss minimizes the domain discrepancy based on the observed source and target sample pairs, which partially belong to different but also to the same classes. The MMD is applied in several layers of the CNN and classifier. The source cross entropy loss is applied in the final layer. Fig. \ref{fig:MMD_Loss_and_CE_loss} symbolically shows how the MMD and the source cross-entropy loss is extracted from the different layers of the model.
+Firstly, the data used for the training is pre-processed. The dataloader separates the data in shorter sequences of length 1024. These windows, which can include several of the recorded 49 signals, are fed as samples to the model. The sequenced signals are cleaned from Nan values. The signals contained in one sequence are synchronized, such that there is no time shift between equally positioned data points in different signals. The dataset is randomly separated in a train, validation and test set with a split of 60\%/20\%/20\%. Other pre-processing steps, like wavelet transforms, can easily be added to the dataloader. Separate source and target dataloaders with it's corresponding datasets were created. The repetitive training of the model is visualized in fig. \ref{fig:Training_Process_MMD}. A combination of a source CE and a MMD-loss is applied to optimize the proposed deep-learning based domain adaption model. The MMD-loss estimates the domain discrepancy in several latent feature maps. The MMD-loss facilitates the extraction of domain invariant features in the layers where it is applied. The domain discrepancy is measured as squared distance between distribution kernel embeddings in the reproducing kernel Hilbert space (RKHS). The kernel choice is of great importance for the performance of the MMD-loss. For this reason, several RBF kernels with bandwidth parameters 1, 2, 4, 8, 16 were combined to profit from their individual strength. The MMD-loss is calculated from two randomly picked samples each from one of the two domains. The class of these sample is not considered in the MMD-loss. Therefore, the MMD-loss minimizes the domain discrepancy between source and target domain of different and equal classes. The MMD is applied in several layers of the CNN and classifier. The source CE-loss is applied in the last fully connected layer and trains the model to increase the classification accuracy on the source domain. Fig. \ref{fig:MMD_Loss_and_CE_loss} symbolically shows how the MMD and the source CE-loss is applied in different layers of the model.
+
+
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{MMD_loss_visualization.pdf}
-  \caption {Cross Entropy Loss and MMD Loss in Neural Networks} \label{fig:MMD_Loss_and_CE_loss}
+  \caption {CE- and MMD-loss in neural networks} \label{fig:MMD_Loss_and_CE_loss}
 \end{figure}
  
-A total loss must be specified by defining a weighted average between MMD and source cross entropy loss. The weighting factor GAMMA is a hyperparameter, which need to be defined beforehand. The total loss is defined as following:
+A total loss must be specified by defining a weighted average between the MMD and source CE-loss. The weighting factor GAMMA is a hyperparameter, which need to be defined beforehand. The total loss is defined as following:
 
-\begin{align}
-    \mbox{Total Loss} = \mbox{Source Cross-Entropy Loss} + \mbox{GAMMA} * \mbox{MMD Loss}
-\end{align}.
+\begin{equation}
+    \mbox{Total Loss} = \mbox{Source CE-Loss} + \mbox{GAMMA} \cdot \mbox{MMD-Loss}
+\end{equation}.
 
-The model training is separated in two phases. In a first phase, the Total Loss is applied on the whole network. An ADAM optimizer is used with different learning rates for the layers Conv1 to FC1 and FC2 to FC3. In a second phase, just the CE loss is applied to optimize the final two fully connected layers. Two-thirds of the train data is used in the first and one-third for the second train phase. The application of two different optimizer is visualized in fig. \ref{fig:proposed_model}. In general, the training is repeated until the maximum number of epochs is reached. After the training is completed, the model can be used to predict the BSD health condition state of unseen source and target domain samples. 
+The model training is separated in two phases. In a first phase, the total loss is used to optimize on the whole network. An ADAM optimizer is used with different learning rates for the layers Conv1 to FC1 and FC2 to FC3. In a second phase, just the CE-loss is applied to optimize the final two fully connected layers. Two-thirds of the train data is used in the first and one-third in the second train phase. The application of two different optimizer is visualized in fig. \ref{fig:proposed_model}. In general, the training is repeated until the maximum number of epochs is reached. After the training is completed, the model can be used to predict the BSD health condition state of unseen source and target domain samples. 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{training_process_mmd.pdf}
-  \caption {Model Training} \label{fig:Training_Process_MMD}
+  \caption {Model training} \label{fig:Training_Process_MMD}
 \end{figure}
 

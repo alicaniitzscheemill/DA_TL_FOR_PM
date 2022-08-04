@@ -1,12 +1,12 @@
 \chapter{Theory}\label{chapter:theory}
 
 \section{Ball Screw Drive}
-As shown in fig. \ref{fig:Ball_Screw} ball screws consist of five main components, the steel balls, screw shaft, nuts, seals, and tube. The steel balls serve as ball bearing between the screw shaft and the nuts. The screw shaft is mounted by fixed and free bearings is actuated by a motor. The nuts, which typically carry the load, move linearly along the screw shaft when the shaft is rotating. While the steel balls are rotated under external load and friction, the ball screw shaft is under constant compressive stress. Defects usually occur in the grooves of the screw shaft, guiding the steel balls, and the steel balls, which are subject to rolling friction. Defects usually start with little defects occurring on the surface of the ball screw shaft. When continuing to rotate the ball screw shaft, the system repetitively takes shocks each time the steel balls pass the surface defects. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies. For this reason analysing recorded vibration signals seems promising for PHM systems \cite{Lee2015}. Of course surface defects also lower the efficiency of the system. Exemplary, one can imagine that the reduced efficiency leads to an increased demand of motor torque to move the load with the same speed and acceleration. This might become visible when looking at the electrical current of the motor. For this reason, also investigating the control signals of the industrial machine might be a good indicator for PHM systems.
+As shown in fig. \ref{fig:Ball_Screw} ball screw drives consist of five main components, the steel balls, screw shaft, nuts, seals, and tube. The steel balls serve as ball bearing between the screw shaft and the nuts. The screw shaft is mounted by fixed and free bearings is actuated by a motor. The nuts, which typically carry the load, move linearly along the screw shaft when the shaft is rotating. While the steel balls are rotated under external load and friction, the ball screw drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with little abrasion on the surface of the ball screw drive shaft. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies. For this reason, analysing recorded vibration signals seems promising for PHM systems \cite{Lee2015}. Of course surface defects also lower the efficiency of the system. Exemplary, one can imagine that the reduced efficiency leads to an increased demand of motor torque to move the load with the same speed and acceleration. This might become visible when looking at the electrical current of the motor. For this reason, also investigating the control signals of the industrial machine might be a good indicator for PHM systems.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{Ball_Screw.pdf}
-  \caption {Ball Screw Drive \cite{DENG2020}} \label{fig:Ball_Screw}
+  \caption {Ball screw drive \cite{DENG2020}} \label{fig:Ball_Screw}
 \end{figure}
 
 \section{Neural Network}
@@ -18,13 +18,13 @@ Neural networks consist of neurons which are layered in a hierarchical architect
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{neural_network_overview.pdf}
-  \caption {Layer Overview Neural Network}
+  \caption {Layer overview neural network}
   \label{fig:neural_network_overview}
 \end{figure}
 The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neuron's outputs and a bias is estimated. Afterwards, the result is processed by an activation function, which gives the neural network a non-linear property. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that a wide variety of functions can be represented by the neural network when given appropriate weights \cite{HORNIK1991}. Without activation functions, neural networks could only make linear assignments of inputs x to outputs y. With rising data complexity, the demand for a "non-linear" mapping from x to y is necessary. Without a non-linearity, the set of learnable functions is identical for neural networks with several and one hidden layer. Such neural networks would not mathematically realize complex relationships in the data. Fig. \ref{fig:neural_network_optimization} shows the forward and backward pass in a neural network at the example of one single neuron. First, the outputs of the neurons $i$ from the previous layers $l-1$, which are connected with the neuron of interest $j$ in layer $l$, are multiplied with its weights and summed up together with a bias $b_{j}$. The resulting logits $z_{j}$ are then processed by the activation function $\phi$. Different activation functions can be used throughout the network. After passing several consecutive hidden layers, a loss function evaluates the prediction with the ground truth label in the end of the network.
 
 \subsection{Activation Function}
-Different problems and network layers require different activation functions. One typically uses tanh, sigmoid and ReLU activations in hidden layers and a linear, sigmoid and softmax function in the final layer \cite{Brownlee2021}. Linear final layers are restricted to regression problems, whereas sigmoid and softmax functions are used for classification problems. The sigmoid function is used for binary and softmax for multiclass classification. In general, the softmax function is an extension of the sigmoid function to the multiclass case, which can be proofed easily. The softmax and sigmoid functions normalize the network output to a probability distribution over the predicted output classes. Deciding for activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid and tanh activation function squeeze the inputs in values between -1 and 1. Both functions can suffer from the vanishing gradient problem, since the derivative of these functions is close to zero for very big or small inputs. A solution for that is the ReLU activation function, which solves that problem but maps all negative inputs to zero. This so-called dead ReLU problem is solved by the Leaky Relu und ELU activation functions.  \cite{Brownlee2021}. In table \ref{tab:activation_functions} some of the most popular activation functions are described.
+Different problems and network layers require different activation functions. One typically uses tanh, sigmoid and ReLU activations in hidden layers and a linear, sigmoid and softmax function in the final layer \cite{Brownlee2021}. Linear final layers are restricted to regression problems, whereas sigmoid and softmax functions are used for classification problems. The sigmoid function is used for binary and softmax for multiclass classification. In general, the softmax function is an extension of the sigmoid function to the multiclass case, which can be proofed easily. The softmax and sigmoid functions normalize the network output to a probability distribution over the predicted output classes. Deciding for activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid and tanh activation function squeeze the inputs in values between -1 and 1. Both functions can suffer from the vanishing gradient problem, since the derivative of these functions is close to zero for very big or small inputs. A solution for that is the ReLU activation function, which solves that problem but maps all negative inputs to zero. This so-called dead ReLU problem is solved by the Leaky Relu functions.  \cite{Brownlee2021}. In table \ref{tab:activation_functions} some of the most popular activation functions are described.
 
 \begin {table}[H]
 \begin{tabular}{ c c c c }
@@ -43,12 +43,6 @@ Leaky ReLU &   $\begin{cases} \alpha x & \text{, for }x < 0\\
 
 \rule{0pt}{5ex}%  EXTRA vertical height 
 
-ELU &   $\begin{cases} \alpha(e^{x} - 1) & \text{, for }x < 0\\
-	x & \text{, for }x \geqslant 0 \end{cases}$ & $\begin{cases} \alpha e^{x} & \text{, for }x < 0\\
-	1 & \text{, for }x \geqslant 0 \end{cases}$ & $[ -\alpha, \infty)$\\
-	
-\rule{0pt}{5ex}%  EXTRA vertical height 
-	
 Sigmoid & $\frac{1}{1+e^{-x}}$ & $\frac{e^{-x}}{(1+e^{-x})^{2}}$ & (0,1)\\
 
 \rule{0pt}{5ex}%  EXTRA vertical height 
@@ -61,7 +55,7 @@ tanh & $\frac{e^{2x}-1}{e^{2x}+1}$ & $1-tanh^{2}(x)$ & $(-1,1)$ \\
 \bottomrule  
 
 \end{tabular}
-\caption {Overview Activation Functions} \label{tab:activation_functions}
+\caption {Overview activation functions} \label{tab:activation_functions}
 \end {table}
 \subsection{Optimization}
 When training neural networks one has to decide for a loss function and an optimizer. 
@@ -73,7 +67,7 @@ The loss function acts as a model evaluation criterion and the optimizer is resp
 L(X) =  \sum_{x}(\hat{y}(x)-y(x))^2,
 \end{equation}
 
-where $y(x)$ is the ground truth and $\hat{y}(x)$ the predicted class label \cite{ShilohPerl2020}. On the other hand, a Cross Entropy Loss is common for classification tasks: 
+where $y(x)$ is the ground truth and $\hat{y}(x)$ the predicted class label \cite{ShilohPerl2020}. On the other hand, a Cross-Entropy-loss (CE-loss) is common for classification tasks: 
 
 \begin{equation}
 L(X) = \sum_{x} y(x) log(p(x)),
@@ -83,12 +77,12 @@ where p(x) is the predicted probability of the sample $x$ belonging to the groun
 \subsection{Training Loop}
 During training, the model's weights and biases need to be adapted such that the criterion is minimized. This optimization takes place in a two stage process:
 \begin{itemize}
-    \item \textbf{Forward Pass}: Calculating the neuron values throughout the network and the loss from the model prediction and the ground truth values or classes.
-    \item \textbf{Backward Pass}: Calculating the derivative of the criterion with respect to the model parameter and updating those to reduce the loss.
+    \item \textbf{Forward pass}: Calculating the neuron values throughout the network and the loss from the model prediction and the ground truth values or classes.
+    \item \textbf{Backward pass}: Calculating the derivative of the criterion with respect to the model parameter and updating those to reduce the loss.
 \end{itemize}
 Iteratively, these two steps are performed to optimize the model. The process is visualized in fig. \ref{fig:neural_network_optimization}. By calculating the partial derivatives of each layer and concatenating them in a reverse order of the forward pass, the gradients used for updating the model parameters can be established. For concatenating the partial derivatives, the chain rule is used:
 \begin{equation}
- \frac{\delta L_{i}}{\delta w_{i}} = \frac{\delta L_{i}}{\delta \hat{y_{i}}} * \frac{\delta \hat{y_{i}}}{\delta z_{i}} * \frac{\delta z_{i}}{\delta w_{i}}, 
+ \frac{\delta L_{i}}{\delta w_{i}} = \frac{\delta L_{i}}{\delta \hat{y_{i}}} \cdot \frac{\delta \hat{y_{i}}}{\delta z_{i}} \cdot \frac{\delta z_{i}}{\delta w_{i}}, 
  \label{chain_rule}
 \end{equation}
 where $\frac{\delta L_{i}}{\delta \hat{y_{i}}}$ is the derivative of the loss with respect to the activation in the final layer, $\frac{\delta \hat{y_{i}}}{\delta z_{i}}$ is the derivative of the used activation function.  $\frac{\delta z_{i}}{\delta w_{i}}$ is the derivative of the logits $z_{i}$ with respect to the weights and biases used between the last two layers of the network \cite{ShilohPerl2020}. The gradients for all the previous layers needs to be estimated and concatenated equally to update all parameters in the model.
@@ -96,7 +90,7 @@ where $\frac{\delta L_{i}}{\delta \hat{y_{i}}}$ is the derivative of the loss wi
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{neural_network_optimization.pdf}
-  \caption {Optimization of Neural Network}
+  \caption {Optimization of neural network}
   \label{fig:neural_network_optimization}
 \end{figure}
 
@@ -178,7 +172,7 @@ Equally, to regular neural networks, convolutional neural networks (CNNs) consis
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{cnn/cnn_architecture.pdf}
-  \caption {Overview CNN Architectures \cite{OShea2015}}
+  \caption {CNN architecture \cite{OShea2015}}
   \label{fig:CNN_overview}
 \end{figure}
 
@@ -190,7 +184,7 @@ The convolutional layers are the core elements in a CNN. The learnable parameter
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{cnn/kernel_number.pdf}
-  \caption {2D Convolution with 6 Kernels of Depth 3 based on \cite{Ganesh2019}}
+  \caption {2D convolution based on \cite{Ganesh2019}}
   \label{fig:kernel_number}
 \end{figure}
 
@@ -207,7 +201,7 @@ where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel p
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{cnn/kernel_calculation.pdf}
-  \caption {Convolution of Input and Kernel based on \cite{Ganesh2019}}
+  \caption {1D convolution based on \cite{Ganesh2019}}
   \label{fig:kernel}
 \end{figure}
 
@@ -217,16 +211,6 @@ Compared to regular neural networks CNNs profit a lot from its weight sharing co
 
 The dimension of the input, which is processed by the kernel, is called receptive field. When increasing the receptive field, more global and otherwise more local features of the input are extracted. When defining a CNN architecture, one has to find a trade-off between a model which is complex enough to capture important information from the data and also keep the number of parameters low. Several hyperparameters can be used to reduce or increase the complexity of the model. After a convolutional layer, three hyperparameters can be used to define the width and height of the resulting feature map. 
 
-\subsection{Dilated Convolution}
-Dilated convolution, shown in fig.\ref{fig:dilated_cnn}, is the same as regular convolution, but it involves input pixel skipping during the convolutional operation,to cover a larger area of the input. The kernel is applied to an input subspace which does not cover every neighboring pixel. This decreases the spatial dimension of the resulting feature map \cite{Ganesh2019}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.4\textwidth]{cnn/dilation_cnn.pdf}
-  \caption {Receptive Field for Convolution with Different Dilation Factors}
-  \label{fig:dilated_cnn}
-\end{figure}
-
 
 \subsection{Stride}
 By increasing the stride, the kernel skips several input pixels while shifting the kernel. The effects of different stride factors are shown in fig.\ref{fig:stride_cnn}. Also, this convolution variant decreases the spatial dimension of the resulting feature map \cite{OShea2015}.
@@ -234,7 +218,7 @@ By increasing the stride, the kernel skips several input pixels while shifting t
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{cnn/stride_cnn.pdf}
-  \caption {Convolution with Different Stride Factors}
+  \caption {Stride factor}
   \label{fig:stride_cnn}
 \end{figure}
 
@@ -245,7 +229,7 @@ Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{cnn/zero_padding_cnn.pdf}
-  \caption {Convolution with Different Zero Padding}
+  \caption {Zero padding}
   \label{fig:zero_padding_cnn}
 \end{figure}
 
@@ -296,89 +280,14 @@ where $P_{r}$ is the distribution of the real input data and $P_{g}$ is the data
 
 Besides that, eq. \ref{eq:GAN_Training} does not deliver sufficient gradients for gradient-based optimization of GANs. The problem is, that in early stages the generator performance is poor, such that the discriminator rejects all synthetic generator's outputs, which prevents the generator training. Instead, the generator can be trained to maximize $D(\tilde{x})$. This objective achieves the same results as eq. \ref{eq:GAN_Training} but delivers stronger gradients in early learning stages \cite{Goodfellow2014}. Fig \ref{fig:GAN_training_vizualization} shows the alternating optimization of the discriminator and generator. 
 
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{GAN_training_vizualization.pdf}
   \caption{When optimizing GANs the discriminator and generator are optimized simultaneously in an alternating procedure. The blue dashed line represents the discriminator probability of x belonging to the real data distribution rather than being created by the generator. The black dashed line represents the generative distribution and the green solid line the real data distribution. (a) shows a generator, discriminator pair near convergence, (b) shows the GAN performance after passing the inner loop of Algorithm \ref{alg.GAN_optimization}, which optimizes the discriminator. (c) shows the GAN performance after passing through one whole training loop in Algorithm \ref{alg.GAN_optimization}. Now the generator and the discriminator are both optimized. (d) shows the GAN performance after several training iterations. The generator completely learned the real data distribution, such that the discriminator is not able to separate between samples from the real data distribution and synthetic generator outputs \cite{Goodfellow2014}.}
   \label{fig:GAN_training_vizualization}
 \end{figure}
 
-\section{Deep Belief Network}
 
-Deep belief networks (DBNs) are generative models, which contain stacked Restricted Boltzmann machines (RBMs), which are widely used in research and industry.
-
-\subsection{Restricted Boltzmann Machine}
-RBMs consist of hidden and visible layers, each containing several units. DBNs use RBMs, which are a variation of regular Boltzmann machines with the restriction that it's units must form a bipartite graph. This requires that all RBM units are separated in two disjoint and independent subsets (hidden and visible subset). Visible and hidden units are connected through weighted connections, but not the units belonging to the same layer. The units in the hidden and visible layer are binary. The matrix $W \in \mathbb{R}^{mxn}$ contains all the weights for connecting the m nodes of the hidden and n nodes of visible unit and $a \in \mathbb{R}^{m}$ and $b \in \mathbb{R}^{n}$ include the biases of the hidden and visible unit \cite{Hinton2010}. The connection of the visible and hidden unit is visualized in \ref{fig:RBM}. RBMs are energy-based models. For each combination of visible $\mathbf{v}$ and hidden layer units $\mathbf{h}$ the energy is calculated as following:
-
-\begin{equation}
-\begin{aligned}
-    E(v,h) = -\sum_{i \in visible} a_{i}v_{i}-\sum_{j \in hidden} b_{j}h_{j}-\sum_{i,j} v_{i}h_{j}w_{ij},
-\end{aligned}
-\end{equation}
-where $v_{i}$, $h_{j}$ are the binary states of the i-th and j-th unit in the visible and hidden layer. $a_{i}$, $b_{j}$ and $w_{ij}$ are the biases and weights corresponding to the i-th unit in the visible and the j-th unit in the hidden layer. Based on this energy, the network assigns a probability to every possible combination of visible and hidden layer units:
-
-\begin{equation}
-\begin{aligned}
-    p(\mathbf{v,h}) = \frac{1}{Z} e^{-E(\mathbf{v,h})},
-\end{aligned}
-\end{equation}
-where Z is a "partition function", which sums up the probabilities of all hidden and visible unit combinations. Z normalizes $p(\mathbf{v,h})$ to a value between 0 and 1:
-
-\begin{equation}
-\begin{aligned}
-    Z = \sum_{\mathbf{v,h}}e^{-E(\mathbf{v,h})}.
-\end{aligned}
-\end{equation}
-
-The network assigns a probability for each visible unit by summing up $p(\mathbf{v,h})$ for all possible hidden vectors:
-\begin{equation}
-\begin{aligned}
-    p(\mathbf{v}) = \frac{1}{Z} \sum_{h} e^{-E(\mathbf{v,h})}.
-    \label{eq:prob_visible_layer}
-\end{aligned}
-\end{equation}
-
-Since the units of RBMs must form a bipartite graph, there are no connection between two hidden or visible units. Given a training sample, the visible units can be calculated with eq. \ref{eq:prob_visible_layer}. From there, the hidden units can be calculated as following:
-\begin{equation}
-\begin{aligned}
-    P(h_{i}|v) = \sigma(b_{j} + \sum_{i=1}^{n} W_{i,j} v_{i}).
-    \label{eq:prob_hidden_layer}
-\end{aligned}
-\end{equation}
-where $h_{j}$ is the j-th unit in the hidden layer and $v_{i}$ the i-th unit in the visible layer. Afterwards the units of the visible layer can be reconstructed as following:
-\begin{equation}
-\begin{aligned}
-    P(v_{i}|h) = \sigma(a_{i} + \sum_{j=1}^{n} W_{i,j} h_{j}),
-    \label{eq:prob_reconstructed_visible_layer}
-\end{aligned}
-\end{equation}
-This iterative RMB training is separated in two phases. The positive phase is the one where the hidden units are updated based on the visible units, which is defined in eq. \ref{eq:prob_hidden_layer}. In the negative phase, which is defined in eq. \ref{eq:prob_reconstructed_visible_layer}, the visible units are reconstructed based on the previously calculated hidden units. This process is also visualized in fig. \ref{fig:RBM}. The weights and biases of the network can be updated such that the reconstruction error is minimized:
-
-\begin{equation}
-\begin{aligned}
-    \Delta w_{ij} = \epsilon(\langle v_{i}, h_{j}\rangle_{data}- \langle v_{i}, h_{j}\rangle_{reconstructed}), 
-    \label{eq:RBM_weight_update}
-\end{aligned}
-\end{equation}
-where the angle brackets denote expectations under the distribution specified in the subscripts. The subscript $data$ refers to the expectation of the train dataset and subscript $reconstructed$ to the expectation of the defined model. A better training is achieved if more steps of alternating visible and hidden layer updates are performed before collecting the statistics for the second term $\langle v_{i}, h_{j}\rangle_{reconstructed}$ in the learning rule \cite{Hinton2010}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1\textwidth]{RBM.pdf}
-  \caption {Optimization of RBM} \label{fig:RBM}
-\end{figure}
-
-
-RBMs are generative models which make guesses about the probability distribution of the original input. By training the RBM the divergence between the true input distribution and the reconstructed ones is minimized \cite{Hinton2010}.
-
-\subsection{Training Deep Belief Network}
-As shown in fig. \ref{fig:DBN} DBNs connect several RBMs in a specific order. The units of the visible and hidden layer of the first RBM are updated by applying the positive and negative phase in an alternating manner. The hidden layer of this RBM is treated as visible layer for the consecutive RBMs. This greedy learning algorithm is applied until all RBMs in the DBN are trained. After this layer to layer update is completed, the supervised training of the DBN is started. The backpropagation training considers all layers simultaneously while updating weights and biases to increase the classification accuracy of the DBN \cite{Zhang2017}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1\textwidth]{DBN.pdf}
-  \caption {Structure of DBN based on \cite{Zhang2017}} \label{fig:DBN}
-\end{figure}
 
 
 \section{Domain Adaptation and Transfer Learning}
@@ -388,7 +297,7 @@ In the computer vision community, domain adaption and transfer-learning techniqu
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\textwidth]{domain_adaption_vs_transfer_learning.pdf}
-  \caption {Transfer Learning vs. Domain Adaption} \label{fig:domain_adaption_vs_transfer_learning}
+  \caption {Transfer learning vs. domain adaption} \label{fig:domain_adaption_vs_transfer_learning}
 \end{figure}
 
 
@@ -396,8 +305,8 @@ Since the focus of this thesis is to analyze domain adaption approaches, the fol
 \subsection{Notation}
 The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated in labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. Usually, it is assumed that there is a large amount of labeled data in the source and a small amount of labeled data in the target domain: $N_{tl} \ll N_{s}$. In this conext $x_{i}$ is referred as the observation and $y_{i}$ as the corresponding label  \cite{Patel2015}. Depending on the data available during training, one differs between different branches of domain adaption: 
 \begin{itemize}
-\item \textbf{Semi-supervised Domain Adaptation}, where a function is trained to use the data from $S$, $T_{l}$
-\item \textbf{Unsupervised Domain Adaptation}, where a function is learned using the data from $S$ and $T_{u}$ \cite{Patel2015} 
+\item \textbf{Semi-supervised domain adaptation}, where a function is trained to use the data from $S$, $T_{l}$
+\item \textbf{Unsupervised domain adaptation}, where a function is learned using the data from $S$ and $T_{u}$ \cite{Patel2015} 
 \end{itemize}
 
 From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. It is required that the data from source and target have the same data space and label space, but the marginal and conditional distribution may differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
@@ -415,7 +324,7 @@ Generally, domain adaption approaches can be grouped in four different types \ci
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{domain_adaption_intro.pdf}
-  \caption {Domain Adaption for Health Monitoring of Machines with Different Working Conditions based on \cite{Pandhare2021}} \label{fig:Domain_adaption_intro}
+  \caption {Domain adaption for PHM based on \cite{Pandhare2021}} \label{fig:Domain_adaption_intro}
 \end{figure}
 
 
@@ -433,3 +342,48 @@ Hk denotes the RKHS, which is described by the characteristic kernel k and the m
 \end{align}
 
 $N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents one individual RBF kernels  \cite{li2020}. Other kernels like linear kernels could be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
+
+
+\section{Non-Stationary Signal Analysis for Prognostic and Health Management}
+Non-stationary signal analysis, which is a method to investigate signals with changing statistical properties, is one of the main topics in the field of machinery fault diagnosis. Signals can contain multiple frequencies and amplitudes which might change over time. Traditional signal analysis techniques make stationary assumptions. When applying those to non-stationary signals, solely statistical averages in time or frequency can be extracted \cite{FENG2013}. Therefore, the demand for analysis methods, which allow to ascertain features of non-stationary signals, is increasing. Such methods seem promising for extracting health related information from machine data. Time–frequency representations (TFRs) are techniques to transform non-stationary signals in a two-dimensional time-frequency planes, where each value describes the dominance of a specific frequency at a certain point in time. All TFRs, which fulfill this idea of linearity and superposition, are called linear TFRs. The two most popular linear TFRs are the short-time Fourier and the Wavelet transform \cite{Hlawatsch1992}. 
+
+
+\subsubsection{Short-Time Fourier transform}
+Short-time Fourier transform (STFT) is a method which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal's spectrum over time. STFT assumes the spectrum to be constant during a short time window. For each such window a Fourier spectrum is obtained. The time related changes are measured between consecutive window snapshots in time. The process is mathematically expressed in the following:  
+\begin{equation}
+    STFT_{x}(t,f) = \int_{- \inf}^{+ \inf}x(\tau) w(\tau -t) exp(-j2\pi f \tau),
+\end{equation}
+where  $w(\tau -t)$ is the window function centered around t, which is multiplied with the signal $x(t)$. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window, generates a local frequency spectrum of the signal for different points in time t \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in time or frequency. The optimum window length will depend on the main interest behind the signal analysis. For accurate time domain information the window size needs to be reduced and for frequency domain information increased. STFT  decomposes the signal in existing sinusoidals and determines it's frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
+
+\subsubsection{Wavelet Transform}
+The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation, which is described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (big scale) the wavelet is \cite{Shawhin2020}. The convolution of the wavelet and the signal is mathematically expressed as following:
+\begin{equation}
+    WT_{x}(t,a) = \frac{1}{\sqrt{a}} \int_{- \inf}^{+ \inf} x(\tau) \psi(\frac{\tau -t}{a}) d \tau,
+\end{equation}
+ where $x(t)$ is the signal and $\psi(\frac{\tau -t}{a})$ the wavelet. In this case $a$ is the scaling factor, $t$ the time shift and $\frac{1}{\sqrt{a}}$ a normalization factor to maintain the energy conservation \cite{FENG2013}. Different wavelet bases $\psi(t)$ can be convolved with the signal, which allows to analyze the signal for different patterns \cite{Shawhin2020}. Possible wavelet bases are the Gaussian, Morlet, Shannon, Meyer, Laplace, Hermit, or the Mexican Hat wavelets in both simple and complex functions \cite{Verstraete2017}. This enables a more extensive, flexible and detailed analysis. The wavelet transform can be adapted to extract patterns which are especially relevant for a PHM task. In fig. \ref{fig:ricker_wavelet} Ricker wavelets with different scales and locations are visualized. Wavelet transforms can extract local spectral and temporal information in parallel \cite{Shawhin2020}.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.47\textwidth]{preprocessing_transform/Ricker_Wavelet_Scaling.pdf}
+  \hspace{.1cm}
+  \includegraphics[width=.47\textwidth]{preprocessing_transform/Ricker_Wavelet_Shifting.pdf}
+  
+
+  \caption{Ricker wavelet}
+  \label{fig:ricker_wavelet}
+\end{figure}
+
+\subsubsection{Spectrograms and Scalograms}
+
+ Spectrograms are a graphic representation of the STFT and scalograms of the wavelet transform. Spectrograms and scalograms visualize the the squared magnitudes of the previously presented STFT and Wavelet transform. This squared magnitude is loosely interpreted as signal energy \cite{Hlawatsch1992}. The mathematical expressions are presented in the following: 
+
+\begin{equation}
+    \begin{aligned}
+        SPEC_{x}(t,f) &= |STFT_{x}(t,f)|^{2} \\
+        SCAL_{x}(t,f) &= |WT_{x}(t,f)|^{2}, 
+    \end{aligned}
+\end{equation}
+
+where $STFT_{x}(t,f)$ is the Short-time Fourier transform, $WT_{x}(t,f)$ the wavelet transform, $SPEC_{x}(t,f)$ the spectrogram and $SCAL_{x}(t,f)$ the scalogram \cite{Hlawatsch1992}. This way of representing the system energy in the 2D time and frequency space may reveal useful information from a complex and high-dimensional signal without the need for additional feature extraction. As described before, spectrograms have a fixed frequency resolution that is defined by the windows size. Scalograms on the other hand have a frequency-dependent frequency resolution \cite{Verstraete2017}.
+
