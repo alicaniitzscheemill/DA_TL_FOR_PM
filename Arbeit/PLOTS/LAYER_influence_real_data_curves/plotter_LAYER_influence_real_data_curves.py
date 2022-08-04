@@ -55,12 +55,12 @@ class Plotter():
 
         #Plot Accuracy Source
         fig1 = plt.figure()
-        plt.title('Accuracy Source Domain', fontsize=22) #max 22
+        plt.title('Accuracy Source Domain', fontsize=21) #max 22
         plt.plot(df["running_acc_source_ce"], 'bo-', label = 'CE-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_acc_source_mmd"], 'ro-', label = 'MMD-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_acc_source_val"], 'go-', label = 'Val', linewidth=1,markersize=0.1)
-        plt.xlabel("Epoch $\longrightarrow$", fontsize=22) #max 22
-        plt.ylabel("Accuracy Source Domain $\longrightarrow$", fontsize=22) #max 22
+        plt.xlabel("Epoch $\longrightarrow$", fontsize=19) #max 22
+        plt.ylabel("Accuracy Source Domain (%) $\longrightarrow$", fontsize=19) #max 22
         plt.xticks(fontsize=17) #max 19
         plt.yticks(fontsize=17) #max 19
         plt.legend(fontsize=15) #max 17
@@ -70,12 +70,12 @@ class Plotter():
 
         #Plot Accuracy Target
         fig2 = plt.figure()
-        plt.title('Accuracy Target Domain', fontsize=22)
+        plt.title('Accuracy Target Domain', fontsize=21)
         plt.plot(df["running_acc_target_ce"], 'co-', label = 'CE-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_acc_target_mmd"], 'mo-', label = 'MMD-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_acc_target_val"], 'yo-', label = 'Val', linewidth=1,markersize=0.1)
-        plt.xlabel("Epoch $\longrightarrow$", fontsize=22)
-        plt.ylabel("Accuracy Target Domain $\longrightarrow$", fontsize=22)
+        plt.xlabel("Epoch $\longrightarrow$", fontsize=19)
+        plt.ylabel("Accuracy Target Domain (%) $\longrightarrow$", fontsize=19)
         plt.xticks(fontsize=17)
         plt.yticks(fontsize=17)
         plt.legend(fontsize=15)
@@ -85,12 +85,12 @@ class Plotter():
 
         #Plot CE Loss Source
         fig3 = plt.figure()
-        plt.title('CE-Loss Source Domain', fontsize=22)
+        plt.title('CE-Loss Source Domain', fontsize=21)
         plt.plot(df["running_source_ce_loss_ce"], 'bo-', label = 'CE-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_source_ce_loss_mmd"], 'ro-', label = 'MMD-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_source_ce_loss_val"], 'go-', label = 'Val', linewidth=1,markersize=0.1)
-        plt.xlabel("Epoch $\longrightarrow$", fontsize=22)
-        plt.ylabel("CE-Loss Source Domain $\longrightarrow$", fontsize=22)
+        plt.xlabel("Epoch $\longrightarrow$", fontsize=19)
+        plt.ylabel("CE-Loss Source Domain $\longrightarrow$", fontsize=19)
         plt.xticks(fontsize=17)
         plt.yticks(fontsize=17)
         plt.legend(fontsize=15)
@@ -100,12 +100,12 @@ class Plotter():
     
         #Plot CE Loss Target
         fig4 = plt.figure()
-        plt.title('CE-Loss Target Domain', fontsize=22)
+        plt.title('CE-Loss Target Domain', fontsize=21)
         plt.plot(df["running_target_ce_loss_ce"], 'co-', label = 'CE-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_target_ce_loss_mmd"], 'mo-', label = 'MMD-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_target_ce_loss_val"], 'yo-', label = 'Val', linewidth=1,markersize=0.1)
-        plt.xlabel("Epoch $\longrightarrow$", fontsize=22)
-        plt.ylabel("CE-Loss Target Domain $\longrightarrow$", fontsize=22)
+        plt.xlabel("Epoch $\longrightarrow$", fontsize=19)
+        plt.ylabel("CE-Loss Target Domain $\longrightarrow$", fontsize=19)
         plt.xticks(fontsize=17)
         plt.yticks(fontsize=17)
         plt.legend(fontsize=15)
@@ -115,12 +115,12 @@ class Plotter():
 
         #Plot MMD Loss
         fig5 = plt.figure()
-        plt.title('MMD-Loss', fontsize=22)
+        plt.title('MMD-Loss', fontsize=21)
         plt.plot(df["running_mmd_loss_ce"], 'bo-', label = 'CE-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_mmd_loss_mmd"], 'ro-', label = 'MMD-Loss', linewidth=1,markersize=0.1)
         plt.plot(df["running_mmd_loss_val"], 'go-', label = 'Val', linewidth=1,markersize=0.1)
-        plt.xlabel("Epoch $\longrightarrow$", fontsize=22)
-        plt.ylabel("MMD-Loss $\longrightarrow$", fontsize=22)
+        plt.xlabel("Epoch $\longrightarrow$", fontsize=19)
+        plt.ylabel("MMD-Loss $\longrightarrow$", fontsize=19)
         plt.xticks(fontsize=17)
         plt.yticks(fontsize=17)
         plt.legend(fontsize=15)
