@@ -87,13 +87,15 @@ Denkena et al \cite{Denkena2021} present a method to monitor the loss of preload
 \section{Domain Adaptation Approaches for Prognostic and Health Management}
 In recent years, more and more intelligent and adaptive data-driven approaches were proposed for machine condition monitoring. When using traditional monitoring systems for long time horizons, operational conditions and therefore fault characteristics of machines change. This might lead to unsatisfactory diagnosis performance \cite{AZAMFAR2020103932}. Due to the complex correlation and dependency between different subparts of a machine, faults can have numerous causes and can influence the systems in different ways. Therefore, it is unlikely that the data used for training the model includes all system states and fault scenarios. It can even happen that not all fault classes are known during training. PM systems, which can handle unseen fault classes and robustly handles variations in fault characteristics, would bring industrial fault diagnosis systems to a next level \cite{Michau2017}. In order to address those issues, domain adaption approaches seem promising for the industrial fault diagnosis. In the literature deep-learning based domain-adaption is a hot topic. With its origin in the computer vision community it slowly makes its way into the PHM domain. Different methods from this domain will be discussed in the following. 
 
+
+\begin{comment}
 \subsection{Deep Distance Metric Learning}
 A PHM algorithm for rolling bearings, which optimizes the inter- and intra-class distance in the latent feature space and reduces the domain discrepancy with an MMD-loss, was presented by Li et al \cite{Li2018}. As visualized in fig. \ref{fig:Deep_distance_metric_learning_model} the model proposed by Li et al contains a CNN and a consecutive classifier. In a pre-processing step the raw vibration signal is first transformed in the frequency domain by applying wavelet transforms. Max-pooling layers are included to reduce the data dimension. Batch-normalization layers are used to reduce the internal-covariate-shift by normalizing the input distributions of the hidden layers. As a regularization method dropout layers with a rate of 0.5 help to avoid overfitting. 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.75\textwidth]{models_state_of_the_art/Deep_distance_metric_learning_model.pdf}
-  \caption{Deep distance metric learning model \cite{Li2018}}
+  \caption{Deep distance metric learning architecture proposed by Li et al \cite{Li2018}}
   \label{fig:Deep_distance_metric_learning_model}
 \end{figure}
 
@@ -145,11 +147,37 @@ The model is optimized with a combination of three losses
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/DCTLN_model.pdf}
-  \caption{DCTLN model \cite{Guo2019}}
+  \caption{DCTLN model proposed by Guo et al \cite{Guo2019}}
   \label{fig:DCTLN_model}
 \end{figure}
 
-\section{Modern Learning-Based Approaches for Prognostic and Health Management }
+\end{comment}
+
+\subsection{Deep Domain Adaption based on MMD-Loss}
+Azamfar et al \cite{AZAMFAR2020103932} propose a deep learning based domain adaption approach for BSD PHM, based on a MMD-loss. An experimental test rig was build, containing a single horizontal guideway and a BSD fixed on a concrete base. Three accelerometers were installed to measure vibrations in X and Y directions. These sensors were mounted on the BSD nut and the bottom and top attachments of the BSD shaft. A sound pressure sensor captures the acoustic level when running experiments on the test rig. The torque and speed signals are acquired from the controller. In the experiments executed by Azamfar et al, the guideways and BSDs are available in three different degradation classes. In the "normal" class the concerned component is operating normally, in the "faulty level 1" class it is deviating from the healthy condition and in the "faulty level 2" class it must be replaced or repaired. In total nine different combinations of guideways and BSDs with different levels degradation levels can be combined. Azamfar et al acquire data by performing a full cycle of BSD operation, which contains two full forward and backward movements along the guideways. The data from each recording is split in phases with constant (forward, backward movement) and changing BSD nut velocity (turning point at the end of BSD shaft). The training is restricted to the signals recorded during the phases with constant speed, which are fed to the model as a single input. The full cycle of BSD operation was recorded with different BSD velocities (200, 400 and 600 mm/s). The BSD velocity differences generate a domain shift between these datasets, such that a domain adaption problem can be generated. The proposed method is evaluated on a 9 class classification taks, including all combinations of BSD and guideway degradation classes. The proposed neural network is presented in fig. \ref{fig:Azamfar_model}. It contains a feature extractor of four alternating one-dimensional convolutional and max-pooling layers and a subsequent classifier. The model is optimized with a source CE-loss to improve the classification accuracy on the source domain data. Besides that the domain discrepancy is reduced by a MMD loss applied in the penultimate fully connected layer. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{models_state_of_the_art/Azamfar_model.pdf}
+  \caption{Architecture proposed by Azamfar et al \cite{AZAMFAR2020103932}}
+  \label{fig:Azamfar_model}
+\end{figure}
+
+
+\subsection{Deep Domain Adaption based on MMD-Loss and PD Allignment}
+Pandhare et al \cite{Pandhare2021} propose a deep learning based domain adaption approach for BSD PHM, based on a MMD-loss and PD allignment. An identical test as Azamfar et al \cite{AZAMFAR2020103932} built was used by Pandhare et al to evaluate the proposed models. Five accelerometers were mounted in the test bed. Two triaxial ones were placed close to the BSD nut, which seems a promising position to represent the signature of a ball screw preload level. Three single-axial ones were mounted at  the bottom and top attachments of the BSD shaft and on top of the load carried by the BSD nut. The last three sensor positions are chosen due to their more suitable and practical installation. Identical to Azamfar et al \cite{AZAMFAR2020103932} nine combinations of degradation classes of BSD and guideways are defined. The proposed model should overcome the domain discrepancy between datasets generated with differently mounted sensors. The goal of the work is to find an indirect sensing method to make PHM on BSDs independent of impractical sensor locations. The proposed model is presented in fig. \ref{fig:Pandhare_model} and contains feature extractor of two convolutional and max pooling layers and a consecutive classifier. The proposed model training consists of three losses. Again a source CE-loss is used to imporve the classification performance on the source domain data. A MMD loss reduces the domain discrepancy in the penultimate fully connected layer. The MMD loss just reduces the mismatch of the marginal distributions of two domains. In order to also reduce the conditional distribution Pandhare et al apply a PD allignment. By using the target and source domain labels, the cross-domain distance between samples of different the same class is reduced:
+\begin{equation}
+    L_{p} = \frac{1}{n_{p}}\sum_{k=1}^{n_{p}}|h_{k}^{p,s}-h_{k}^{p,t}|_{2}, 
+\end{equation}
+where $h_{k}^{p,s}$ and $h_{k}^{p,t}$ are the k-th source and target domain samples and $n_{p}$ is subspace of the labeled samples from source and target. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\textwidth]{models_state_of_the_art/Pandhare_model.pdf}
+  \caption{Architecture proposed by Pandhare et al \cite{Pandhare2021}}
+  \label{fig:Pandhare_model}
+\end{figure}
+
 \subsection{Domain Conditioned Adaptation Network}
 Most domain adaption approaches reduce the domain discrepancy in task-specific layers but use a shared feature extractor backbone across all domains. Li et al \cite{li2020} assume that, if the domain discrepancy is tremendously large, these methods can only reduce the domain discrepancy, but not fundamentally eliminate it. In the proposed Domain Conditioned Adaptation Network (DCAN) Li et al present some alternative and more effectively domain adaptive approach. Li et al recommend to extract domain-specific and -independent features in the feature extractor backbone. Since the source and target domains are correlated to some extend, the network itself can extract domain-independent features. The powerful feature extractor learned from the source domain can also increase the model performance on the target domain. At the same time, features which are too sensitive to the source domain can even reduce the model performance on the target domain. To counteract that phenomena, Li et al recommend to additionally extract domain-specific features in the convolutional layers. This can improve the cross-domain feature alignment in the task-specific layers. A domain conditioned feature correction module is applied to reduce the domain discrepancy in the extracted domain-specific and -independent features. Additionally, the model is optimized with a conventional supervised source and a newly proposed unsupervised target CE-loss defined as following:
 
@@ -196,10 +224,14 @@ where $R$ is a random subset of source domain samples and $S^{k}$ is the set of 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/DCAN_model.pdf}
-  \caption{DCAN model \cite{li2020}}
+  \caption{DCAN architecture proposed by Li et al \cite{li2020}}
   \label{fig:DCAN_model}
 \end{figure}
 
+
+
+
+\begin{comment}
 
 \subsection{Wasserstein Distance Guided Multi-Adversarial Network}
 Zhang et al \cite{Zhang2019} present a Wasserstein distance guided multi-adversarial network (WDMAN) for rolling bearing fault diagnosis under different working conditions. The proposed architecture consists of a CNN feature mapper and a subsequent classifier. In the fully connected layers of the classifier, several Domain Critic Networks estimate the domain discrepancy by applying the Wasserstein-distance. A source CE-loss is applied in the end of the network. The whole model and the applied losses are visualized in fig. \ref{fig:WDMAN_model}.
@@ -207,7 +239,7 @@ Zhang et al \cite{Zhang2019} present a Wasserstein distance guided multi-adversa
  \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{models_state_of_the_art/WDMAN_model.pdf}
-  \caption{WDMAN model \cite{Zhang2019}}
+  \caption{WDMAN architecture proposed by Zhang et al \cite{Zhang2019}}
   \label{fig:WDMAN_model}
 \end{figure}
 
@@ -244,3 +276,4 @@ where $P_{\tilde{x}}$ is a distribution of samples coming from the line connecti
 \end{figure}
  
  
+\end{comment}
