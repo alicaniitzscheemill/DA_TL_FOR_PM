@@ -46,10 +46,12 @@ class Plotter():
             ax = fig.add_subplot(projection='3d')
 
             #plot
-            m = [1,2,3,4] #colours
+            m_colour = ['r','g','b','y'] #colours
+            m_form = ["o","o","o","o"] #form
+            m_legend = ["Source: Class 0", "Source: Class 1", "Target: Class 0", "Target: Class 1"]
+            columns = df.columns.values.tolist()
             for i in range(4):
-                #ax.scatter(df[columns[0+i*3]], df[columns[1+i*3]], df[columns[2+i*3]], marker=m[i])
-                ax.scatter(classes[i][:,0], classes[i][:,1], classes[i][:,2], marker=m[i])
+                ax.scatter(df[columns[0+i*3]][::2], df[columns[1+i*3]][::2], df[columns[2+i*3]][::2], marker=m_form[i], c=m_colour[i],  s=100, label=m_legend[i])
         
             #label axis
             ax.set_xlabel('Neuron 1 $\longrightarrow$', rotation=0, labelpad=40, size=35)

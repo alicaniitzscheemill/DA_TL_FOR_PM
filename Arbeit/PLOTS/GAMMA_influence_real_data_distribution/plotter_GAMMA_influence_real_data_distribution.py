@@ -25,11 +25,12 @@ class Plotter():
             ax = fig.add_subplot(projection='3d')
 
             #plot
-            m = [1,2,3,4] #colours
-            data_label = ["Source: Class 0", "Source: Class 1", "Target: Class 0", "Target: Class 1"]
+            m_colour = ['r','g','b','y'] #colours
+            m_form = ["o","o","o","o"] #form
+            m_legend = ["Source: Class 0", "Source: Class 1", "Target: Class 0", "Target: Class 1"]
             columns = df.columns.values.tolist()
             for i in range(4):
-                scatter = ax.scatter(df[columns[0+i*3]], df[columns[1+i*3]], df[columns[2+i*3]], marker=m[i], label=data_label[i])
+                ax.scatter(df[columns[0+i*3]][::2], df[columns[1+i*3]][::2], df[columns[2+i*3]][::2], marker=m_form[i], c=m_colour[i],  s=100, label=m_legend[i])
         
             #label axis
             ax.set_xlabel('Neuron 1 $\longrightarrow$', rotation=0, labelpad=70, size=45)
@@ -60,7 +61,7 @@ class Plotter():
 
             #set fig size
             plt.rcParams.update({'font.size': 10})
-            legend = ax.legend(prop={'size': 32}, markerscale=4, loc='center left')
+            ax.legend(prop={'size': 32}, markerscale=4, loc='center left')
 
             #safe figure 
             fig.savefig(f"{self.datapath}/data_distribution/{element[:-4]}.pdf", format='pdf')
