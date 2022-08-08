@@ -4,7 +4,7 @@ In the research community simplified synthetically generated datasets are quiet 
 \section{Dummy Dataset}\label{sec:results_dummy_dataset}
 Several experiments were performed on the dummy dataset to analyze the effects of the MMD-loss in an easy and clear setting and to make first estimates about its applicability for PHM. The models used are the same as described in section \ref{sec:model}. The model in \ref{cnn_mmd_dummy} was optimized as explained in section \ref{sec:Proposed_training}. In the experiments of section \ref{sec:Balancing Cross-Entropy and MMD loss} and \ref{sec:Differences of labeled and unlabeled MMD loss} just one SGD optimizer with learning rate 0.01 in combination with a weighted average between the MMD and source CE loss was used.
 
-\subsection{Influence of GAMMA Choice on the MMD-Loss} \label{sec:Balancing Cross-Entropy and MMD loss}
+\subsection{Influence of GAMMA Choice on the Domain Adaption Performance} \label{sec:Balancing Cross-Entropy and MMD loss}
 
 In the following section, the sensitivity of the weighting factor GAMMA on the training is evaluated. The latent feature representation in FC2 for source and target domain is visualized in fig. \ref{fig:point_cloud_mmd}. The development of the MMD and CE-loss throughout the training is shown in fig. \ref{fig:learning_curves_influence_mmd_feature_extractor}.
 \begin{itemize}
@@ -63,7 +63,7 @@ In the following section, the sensitivity of the weighting factor GAMMA on the t
   \label{fig:learning_curves_influence_mmd_feature_extractor}
 \end{figure}
 
-\subsection{Labeled vs. unlabeled MMD-loss} \label{sec:Differences of labeled and unlabeled MMD loss}
+\subsection{Domain Adaption Performance of a Labeled MMD-loss} \label{sec:Differences of labeled and unlabeled MMD loss}
 
 The idea behind domain adaption is to aggregate knowledge while solving one problem and transferring that knowledge to another problem. For this reason, in domain adaption tasks the goal is to restrict the supervised learning solely on the source domain data. In the regular MMD-loss, the target labels are unknown. Therefore, the intra- and inter-class distance between source and target samples is minimized equally. Obviously, this reduces the class separability in both domains. In the literature, domain adaption approaches which use a small amount of the target domain labels are known as "Few-shot transfer learning" \cite{WU2020}. Similarly, in this section the effect of including a few target labels into the training is analyzed. The CE-loss is still restricted to the source domain. Solely the MMD-loss is allowed to use target labels. The distance between source and target samples of similar and different classes can be calculated separately. The labeled MMD-loss optimizes the model such, that the intra-class distance is maximized and the inter-class distance is minimized for both domains. This separate consideration of class distances allows a simultaneous improvement of class separability and compactness. Besides that, the training includes the source CE-loss. The hyperparameters GAMMA\_Intra\_Class and GAMMA\_Inter\_Class are used to balance the training scope of minimizing the inter-, maximizing the intra-class distance and increasing the source domain classification performance:
 
@@ -91,7 +91,7 @@ The idea behind domain adaption is to aggregate knowledge while solving one prob
   \label{fig:point_cloud_labeled_unlabeled_mmd}
 \end{figure}
 
-\subsection{Influence of Latent Feature Space Choice on the MMD-Loss}
+\subsection{Influence of Latent Feature Space Choice on the Domain Adaption Performance}
 \label{cnn_mmd_dummy}
 This section analyzes the influence of applying the MMD-loss in different latent feature maps of the CNN and classifier. The "regular FC MMD" loss calculates the source and target discrepancy from the three latent feature maps in the classifier (flattened output of CNN, FC1, FC2). The "regular FC + CNN MMD" loss additionally considers the feature maps of the three convolutional layers in the CNN (Conv 1, Conv 2 and Conv 3). The accuracy, the source CE and MMD-loss during the training process are shown in fig. \ref{fig:accuracy_cnn_and_no_cnn_mmd} and fig. \ref{fig:loss_cnn_and_no_cnn_mmd}. The accuracies in source and target domain are higher when including the CNN feature maps into the MMD-loss. Besides that, including the CNN feature maps in the MMD-loss increases the stability of the training. The losses, as well as the accuracies, converge faster and smoother.
 
