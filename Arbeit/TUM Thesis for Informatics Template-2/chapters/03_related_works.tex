@@ -87,7 +87,7 @@ Denkena et al \cite{Denkena2021} present a method to monitor the loss of preload
 \section{Domain Adaptation Approaches for Prognostic and Health Management of Ball Screw Drives}
 In recent years, more and more intelligent and adaptive data-driven approaches were proposed for PHM in industrial machines. In the literature deep-learning based domain-adaption is a hot topic. With its origin in the computer vision community it slowly makes its way into the PHM domain. In the following, different deep-learning based domain adaption PHM systems for BSDs are presented. Similarly to the proposed method in this thesis they use a MMD loss to reduce the domain discrepancy.
 
-\begin{comment}
+
 \subsection{Deep Distance Metric Learning}
 A PHM algorithm for rolling bearings, which optimizes the inter- and intra-class distance in the latent feature space and reduces the domain discrepancy with an MMD-loss, was presented by Li et al \cite{Li2018}. As visualized in fig. \ref{fig:Deep_distance_metric_learning_model} the model proposed by Li et al contains a CNN and a consecutive classifier. In a pre-processing step the raw vibration signal is first transformed in the frequency domain by applying wavelet transforms. Max-pooling layers are included to reduce the data dimension. Batch-normalization layers are used to reduce the internal-covariate-shift by normalizing the input distributions of the hidden layers. As a regularization method dropout layers with a rate of 0.5 help to avoid overfitting. 
 
@@ -125,7 +125,7 @@ where $P^{f(m)}$ and $Q^{f(m)}$ denote the representation of source and target s
 \end{equation}
 where $J_{Cluster}$ is the cluster loss, $J_{MMD}$ the MMD-loss,  $J_{CE}$ the CE-loss and $\alpha$, $\beta$ and $\gamma$ are the weights for calculating the weighted average \cite{Li2018}.
 
-
+\begin{comment}
 \subsection{Deep Convolutional Transfer Learning Network}
 PHM of rolling bearing is a task with high demand in the industry. Guo et al \cite{Guo2019} propose a deep convolutional transfer learning network (DCTLN), which reduces the domain discrepancy by applying a MMD-loss and domain classifier. The architecture of the model is visualized in fig. \ref{fig:DCTLN_model}. Features are extracted by a CNN containing 16 layers including one input layer, six convolutional layers, six pooling layers, two fully connected layers, and one output layer. Each convolutional layer is combined with a consecutive pooling layer.
 
