@@ -1,7 +1,7 @@
 \chapter{Theory}\label{chapter:theory}
 
 \section{Ball Screw Drive}
-As shown in fig. \ref{fig:Ball_Screw} ball screw drives consist of five main components, the steel balls, screw shaft, nuts, seals, and tube. The steel balls serve as ball bearing between the screw shaft and the nuts. The screw shaft is mounted by fixed and free bearings is actuated by a motor. The nuts, which typically carry the load, move linearly along the screw shaft when the shaft is rotating. While the steel balls are rotated under external load and friction, the ball screw drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with little abrasion on the surface of the ball screw drive shaft. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies. For this reason, analysing recorded vibration signals seems promising for PHM systems \cite{Lee2015}. Of course surface defects also lower the efficiency of the system. Exemplary, one can imagine that the reduced efficiency leads to an increased demand of motor torque to move the load with the same speed and acceleration. This might become visible when looking at the electrical current of the motor. For this reason, also investigating the control signals of the industrial machine might be a good indicator for PHM systems.
+As shown in fig. \ref{fig:Ball_Screw} ball screw drives (BSDs) consist of five main components, the steel balls, screw shaft, nuts, seals, and tube. The steel balls serve as ball bearing between the screw shaft and the nuts. The screw shaft is mounted by fixed and free bearings is actuated by a motor. The nuts, which typically carry the load, move linearly along the screw shaft when the shaft is rotating. While the steel balls are rotated under external load and friction, the ball screw drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with little abrasion on the surface of the ball screw drive shaft. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies. For this reason, analysing recorded vibration signals seems promising for PHM systems \cite{Lee2015}. Of course surface defects also lower the efficiency of the system. Exemplary, one can imagine that the reduced efficiency leads to an increased demand of motor torque to move the load with the same speed and acceleration. This might become visible when looking at the electrical current of the motor. For this reason, also investigating the control signals of the industrial machine might be a good indicator for PHM systems.
 
 \begin{figure}[H]
   \centering
@@ -127,7 +127,7 @@ where $W_{t-1}$ are the current model weights, which are pre-updated with the cu
 \newline
 \textbf{Adagrad}
 \newline
-Like all mentioned optimization methods also Adagrad is a gradient based optimization. Adagrad uses a squared version of the moving average over the past gradients:
+Like all mentioned optimization methods also Adagrad is a gradient-based optimization. Adagrad uses a squared version of the moving average over the past gradients:
 
 \begin{equation}
   \begin{aligned}
