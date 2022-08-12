@@ -142,18 +142,14 @@ where $h_{k}^{p,s}$ and $h_{k}^{p,t}$ are the k-th source and target domain samp
   \label{fig:Pandhare_model}
 \end{figure}
 
+\section{Computer Vision Applications which Reduce the Domain Discrepancy in the Feature Extractor}
+Most domain adaption approaches reduce the domain discrepancy in task-specific layers but use a shared feature extractor backbone across all domains. In the following two computer vision models are presented, which take actions to reduce the domain shift in early layers of the feature extractor. Often the computer vision community offers advanced solution for complex research questions, which were not intensively evaluated in the real-world context. For the PHM of BSDs such solutions can be taken as inspiration.
 
-\begin{comment}
-\subsection{Domain Conditioned Adaptation Network}
-Most domain adaption approaches reduce the domain discrepancy in task-specific layers but use a shared feature extractor backbone across all domains. Li et al \cite{li2020} assume that, if the domain discrepancy is tremendously large, these methods can only reduce the domain discrepancy, but not fundamentally eliminate it. In the proposed Domain Conditioned Adaptation Network (DCAN) Li et al present some alternative and more effectively domain adaptive approach. Li et al recommend to extract domain-specific and -independent features in the feature extractor backbone. Since the source and target domains are correlated to some extend, the network itself can extract domain-independent features. The powerful feature extractor learned from the source domain can also increase the model performance on the target domain. At the same time, features which are too sensitive to the source domain can even reduce the model performance on the target domain. To counteract that phenomena, Li et al recommend to additionally extract domain-specific features in the convolutional layers. This can improve the cross-domain feature alignment in the task-specific layers. A domain conditioned feature correction module is applied to reduce the domain discrepancy in the extracted domain-specific and -independent features. Additionally, the model is optimized with a conventional supervised source and a newly proposed unsupervised target CE-loss defined as following:
-
-\begin{equation}
-    \min_{G} L_{s} = -\frac{1}{n_{t}} \sum_{j=1}^{n_{t}} \sum_{k=1}^{C_{n}} G^{(k)}(\pmb{x}_{tj})logG^{(k)}(\pmb{x}_{tj}),
-\end{equation}
-where $G(\cdot)$ is the learned predictive model, $n_{t}$ the number of source domain samples, $C_{n}$ the classes present in source and target domain and $\pmb{x}_{t}$ the target samples. The presented model is developed for computer vision applications and is never been evaluated in the context of PHM. Since PHM suffers from similar problems, this approach might be relevant and interesting for the PHM community. The model is visualized in fig. \ref{fig:DCAN_model}. In the following, the two domain adaption modules are described in more detail \cite{li2020}. 
+\subsection{Domain Conditioned Adaption Network}
+Li et al \cite{li2020} propose a domain conditioned adaption network (DCAN), which contains two separate modules to reduce the domain discrepancy. After each task-specific layer a domain conditioned feature correction block estimates and reduces the domain discrepancy based on the MMD metric. In the CNN backbone an attention module regulates the extraction of domain-specific and -independent features are extracted. The proportions of domain-specific and -independent features can be learned to decrease the domain discrepancy. Fig. \ref{fig:DCAN_model} visualizes the domain adaption modules in detail.
 
 \subsubsection{Domain Conditioned Channel Attention Mechanism}
-Li et al \cite{li2020} use ResNet as backbone network, which allows an easy implementation of the domain conditioned channel attention module in its residual block. In the latent feature maps the processed images are represented as $\pmb{X}_{t} = [X^{1}_{t},...,X^{C}_{t}] \in \mathbb{R}^{HxWxC}$, where H and W are the spatial dimension and C the number of image channels. First, a channel-wise global average pooling layer is applied which reduces the images to  $\pmb{g}_{t} = [g^{1}_{t},...,g^{C}_{t}] \in \mathbb{R}^{1x1xC}$. Afterwards, the data is split depending on its domain and passed through different fully connected layers. The upper flow is used for target and the lower flow for source domain samples. The two different source and target domain routes share parameters. For both domains, an attention mechanism is trained jointly to learn activating different channels in the domain samples. This allows extracting more enriched domain specific features. In the fully connected layers the dimension is first reduced with a ratio ${1x1x\frac{C}{r}}$ and later reconstructed to its original size ${1x1xC}$. Relu and Sigmoid functions are applied. The domain-wise feature selection is achieved by weighting the channels of the feature representations $\pmb{X}_{s}$ and $\pmb{X}_{t}$ with the channel attention vectors $\pmb{v}_{s}$ and $\pmb{v}_{t}$ calculated by the domain conditioned channel attention module:
+ResNet is used as backbone network, which allows an easy implementation of the domain conditioned channel attention module in its residual block. In the latent feature maps the processed images are represented as $\pmb{X}_{t} = [X^{1}_{t},...,X^{C}_{t}] \in \mathbb{R}^{HxWxC}$, where H and W are the spatial dimension and C the number of image channels. First, a channel-wise global average pooling layer is applied which reduces the images to  $\pmb{g}_{t} = [g^{1}_{t},...,g^{C}_{t}] \in \mathbb{R}^{1x1xC}$. Afterwards, the data is split depending on its domain and passed through different fully connected layers. The upper flow is used for target and the lower flow for source domain samples. The two different source and target domain routes share parameters. For both domains, an attention mechanism is trained jointly to learn activating different channels in the domain samples. This allows extracting more enriched domain specific features. In the fully connected layers the dimension is first reduced with a ratio ${1x1x\frac{C}{r}}$ and later reconstructed to its original size ${1x1xC}$. Relu and Sigmoid functions are applied. The domain-wise feature selection is achieved by weighting the channels of the feature representations $\pmb{X}_{s}$ and $\pmb{X}_{t}$ with the channel attention vectors $\pmb{v}_{s}$ and $\pmb{v}_{t}$ calculated by the domain conditioned channel attention module:
 
 \begin{equation}
     \begin{aligned}
@@ -166,26 +162,22 @@ The domain conditioned channel attention module allows the model to independentl
 
 
 \subsubsection{Domain Conditioned Feature Correction}
-A feature correction block is placed after each of the l task-specific layers to counteract the decreasing transferability in high-level features. At the feature correction blocks, the data simultaneously passes through the regular network and the feature correction block, which consist of FC and Relu blocks. The feature correction block estimates the domain discrepancy in the feature representation of the task-specific layer:
+In the feature correction blocks, the data simultaneously passes through the regular network and the feature correction block, which consist of FC and Relu blocks. The feature correction block estimates the domain discrepancy in the feature representation of the task-specific layer:
 \begin{equation}
     \Delta H_{l}(x_{t}) = H_{l}(x_{s}) - H_{l}(x_{t}),
 \end{equation}
 where $H_{l}(x_{s})$ and $H_{l}(x_{t})$ are the feature representations of the source and target domain samples in the task-specific layer l and $\pmb{x}_{s}$ and $\pmb{x}_{t}$ the source and target domain samples. The feature representation of the target domain samples is corrected as following:
+
 \begin{equation}
     \hat{H}_{l}(x_{t}) = H_{l}(x_{t}) + \Delta H_{l}(x_{t}).
 \end{equation}
-
 
 The discrepancy between the regular feature representation of source domain samples $H_{l}(x_{s})$ and the corrected feature representation of the target domain samples $\hat{H}_{l}(x_{t})$ is measured with a MMD-loss in several layers:
 
 \begin{equation}
     L_{M}^{l} = |\frac{1}{n_s} \sum_{i=1}^{n_{s}} \phi(H_{l}(x_{si}) - \frac{1}{n_t} \sum_{i=1}^{n_{t}} \phi(\hat{H}_{l}(x_{ti}))|_{H_{\kappa}}^{2}, 
 \end{equation}
-where $H_{\kappa}$ is the reproducing kernel Hilbert space (RKHS), $\kappa$ the characteristic kernel and $\phi$ corresponding feature map. The number of source and target samples is defined by $n_{s}$ and $n_{t}$. Reducing the domain discrepancy improves the feature transferability, but also transfers noise and unimportant information between the domains. This destroys the structure of the source and target domain data and makes the classification task even more difficult. To avoid this over-transfer between source and target, the model is enforced to keep the source data constant when passing through the feature correction blocks. Since $\Delta H_{l}(x_{s}) \approx 0$ would prevent the cross-domain feature correction, another regularization term tackles that problem:
-\begin{equation}
-    L_{reg}^{l} = \sum_{k=1}^{C_{n}}|\frac{1}{n_{s}^{k}} \sum_{x_{si} \in S^{k}} \phi(H_{l}(x_{si})) - \frac{1}{|R|} \sum_{x_{sj} \in R} \phi(\hat{H}_{l}(x_{sj}))|_{Hk}^{2}, 
-\end{equation}
-where $R$ is a random subset of source domain samples and $S^{k}$ is the set of source domain samples belonging to class k \cite{li2020}.
+where $H_{\kappa}$ is the reproducing kernel Hilbert space (RKHS), $\kappa$ the characteristic kernel and $\phi$ corresponding feature map. The number of source and target samples is defined by $n_{s}$ and $n_{t}$. To avoid the over-transfer of noise and irrelevant information between source and target, the model is enforced to keep the source data constant when passing through the feature correction blocks \cite{li2020}.
 
 \begin{figure}[H]
   \centering
@@ -193,4 +185,11 @@ where $R$ is a random subset of source domain samples and $S^{k}$ is the set of 
   \caption{DCAN architecture proposed by Li et al \cite{li2020}}
   \label{fig:DCAN_model}
 \end{figure}
-\end{comment}
+
+\subsection{Lightweight Unsupervised Domain Adaptation}
+Aljundi et al present a method, which analyzes the output of each convolutional layer for domain shift effects. The goal is to figure out the layers which suffer most from those effects and reconstruct them, such that the new target sample outputs are more similar to the response given for the source samples. In a first step the domain shift effects with respect to each filter a measured:
+\begin{equation}
+    B^{*} = argmin_{B} \{ \sum_{i=1}^{n}( y_{i}-\beta_{0}-\sum_{j=1}^{p}x_{i,j}\beta_{j})^{2} + \lambda \sum_{j=1}^{p}|\Delta_{j}^{KL}\cdot \beta_{j}| \}
+\end{equation}
+where y is the response, x the output of the various layers, $\beta_{0}$ the residual, $B = {\beta_{j}}$ the estimated coefficients for each layer, n the number of
+source samples, p the number of filters, $\lambda$ a tuning parameter to punishing the value of the coefficients and $\Delta_{j}^{KL}$ the KL divergence measured from the source and target for each filter. When the layer's coefficient is big, it is considered as good (small domain shift effects) and otherwise as bad (big domain shift effects). The optimization is solved by using coordinate descent. Simultaneously, a set of layers is identified, which can reconstruct the output of the affected layers. Afterwards, linear regression is applied to predict new coefficients for the good layers to replace the output of the bad ones. The reconstructed layer outputs are than passed to the next one. 
