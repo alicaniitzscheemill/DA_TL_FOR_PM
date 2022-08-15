@@ -1,6 +1,50 @@
 \chapter{General Addenda}
 
 If there are several additions you want to add, but they do not fit into the thesis itself, they belong here.
+
+
+\section{Generative Adversarial Network}
+Generative Adversarial Networks (GANs) are generative models which recently became more and more popular. Generative models can capture the data distribution of samples seen during training. Such models are able to synthetically generate new instances belonging to the train data distribution without actually being part of that dataset. They can be used in an unsupervised or a supervised manner, which means, they are able to perform feature learning/extraction and classification. GANs include two different models. A generator network (G) learns the data distribution of the training data. Given noise, the generator network produces synthetic data. The discriminator (D) model tries to classify the seen data between synthetic generator's output and true data. D(x) represents the probability that x comes from the real data rather than from the generator. The optimization process of GANs is a minimax game process:
+\begin{equation}
+    \min_{G} \max_{D} \mathbb{E}_{x \sim P_{r}} [log(D(x))] + \mathbb{E}_{\tilde{x} \sim P_{g}}[log(1-D(\tilde{x}))],
+    \label{eq:GAN_Training}
+\end{equation}
+where $P_{r}$ is the distribution of the real input data and $P_{g}$ is the data distribution from the generator's output, which is defined by  $\tilde{x}  \sim G(z)$. A Uniform or Gaussian distribution can be used to sample the noise $z \sim p(z)$. In theory the generator should be learned such that eq. \ref{eq:GAN_Training} is minimized. This is achieved if the discriminator falsely classifies the real and the synthetic generator's outputs ($D(x) \sim 0$ and $D(\tilde{x}) \sim 1$). On the other hand, the discriminator should be learned such that eq. \ref{eq:GAN_Training} is maximized, which means that the discriminator correctly labels all samples ($D(x) \sim 1$ and $D(\tilde{x}) \sim 0$). The discriminator and generator are optimized in an alternating procedure \cite{Goodfellow2014}. In order to prevent overfitting, one should alternate between k steps of optimizing D and one step of optimizing G \cite{Goodfellow2014}. The optimization of GANs proposed by Goodfellow et al \cite{Goodfellow2014} is described in the Algorithm \ref{alg.GAN_optimization}.
+
+\begin{algorithm}
+\caption{Iterative optimization of GANs}\label{alg:cap}
+\begin{algorithmic}
+\While{$\textrm{train iterations} < \textrm{max iterations}$}
+    \While{$\textrm{discriminator optimization steps} < \textrm{k}$}
+        \State $\cdot$ Sample m noise samples ${\pmb{z}^{(1)}, . . . , \pmb{z}^{(m)}}$ from noise distribution $p(\pmb{z})$
+        \State $\cdot$ Sample m noise samples ${\pmb{x}^{(1)}, . . . , \pmb{x}^{(m)}}$ from real data distribution $P_{r}$
+        \State $\cdot$ Update the discriminator by ascending its stochastic gradient:
+        \begin{equation*}
+            \nabla_{\theta_{d}} \frac{1}{m} \sum_{i=1}^{m} [log(D(\pmb{x}^{(i)})) + log(1-D(G(\pmb{z}^{(i)})))].
+        \end{equation*}
+    \EndWhile
+    \State $\cdot$ Sample m noise samples ${\pmb{z}^{(1)}, . . . , \pmb{z}^{(m)}}$ from noise distribution $p(\pmb{z})$
+    \State $\cdot$ Update the generator by descending its stochastic gradient:
+    \begin{equation*}
+        \nabla_{\theta_{g}} \frac{1}{m} \sum_{i=1}^{m} log(1-D(G(\pmb{z}^{(i)}))).
+    \end{equation*}
+\EndWhile
+\label{alg.GAN_optimization}
+\end{algorithmic}
+\end{algorithm}
+
+Besides that, eq. \ref{eq:GAN_Training} does not deliver sufficient gradients for gradient-based optimization of GANs. The problem is, that in early stages the generator performance is poor, such that the discriminator rejects all synthetic generator's outputs, which prevents the generator training. Instead, the generator can be trained to maximize $D(\tilde{x})$. This objective achieves the same results as eq. \ref{eq:GAN_Training} but delivers stronger gradients in early learning stages \cite{Goodfellow2014}. Fig \ref{fig:GAN_training_vizualization} shows the alternating optimization of the discriminator and generator. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{GAN_training_vizualization.pdf}
+  \caption{When optimizing GANs the discriminator and generator are optimized simultaneously in an alternating procedure. The blue dashed line represents the discriminator probability of x belonging to the real data distribution rather than being created by the generator. The black dashed line represents the generative distribution and the green solid line the real data distribution. (a) shows a generator, discriminator pair near convergence, (b) shows the GAN performance after passing the inner loop of Algorithm \ref{alg.GAN_optimization}, which optimizes the discriminator. (c) shows the GAN performance after passing through one whole training loop in Algorithm \ref{alg.GAN_optimization}. Now the generator and the discriminator are both optimized. (d) shows the GAN performance after several training iterations. The generator completely learned the real data distribution, such that the discriminator is not able to separate between samples from the real data distribution and synthetic generator outputs \cite{Goodfellow2014}.}
+  \label{fig:GAN_training_vizualization}
+\end{figure}
+
+
+
+
 \section{Other Related Work}
 In the following sections several works in the domain adaption and PHM context are presented, which are mentioned several times thoughout the thesis. Since they are not closely related to the topic of the thesis they are described in the appendix
 
