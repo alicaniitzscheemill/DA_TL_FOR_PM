@@ -1,7 +1,7 @@
 \chapter{Theory}\label{chapter:theory}
 
 \section{Ball Screw Drive}
-As shown in fig. \ref{fig:Ball_Screw}, ball screw drives (BSDs) consist of steel balls, a screw shaft and nut, seals and a tube. The steel balls serve as ball bearing between the screw shaft and nut \cite{Lee2015}. The screw shaft is mounted by a fixed and free bearing and actuated by a motor \cite{DENG2020}. The screw nut, which carries the load, moves linearly along the screw shaft, which is rotated by the motor \cite{Lee2015}. Linear guiding shoes (LGSs) are installed to direct the components moved by the BSD \cite{DENG2020}. While the steel balls are rotated under external load and friction, the ball screw drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with little abrasion on the surface. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies \cite{Lee2015}. For this reason, vibration signals are promising to contain expressive information about the machine health condition \cite{Lee2015}. Besides that, the surface defects also lower the efficiency of the system. In order to move the load with the same speed and acceleration, the motor torque needs to be increased. Analysing the motor torque or current signals is therefore also interesting in the PHM context. Such signals can be retrieved from the machine's controller \cite{AZAMFAR2020103932}.
+As shown in fig. \ref{fig:Ball_Screw}, ball screw drives (BSDs) consist of steel balls, a screw shaft and nut, seals and a tube. The steel balls serve as ball bearing between the screw shaft and nut \cite{Lee2015}. The screw shaft is mounted by a fixed and free bearing and actuated by a motor \cite{DENG2020}. The screw nut, which carries the load, moves linearly along the screw shaft, which is rotated by the motor \cite{Lee2015}. Linear guiding shoes (LGSs) are installed to direct the components, which are moved linearly by the BSD \cite{DENG2020}. While the steel balls are rotated under external load and friction, the ball screw drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with little abrasion on the surface. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects the periodicity as well as the intensity of the shock varies. For this reason, vibration signals are promising to contain expressive information about the machine health condition \cite{Lee2015}. Besides that, the surface defects also lower the efficiency of the system. In order to move the load with the same speed and acceleration, the motor torque needs to be increased. Analysing the motor torque and current signals is therefore also interesting in the PHM context. Such signals can be retrieved from the machine controller \cite{AZAMFAR2020103932}.
 
 \begin{figure}[H]
   \centering
@@ -10,10 +10,10 @@ As shown in fig. \ref{fig:Ball_Screw}, ball screw drives (BSDs) consist of steel
 \end{figure}
 
 \section{Neural Network}
-The big data ecosystem is constantly evolving and new technologies are coming up constantly. Many of them do react more and more to the demands of the industry. Big data refers to an increase of unstructured data, high sampling rates and a variety of different data sources \cite{Sagiroglu2013}. Machine learning tries to solve data-related problems by learning to extract expressive and informative features from the data. Deep learning is a specific branch of machine learning, which tries to imitate the function of human brains \cite{Calin2020}. The increased amount of data and computational power makes deep learning applications more attractive for the real-world use. Neural networks are hierarchically structured non-linear processing layers, which try to learn representations of data in different abstraction layers \cite{ZHAO2019213}. In the following, different aspects of deep learning are explained in more detail.
+The big data ecosystem is constantly evolving and new technologies are coming up constantly. Many of them do react more and more to the demands of the industry. Big data refers to an increase of unstructured data, high sampling rates and a variety of different data sources \cite{Sagiroglu2013}. Machine learning tries to solve data-related problems by learning to extract expressive and informative features from the data. Deep learning is a specific branch of machine learning, which is inspired by the function of human brains \cite{Calin2020}. The increased amount of data and computational power makes deep learning applications more attractive for the real-world use. Neural networks are hierarchically structured non-linear processing layers, which try to learn representations of data in different abstraction layers \cite{ZHAO2019213}. In the following, different aspects of deep learning are explained in more detail.
 
 \subsection{Neural Network Architecture}
-Neural networks consist of neurons which are layered in a hierarchical architecture. The neurons of consecutive layers are connected through weights and biases. During the model optimization, the weights and biases are updated \cite{ShilohPerl2020}. Fig. \ref{fig:neural_network_overview} shows the organization of neurons in a fully-connected network architecture. Each neuron from layer i is connected with all neurons from layer i+1 and shares information with them.
+Neural networks consist of neurons, which are layered in a hierarchical architecture. The neurons of consecutive layers are connected through weights and biases. During the model optimization, the weights and biases are updated \cite{ShilohPerl2020}. Fig. \ref{fig:neural_network_overview} shows the organization of neurons in a fully-connected network architecture. Each neuron from layer i is connected with all neurons from layer i+1 and shares information with them.
 
 \begin{figure}[H]
   \centering
@@ -24,7 +24,7 @@ Neural networks consist of neurons which are layered in a hierarchical architect
 The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neurons and a bias is estimated. Afterwards, an activation function is applied to the results, which gives the neural network a non-linear property \cite{ShilohPerl2020}. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that neural networks can learn to represent a wide variety of functions. When providing a sufficient number of layers and corresponding activation functions, any continuous function can be modeled arbitrarily well \cite{HORNIK1991}. Without activation functions, neural networks could only make linear assignments between inputs and outputs. Such neural networks cannot mathematically realize complex relationships in the data \cite{Ding2018}.
 
 \subsection{Activation Function}
-Activation function choices in neural networks mainly depend on the specific layer type and task to be solved. In classification tasks, one typically uses tanh, sigmoid and ReLU activations in hidden layers and sigmoid and softmax function in the final layer \cite{ShilohPerl2020}. The sigmoid function is used for binary and softmax for multi-class classification. The softmax function is an extension of the sigmoid function for the multi-class case. The softmax and sigmoid functions normalize the network output to a probability distribution over the predefined classes \cite{ShilohPerl2020}. Deciding for activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid activation function squeeze the inputs in values between 0 and 1 and the tanh activation function between -1 and 1. Both functions can suffer from vanishing gradients, since the derivative of these functions is close to zero for very big or small inputs \cite{Calin2020}. The ReLU activation function solves that problem but maps all negative inputs to zero. This so-called dead ReLU problem is solved by the Leaky Relu functions \cite{Dubey2019}. In table \ref{tab:activation_functions} some of the most popular activation functions are described.
+Activation function choices in neural networks mainly depend on the specific layer type and task to be solved. In classification tasks, one typically uses tanh, sigmoid and ReLU activations in hidden layers and a sigmoid or softmax function in the final layer \cite{ShilohPerl2020}. The sigmoid function is used for binary and the softmax for multi-class classification. The softmax function is an extension of the sigmoid function for the multi-class case. The softmax and sigmoid functions normalize the network output to a probability distribution over the predefined classes \cite{ShilohPerl2020}. Deciding for activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid activation function squeezes the inputs in values between 0 and 1 and the tanh activation function between -1 and 1. Both functions can suffer from vanishing gradients, since the derivative of these functions is close to zero for very big or small inputs \cite{Calin2020}. The ReLU activation function solves that problem but maps all negative inputs to zero. This so-called dead ReLU problem is solved by the Leaky Relu functions \cite{Dubey2019}. In table \ref{tab:activation_functions} some of the most popular activation functions are described.
 
 \begin {table}[H]
 \begin{tabular}{ c c c c }
@@ -59,29 +59,6 @@ tanh & $\frac{e^{2x}-1}{e^{2x}+1}$ & $1-tanh^{2}(x)$ & $(-1,1)$ \\
 \end {table}
 
 
-\subsection{Training Loop}
-During training, the model parameters are adapted such that the criterion is minimized. In a two-stage process the model is optimized by alternately applying the forward and backward pass. At the example of a single neuron, fig. \ref{fig:neural_network_optimization} shows this optimization process in detail: 
-\begin{itemize}
-    \item \textbf{Forward pass}: The outputs of the neurons $i$ from layer $l-1$, which are connected with the neuron of interest $j$ in layer $l$, are multiplied with its weights $w_{i,j}$ and summed up together with a bias $b_{j}$. The resulting logit $z_{j}$ is then processed by the activation function $\phi$. Different activation functions can be used throughout the network. After calculating the values for all neurons in the consecutive hidden layers, a loss function evaluates the prediction of the neural network \cite{AN201942}.
-    \item \textbf{Backward pass}: 
-    The partial derivatives of all model layers are calculated. The derivatives of the loss with respect to the weights and biases is calculated by concatenating the corresponding partial derivatives in the reverse order of the forward pass. The chain rule is used for that concatenation \cite{ShilohPerl2020}. The model parameters are updated in the negative direction of the corresponding gradient with a step size defined by the learning rate:
-    \begin{equation}
-        \theta = \theta - \eta \cdot {\nabla}_{\theta}J(\theta),
-    \end{equation}
-    where $\theta$ are the model parameters, $\eta$ is the learning rate and ${\nabla}_{\theta}J(\theta)$ the derivative of the loss function with respect to the model parameters \cite{Lydia2019}. Exemplary, the update of a weight $w_{i,j}$ between the last two layers of the model is defined as following:
-    \begin{equation}
-     \frac{\delta L}{\delta w_{i,j}} = \frac{\delta L}{\delta \hat{y}_{j}} \cdot \frac{\delta \hat{y}_{j}}{\delta z_{j}} \cdot \frac{\delta z_{j}}{\delta w_{i,j}}, 
-     \label{chain_rule}
-    \end{equation}
-where $\frac{\delta L}{\delta \hat{y}_{j}}$ is the derivative of the loss $L$ with respect to the model's predicted probability of the training sample belonging to class $j$, $\frac{\delta \hat{y}_{j}}{\delta z_{j}}$ is the derivative of the activation function in the last layer, $ \frac{\delta z_{j}}{\delta w_{i,j}}$ is the derivative of the logit $z_{j}$ with respect to the weight of interest $w_{i,j}$ \cite{ShilohPerl2020}. 
-\end{itemize}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\textwidth]{neural_network_optimization.pdf}
-  \caption {Optimization of neural network}
-  \label{fig:neural_network_optimization}
-\end{figure}
-
 \subsection{Loss Function}
 The loss function acts as an evaluation criterion for the neural network. During the optimization the model is adapted to decrease the loss function. Deep learning can be applied in two different use cases: (1) regression tasks and (2) classification tasks. In a regression problem, the goal is to learn a mapping function from input variables to a continuous output variable. Contrariwise, in a classification problem, the model aims to predict a class label for each input sample \cite{ShilohPerl2020}. Typically, the mean square error (MSE) is applied as criterion in regression tasks:
 
@@ -99,10 +76,10 @@ where $C$ is the number of predefined classes, $p_{j}(x_{i})$ the predicted prob
 
 
 \subsection{Optimizer}
-The optimizer is responsible for adapting the model according to the loss function. Usually, first-order methods are used to optimize neural networks. These methods solely rely on the first-order gradients to update the model parameters. Second-order methods combine first- and second-order derivatives, which generally makes the optimization converge faster. This method requires the Hessian, whose calculation is expansive for big datasets and models \cite{Calin2020}\cite{ShilohPerl2020}. When the dataset is big, first-order methods can also suffer from long training times. The stochastic gradient descent (SGD) optimization tries to circumnavigate this problem. Repetitively, the model is updated with gradients calculated from a single sample, which is picked randomly from the dataset. Since the choice of these samples is random, the optimization suffers from instability and fluctuation \cite{ShilohPerl2020}. Therefore, a common practice is to separate the dataset in several subsets, so called mini-batches. For each mini-batch, the gradients are calculated and the model is updated accordingly. This process is repeated for all the mini-batches retrieved from the dataset. A traing loop through the whole dataset is called an epoch. As soon as the loss converges, the training is terminated \cite{ShilohPerl2020}. Despite convergence, an optimal solution is not assured due to the non-convexity of the model optimization \cite{ShilohPerl2020}.
+The optimizer is responsible for adapting the model according to the loss function. Usually, first-order methods are used to optimize neural networks. These methods solely rely on the first-order gradients to update the model parameters. Second-order methods combine first- and second-order derivatives, which generally makes the optimization converge faster. This method requires the Hessian, whose calculation is expansive for big datasets and models \cite{Calin2020}\cite{ShilohPerl2020}. When the dataset is big, full batch gradient descent methods, which calculate the gradient from the whole dataset and update the model accordingly, suffer from long training times. The stochastic gradient descent (SGD) optimization tries to circumnavigate this problem. Repetitively, the model is updated with gradients calculated from a single sample, which is picked randomly from the dataset. Since the choice of these samples is random, the optimization suffers from instability and fluctuation \cite{ShilohPerl2020}. Therefore, a common practice is to separate the dataset in several subsets, so called mini-batches. For each mini-batch, the gradients are calculated and the model is updated accordingly. This process is repeated for all mini-batches retrieved from the dataset. A traing loop through the whole dataset is called an epoch. As soon as the loss converges, the training is terminated \cite{ShilohPerl2020}. Despite convergence, an optimal solution is not assured due to the non-convexity of neural network optimizations \cite{ShilohPerl2020}.
 
 \subsubsection{Momentum}
-In order to accelerate and stabilize the optimization, historical gradients can be included. The model parameters are updated by a moving average over the past gradients. Methods which use momentum accelerate the optimization in the relevant directions and dampen oscillations. This gradient descent variant is able to adapt the step size in the different latent feature space dimensions. The step size is increased in the relevant and decreased in the irrelevant directions \cite{Ruder2016}. In a first step, the moving average over the past gradients is calculated and in a second step the model parameters are updated accordingly:
+In order to accelerate and stabilize the optimization, historical gradients can be included. The model parameters are updated by a moving average over the past gradients. Methods which use momentum, accelerate the optimization in the relevant directions and dampen oscillations. This gradient descent variant is able to adapt the step size in the different latent feature space dimensions. The step size is increased in the relevant and decreased in the irrelevant directions \cite{Ruder2016}. In a first step, the moving average over the past gradients is calculated and in a second step the model parameters are updated accordingly:
 
     \begin{equation}
       \begin{aligned}
@@ -122,7 +99,7 @@ Another well known optimizer of this kind is the Nesterov Accelerated Gradient (
     \nabla_{\theta}L( W_{t-1} - \gamma v_{t-1}),
 \end{equation}
     
-where $W_{t-1}$ are the current model weights, which are pre-updated with the current first-order momentum $v_{t-1}$. This novel gradient estimation is used to calculate the momentum, which is then used to update the model parameters just as described in \ref{eqn:momentum} \cite{Ruder2016}.
+where $W_{t-1}$ are the current model weights, which are pre-updated with the current first-order momentum $v_{t-1}$. This special gradient estimation is used to calculate the momentum, which is then used to update the model parameters just as described in \ref{eqn:momentum} \cite{Ruder2016}.
 
 \subsubsection{Adagrad}
 Adagrad uses a squared version of the moving average over the past gradients:
@@ -134,7 +111,7 @@ Adagrad uses a squared version of the moving average over the past gradients:
     \label{eq:Adagrad}
 \end{equation}
     
-where  $W_{t-1}$ are the current and $W_{t}$ the updated model weights, $\nabla_{\theta}L(W_{t})$ is the derivative of the loss with respect to the current model weights, $G_{t}$ is the second-order momentum, which is a diagonal matrix where each diagonal element i,i is the sum of the squares of the first-order gradients with respect to the model parameter i, $\epsilon$ denotes a small quantity, which prevents the division by zero and $\gamma$ is the learning rate \cite{Ruder2016}.
+where  $W_{t-1}$ are the current and $W_{t}$ the updated model weights, $\nabla_{\theta}L(W_{t})$ is the derivative of the loss with respect to the current model weights, $G_{t}$ is the second-order momentum, which is a diagonal matrix with each diagonal element i,i being the sum of the squared first-order gradients with respect to the model parameter i, $\epsilon$ denotes a small quantity, which prevents the division by zero and $\gamma$ is the learning rate \cite{Ruder2016}.
 
 
 \subsubsection{Adaptive Moment Estimation}
@@ -150,7 +127,30 @@ Adaptive Moment Estimation (Adam) is one of the most popular optimizer. ADAM com
     \label{eq:ADAM}
 \end{equation}
     
-where $m_{t}$ and $v_{t}$ are the first and second momentum, $\hat{m}_{t}$ and $\hat{v}_{t}$ are the bias-corrected first and second moment estimates, $\beta_{1}$ and $\beta_{2}$ are the weighting factors for the moving average and $W_{t-1}$ and  $W_{t}$ are the current and updated model weights \cite{Ruder2016}.
+where $m_{t}$ and $v_{t}$ are the first- and second-order momentum, $\hat{m}_{t}$ and $\hat{v}_{t}$ are the bias-corrected first- and second-order momentum, $\beta_{1}$ and $\beta_{2}$ are the weighting factors for the moving average and $W_{t-1}$ and  $W_{t}$ are the current and updated model weights \cite{Ruder2016}.
+
+\subsection{Training Loop}
+During the training, the model parameters are adapted such that the loss function is minimized. In a two-stage process the model is optimized by alternately applying the forward and backward pass. At the example of a single neuron, fig. \ref{fig:neural_network_optimization} shows this optimization process in detail: 
+\begin{itemize}
+    \item \textbf{Forward pass}: The $i$ inputs, which are connected with the single neuron $j$ are multiplied with its weights $w_{i,j}$ and summed up together with a bias $b_{j}$. The resulting logit $z_{j}$ is then processed by the activation function $\phi$. Generally, different activation functions can be used throughout the network. After calculating the values for all neurons in the consecutive hidden layers, a loss function evaluates the prediction of the neural network \cite{AN201942}.
+    \item \textbf{Backward pass}: 
+    The partial derivatives of the model layers are calculated. The derivatives of the loss with respect to the weights and biases is calculated by concatenating the corresponding partial derivatives in the reverse order of the forward pass. The chain rule is used for that concatenation \cite{ShilohPerl2020}. The model parameters are updated in the negative direction of the corresponding gradient with a step size defined by the learning rate:
+    \begin{equation}
+        \theta = \theta - \eta \cdot {\nabla}_{\theta}J(\theta),
+    \end{equation}
+    where $\theta$ are the model parameters, $\eta$ is the learning rate and ${\nabla}_{\theta}J(\theta)$ the derivative of the loss function with respect to the model parameters \cite{Lydia2019}. Exemplary, the update of a the weight $w_{i,j}$ between input $i$ and the single neuron $j$ is defined as following:
+    \begin{equation}
+     \frac{\delta L}{\delta w_{i,j}} = \frac{\delta L}{\delta \hat{y}_{j}} \cdot \frac{\delta \hat{y}_{j}}{\delta z_{j}} \cdot \frac{\delta z_{j}}{\delta w_{i,j}}, 
+     \label{chain_rule}
+    \end{equation}
+where $\frac{\delta L}{\delta \hat{y}_{j}}$ is the derivative of the loss $L$ with respect to the model's predicted probability of the training sample belonging to class $j$, $\frac{\delta \hat{y}_{j}}{\delta z_{j}}$ is the derivative of the activation function in the last layer, $ \frac{\delta z_{j}}{\delta w_{i,j}}$ is the derivative of the logit $z_{j}$ with respect to the weight of interest $w_{i,j}$ \cite{ShilohPerl2020}. 
+\end{itemize}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{neural_network_optimization.pdf}
+  \caption {Optimization of neural network}
+  \label{fig:neural_network_optimization}
+\end{figure}
 
 \section{Convolutional Neural Network}
 
