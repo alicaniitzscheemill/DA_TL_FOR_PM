@@ -154,14 +154,14 @@ where $\frac{\delta L}{\delta \hat{y}_{j}}$ is the derivative of the loss $L$ wi
 
 \section{Convolutional Neural Network}
 
-Equally, to regular neural networks, convolutional neural networks (CNNs) consist of several neurons embedded in a fixed architecture. Developed for computer vision applications, the architecture of CNNs is optimized to process images. In CNNs the neurons are structured in layers just like in normal neural networks. In regular networks the neurons of a layer are organized in one dimension and in CNNs in three dimensions (height, width, depth) \cite{OShea2015}. The functionality of CNNs is visualized in \ref{fig:CNN_overview}. One can identify four main compounds of a CNN, which are described more detailed in the following:
+Equally, to regular neural networks, convolutional neural networks (CNNs) consist of several neurons embedded in a fixed architecture. Developed for computer vision applications, the architecture of CNNs is optimized to process images. In CNNs the neurons are structured in layers just like in regular neural networks. In regular networks the neurons of a layer are organized in one dimension and in CNNs in three dimensions (height, width, depth) \cite{OShea2015}. A typical CNN architecture is visualized in \ref{fig:CNN_overview}. One can identify four main characteristics of CNNs, which are described more detailed in the following:
 
 \begin{itemize}
     \item [1.] The input data is organized in a structured and grid-like form. Each element in this structure is called a pixel, which is specified by a value and position. In the latent feature spaces, the data is stored as arrays with spatial dimension (height x width) and depth (channel size) \cite{OShea2015}.
     
     \item [2.] Convolutional layers contain kernels which are convolved with the input. The kernel contains weights and biases, which are learned during training. An elementwise activation function is applied to the kernel outputs \cite{OShea2015}.
     
-    \item [3.]  Pooling layers downsample the spatial dimension. This reduces the height and width of the feature maps throughout the network. The learnable network parameters are minimized \cite{OShea2015}.
+    \item [3.]  Pooling layers downsample the spatial dimension. This reduces the height and width of the feature maps and therefore the network complexity \cite{OShea2015}.
     
     \item [4.] Final fully-connected layers coupled with activation functions predict class labels for the input data \cite{OShea2015}.
 \end{itemize}
@@ -173,10 +173,10 @@ Equally, to regular neural networks, convolutional neural networks (CNNs) consis
   \label{fig:CNN_overview}
 \end{figure}
 
-In the following typical CNN layers are described more in detail. 
+In the following, the typical components of CNNs are presented. The function and properties of convolutional and pooling layers are described in more detail.  
 
 \subsection{Convolutional Layer}
-The convolutional layers are the core elements in CNNs. The learnable parameters in a convolutional layer are the weights and biases of the corresponding kernel. During the optimization, each kernel learns to extract expressive features. The depth of a kernel is defined by the depth of the input layer and the number of applied kernels defines the depth of the subsequent feature map. Usually, the spatial dimensions (width, height) are reduced and the depth of the latent feature map is increased throughout the network. Therefore, the network extracts more global features in the beginning and more local features in the end of the network \cite{OShea2015}. Looking at fig. \ref{fig:kernel_number} one can see how the kernel of depth 3 is applied to the input of depth 3. By using 6 kernels, the resulting feature map is of depth 6.
+The convolutional layers are the core elements in CNNs. The learnable parameters in a convolutional layer are the weights and biases of the corresponding kernels. During the optimization, each kernel learns to extract expressive features. The depth of a kernel is defined by the depth of the input layer and the number of applied kernels defines the depth of the subsequent feature map. Usually, the spatial dimensions (width, height) are reduced and the depth of the latent feature map is increased throughout the network. Therefore, the network extracts more global features in the beginning and more local features in the end of the network \cite{OShea2015}. Looking at fig. \ref{fig:kernel_number}, one can see how the kernel of depth 3 is applied to the input of depth 3. By using 6 kernels, the resulting feature map is of depth 6.
 
 \begin{figure}[H]
   \centering
@@ -185,33 +185,34 @@ The convolutional layers are the core elements in CNNs. The learnable parameters
   \label{fig:kernel_number}
 \end{figure}
 
-To make things easier, the convolution of a kernel with an input subspace is shown for the 1D case:
+For the one-dimensional case, the convolution of a kernel with a subspace of the input is defined as following:
 
 \begin{equation}
   y(p_{0}) = \sum_{p_{n} \in R} w(p_{n}) \cdot x(p_{0} + p_{n}), 
   \label{eq:kernel}
 \end{equation}
 
-where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel position of the input subspace involved in the convolutional operation. Each kernel cell is multiplied with a corresponding input pixel. The $R$ outputs are summed up in the pixel $p_{0}$ of the subsequent feature map \cite{Dai2017}. Typically, a bias value is included in this weighted sum and a non-linearity is applied consecutively. The convolutional process is visualized in fig. \ref{fig:kernel}.
-
+where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel position of the input subspace, $x(\cdot)$ is the input and $w(\cdot)$ the kernel. Each kernel cell is multiplied with the corresponding input pixel. The $R$ outputs are summed up in the pixel $p_{0}$ of the subsequent feature map \cite{Dai2017}. Typically, a bias value is included in this weighted sum and a non-linearity is applied consecutively. The just described convolution is visualized in fig. \ref{fig:kernel}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{cnn/kernel_calculation.pdf}
-  \caption {1D convolution}
+  \caption {1D convolution: input feature map (left), kernel (middle), output feature map (right)}
   \label{fig:kernel}
 \end{figure}
 
-Compared to regular neural networks CNNs profit a lot from its weight sharing concept. The kernel weights are learned throughout the training. Since the same kernel is applied on different areas of the input, it is not necessary to train a weight for every input pixel. This reduces the number of learnable parameters in the network. Since the kernel is applied on different input subsapces, the feature search is insensitive to the feature location in the image \cite{OShea2015}.
+Compared to regular neural networks, CNNs profit a lot from its weight sharing concept. The kernel weights are learned throughout the training. Since the same kernel is applied on different areas of the input, it is not necessary to train a weight for every input pixel. This reduces the number of learnable parameters in the network. Since the kernel is applied on different input subsapces, the feature search is insensitive to the feature location in the image \cite{OShea2015}.
 
 \subsection{Convolution Parameters}
-When defining a CNN architecture, one has to find a trade-off between training effort and model complexity. The CNN should be able to capture relevant information from the data without requiring extensive optimization. The spatial dimension of the output of a convolutional operation ($V_{out}$) is defined by the stride ($S$), zero padding ($Z$), the receptive field ($R$) and the spatial dimension of the input ($V_{in}$): 
+When defining a CNN architecture, one has to find a trade-off between training effort and model complexity. The CNN should be able to capture relevant information from the data without requiring extensive optimization.
+The stride ($S$), zero padding ($Z$) and receptive field ($R$) of the applied kernel and the spatial dimension of the input ($V_{in}$) define the spatial dimension of the output of a convolutional operation:
+
 \begin{equation}
-  V_{out} = \frac{(V_{in}-R)+2Z}{S+1}, 
+  V_{out} = \frac{(V_{in}-R)+2Z}{S+1}.
   \label{eq:spatial_dimensionality_cnn_feature map}
 \end{equation}
 
-These parameters significantly influence the characteristic of CNNs, which is the reason why they are specified in more detail in the following.
+The parameters of the convolutional layers significantly influence the characteristic of CNNs, which is why they are specified in more detail in the following.
 
 \subsubsection{Stride}
 The stride defines the number of pixels skipped while shifting the kernel over the input. By increasing the stride, the spatial dimension of the resulting feature map is decreased and otherwise increased \cite{OShea2015}. Fig. \ref{fig:stride_cnn} visualizes the effect of the stride on the convolutional operation.
@@ -235,10 +236,10 @@ Zero padding, shown in fig.\ref{fig:zero_padding_cnn}, enlarges the input with a
 \end{figure}
 
 \subsubsection{Receptive field}
-The spatial dimension of the input subspace, which is covered by the kernel during a single convolution, is called receptive field. When increasing the receptive field, more global and otherwise more local features of the input are extracted. The receptive field is defined by the spatial dimension of the kernel \cite{OShea2015}. Dilated convolution can be applied to increase the receptive field size while maintaining the model complexity \cite{Dai2017}. 
+The spatial dimension of the input subspace, which is covered by the kernel during a single convolution, is called receptive field. When increasing the receptive field, more global and otherwise more local features are extracted from the input. The receptive field is defined by the spatial dimension of the kernel \cite{OShea2015}. Dilated convolution can be applied to increase the receptive field size while maintaining the model complexity \cite{Dai2017}. 
 
 \subsection{Pooling Layer}
-Pooling layers are applied to change the spatial dimension of the latent feature spaces throughout the network. In general, the functionality is similar to convolutional layers with the only difference that no learnable parameters are involved. Pooling kernels are shifted over the input just as regular kernels in convolutional layers. For each kernel position, all pixels covered by the kernel are merged in a single value. Max-pooling layers return the maximal and AVG-pooling layers the average pixel value from all pixels covered by the kernel. The differences between Max-pooling and AVG-pooling layers is shown in fig. \ref{fig:Pooling_types}. Often convolutional and pooling layers are applied consecutively \cite{OShea2015}.
+Pooling layers are applied to change the spatial dimension of the latent feature spaces throughout the network. In general, the functionality is similar to convolutional layers, with the only difference that no learnable parameters are involved. Pooling kernels are shifted over the input just as regular kernels in convolutional layers. For each kernel position, all pixels covered by the kernel are merged in a single value. Max-pooling layers return the maximal and AVG-pooling layers the average pixel value from all pixels covered by the kernel. The differences between Max-pooling and AVG-pooling layers is shown in fig. \ref{fig:Pooling_types}. Often convolutional and pooling layers are applied consecutively \cite{OShea2015}.
 
 \begin{figure}[H]
   \centering
@@ -249,7 +250,7 @@ Pooling layers are applied to change the spatial dimension of the latent feature
 
 \section{Domain Adaptation and Transfer Learning}
 
-In the computer vision community, domain adaptation and transfer-learning techniques recently received more and more attention. Transfer learning addresses applications, in which a model is trained to solve a specific task on a given dataset. The model is then applied to solve a different task on that same dataset. The marginal data distribution is equal but the conditional distribution does change for both tasks. Domain adaptation solves problems, in which a model is trained on a labeled train dataset, denoted as source domain. The model is then applied to solve the same task on a different unlabeled test dataset, denoted as target domain. The data distribution of the target and source domain is different but the data must be related in any sense and structured similarly. The conditional and marginal distribution differ for both tasks. The differences are visualized in fig. \ref{fig:domain_adaption_vs_transfer_learning}
+In the computer vision community, domain adaptation and transfer-learning techniques recently received more and more attention. Transfer learning addresses applications, in which a model is trained to solve a specific task on a given dataset. The model is then applied to solve a different task on that same dataset. The marginal data distribution is equal but the conditional distribution changes for both tasks. Domain adaptation solves problems, in which a model is trained on a labeled train dataset, denoted as source domain. The model is then applied to solve the same task on a different unlabeled test dataset, denoted as target domain. The data distribution of the target and source domain is different but the data must be related in any sense and structured similarly. The conditional and marginal distribution differ for both tasks. The differences between domain adaptation and transfer learning are visualized in fig. \ref{fig:domain_adaption_vs_transfer_learning}
 
 \begin{figure}[H]
   \centering
@@ -257,8 +258,7 @@ In the computer vision community, domain adaptation and transfer-learning techni
   \caption {Transfer learning vs. domain adaptation} \label{fig:domain_adaption_vs_transfer_learning}
 \end{figure}
 
-
-Since the focus of this thesis is to analyze domain adaptation approaches, the following passages explain the different aspects of domain adaptation.
+Since the focus of this thesis is to analyze domain adaptation approaches, the following passages explain different aspects of domain adaptation.
 \subsection{Notation}
 The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated in labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. It is assumed that there is a large amount of labeled data in the source and in some cases a small amount of labeled data in the target domain available ($N_{tl} \ll N_{s}$). The input samples are defined by $x_{i}$ and the corresponding label $y_{i}$  \cite{Patel2015}. Depending on the data available during training, one differs between different domain adaptation methods: 
 \begin{itemize}
@@ -266,14 +266,14 @@ The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 
 \item \textbf{Unsupervised domain adaptation}, where a function is learned using the data from $S$ and $T_{u}$ \cite{Patel2015}.
 \end{itemize}
 
-From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from source and target have the same data space and label space, but the marginal and conditional distribution differs $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
+From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
 
 \subsection{Types of Domain Adaption}
 Generally, domain adaptation approaches can be grouped in four different types:  
 
 \begin{itemize}
-\item \textbf{Instance Weighting Methods} address the covariate shift by integrating weights into a loss function, which estimate the similarity between source and target samples. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. Source domain sample, which have a high probability to be in the target domain, are quite similar to the target domain samples. Samples like that should be strongly included in the training to optimize the model to work well on the target domain data \cite{AZAMFAR2020103932}.
-\item \textbf{Feature-Based Methods} find a feature space which reduces the domain discrepancy. All source and target samples are transferred in the domain-invariant feature space, where the classification problem is identical for both domains \cite{AZAMFAR2020103932}. Fig. \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaptation can be used to find a cross-domain classifier, which accurately separates source and target domain data \cite{AZAMFAR2020103932}. 
+\item \textbf{Instance Weighting Methods} address the covariate shift by integrating weights into the loss function, which estimate the similarity between source and target samples. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. Source domain sample, which have a high probability to be in the target domain, are quite similar to the target domain samples. Samples like that should be strongly included in the training to adapt the model to work well on the target domain data \cite{AZAMFAR2020103932}.
+\item \textbf{Feature-Based Methods} find a domain-invariant feature space, which reduces the domain discrepancy. All source and target samples are transferred in that feature space, where the classification problem is more similar for both domains \cite{AZAMFAR2020103932}. Fig. \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaptation can be used to find a cross-domain classifier, which accurately separates source and target domain data \cite{AZAMFAR2020103932}. 
 \item \textbf{Model-Based Methods} train a classifier on the source domain, which can be transferred or fine-tuned to perform well on the target domain \cite{AZAMFAR2020103932}.
 \item \textbf{Relation-Based Methods} utilize similarities between the two domains in order to transfer knowledge between the domains\cite{AZAMFAR2020103932}. 
 \end{itemize}
@@ -286,38 +286,38 @@ Generally, domain adaptation approaches can be grouped in four different types:
 
 
 \section{Maximum Mean Discrepancy}
-Maximum Mean Discrepancy (MMD) is a criterion which estimates the discrepancy between two distributions. MMD can be used to optimize a neural network such that the distribution discrepancy in its latent feature space is reduced. In the reproducing kernel Hilbert space (RKHS) the discrepancy is measured as squared distance between the distribution kernel embeddings. The distribution discrepancy across domains can be measured in several layers of the neural network. Including this information in the optimization of the model helps to avoid feature transferability degradation \cite{li2020}. The MMD criterion is defined as following:
+Maximum Mean Discrepancy (MMD) is a criterion, which estimates the discrepancy between two distributions. MMD can be used to optimize a neural network such that the distribution discrepancy in its latent feature space is reduced. In the reproducing kernel Hilbert space (RKHS) the discrepancy is measured as squared distance between the distribution kernel embeddings. The distribution discrepancy across domains can be measured in several layers of the neural network. Including this information in the optimization of the model helps to avoid feature transferability degradation \cite{li2020}. The MMD criterion is defined as following:
 
 \begin{align}
     M_{k}(P,Q) = \Bigl|  \boldsymbol{E_{P}}[\Phi(\boldsymbol{X^{s}})] - \boldsymbol{E_{Q}}[\Phi(\boldsymbol{X^{t}})]     \Bigl|^{2}_{Hk},
 \end{align}
 
-where Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$. When taking the identity function as mapping function, the discrepancy between the distribution means is measured. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature space of interest are represented by $P$ and $Q$ and the corresponding expectations by $\boldsymbol{E_{P}[\cdot]}$ and $\boldsymbol{E_{Q}[\cdot]}$. The kernel choice is of great importance when applying MMD for optimizing neural networks. For this reason, it makes sense to combine several kernels to profit from their individual performance:
+where Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$. When taking the identity function as mapping function, the discrepancy between the distribution means is measured. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature spaces are represented by $P$ and $Q$ and the corresponding expectations by $\boldsymbol{E_{P}[\cdot]}$ and $\boldsymbol{E_{Q}[\cdot]}$. The kernel choice is of great importance when applying the MMD to optimize neural networks. For this reason, it makes sense to combine several kernels to profit from their individual performance:
 
 \begin{align}
     k(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}) = \sum_{i=0}^{N_{k}} k_{\sigma_{i}}(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}),
 \end{align}
 
-where $N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents one individual RBF kernels  \cite{li2020}. Other kernels like linear kernels could be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
+where $N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents the individual RBF kernels  \cite{li2020}. Other kernels like linear kernels can be used as well, but current research shows, that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
 
 
 \section{Non-Stationary Signal Analysis for Prognostic and Health Management}
-Non-stationary signal analysis, which is a method to investigate signals with changing statistical properties, is one of the main topics in the field of machinery fault diagnosis. Signals can contain multiple frequencies and amplitudes which might change over time. Traditional signal analysis techniques make stationary assumptions. When applying those to non-stationary signals, solely statistical averages in time or frequency can be extracted \cite{FENG2013}. Therefore, the demand for analysis methods, which allow to ascertain features of non-stationary signals, is increasing. Such methods seem promising for extracting health related information from machine data. Time–frequency representations (TFRs) are techniques to transform non-stationary signals in a two-dimensional time-frequency planes, where each value describes the dominance of a specific frequency at a certain point in time. All TFRs, which fulfill the idea of linearity and superposition, are called linear TFRs. The two most popular linear TFRs are the short-time Fourier and the Wavelet transform \cite{Hlawatsch1992}. 
+Non-stationary signal analysis methods investigate signals with changing statistical properties. Traditionally those approaches play an important role in the field of machinery fault diagnosis. Machine signals contain multiple frequencies and amplitudes which might change over time. Traditional signal analysis techniques make stationary assumptions. When applying those techniques to non-stationary signals, solely statistical averages in time or frequency domain are extracted \cite{FENG2013}. Therefore, the demand for analysis methods, which allow to ascertain features of non-stationary signals, is increasing. Such methods seem promising for extracting health related information from machine data. Time–frequency representations (TFRs) are techniques to transform non-stationary signals in a two-dimensional time-frequency domain, where each value describes the dominance of a specific frequency at a certain point in time. All TFRs, which fulfill the idea of linearity and superposition, are called linear TFRs. The two most popular linear TFRs are the short-time Fourier and the Wavelet transform \cite{Hlawatsch1992}. 
 
 
 \subsubsection{Short-Time Fourier transform}
-Short-time Fourier transform (STFT) is a method which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal spectrum over time. STFT assumes the spectrum to be constant during a short time window. For each such window a Fourier spectrum is obtained. The time related changes are measured between consecutive window snapshots. The process is mathematically expressed in the following:  
+Short-time Fourier transform (STFT) is a method, which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal spectrum over time. In STFT the spectrum is assumed to be constant during a short time window. For each such window a Fourier spectrum is obtained. The time related changes are measured between consecutive window snapshots. The process is mathematically expressed in the following:  
 \begin{equation}
     STFT_{x}(t,f) = \int_{- \inf}^{+ \inf}x(\tau) w(\tau -t) exp(-j2\pi f \tau),
 \end{equation}
-where  $w(\tau -t)$ is the window function centered around t, which is multiplied with the signal $x(t)$. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window, generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in time or frequency. The optimum window length depends on the main interest behind the signal analysis. For accurate time domain information the window size needs to be reduced and for frequency domain information increased. STFT  decomposes the signal in existing sinusoidals and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
+where  $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window, generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. For accurate time domain information the window size needs to be reduced and increased for precise frequency domain information. The STFT  decomposes the signal in existing sinusoidals and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
 
 \subsubsection{Wavelet Transform}
 The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation, which is described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (big scale) the wavelet is \cite{Sifuzzaman2009}. The convolution of the wavelet and the signal is mathematically expressed as following:
 \begin{equation}
     WT_{x}(t,a) = \frac{1}{\sqrt{a}} \int_{- \inf}^{+ \inf} x(\tau) \psi(\frac{\tau -t}{a}) d \tau,
 \end{equation}
- where $x(t)$ is the signal, $\psi(\frac{\tau -t}{a})$ the wavelet, $a$ the scaling factor, $t$ the time shift and $\frac{1}{\sqrt{a}}$ a normalization factor to maintain the energy conservation \cite{FENG2013}. Different wavelet bases $\psi(t)$ can be convolved with the signal, which allows to analyze the signal for different patterns \cite{Sifuzzaman2009}. Popular wavelet bases are the Gaussian, Morlet, Shannon, Meyer, Laplace, Hermit, or the Mexican Hat wavelets in both simple and complex functions \cite{Verstraete2017}. This enables a more extensive, flexible and detailed analysis. The wavelet transform can be adapted to extract patterns, which are especially relevant for a PHM task. In fig. \ref{fig:ricker_wavelet}, Ricker wavelets with different scales and locations are visualized. Wavelet transforms can extract local spectral and temporal information in parallel \cite{Sifuzzaman2009}.
+ where $x(t)$ is the signal, $\psi(\frac{\tau -t}{a})$ the wavelet, $a$ the scaling factor, $t$ the time shift and $\frac{1}{\sqrt{a}}$ a normalization factor to maintain the energy conservation \cite{FENG2013}. Different wavelet bases $\psi(t)$ can be convolved with the signal, which allows to analyze the signal for different patterns \cite{Sifuzzaman2009}. Popular wavelet bases are the Gaussian, Morlet, Shannon, Meyer, Laplace, Hermit, or the Mexican Hat wavelets in both simple and complex functions \cite{Verstraete2017}. This enables a more extensive, flexible and detailed analysis. The wavelet transform can be adapted to extract patterns, which are especially relevant for the PHM task. In fig. \ref{fig:ricker_wavelet}, Ricker wavelets with different scales and locations are visualized. Wavelet transforms can extract local spectral and temporal information parallely \cite{Sifuzzaman2009}.
 
 
 \begin{figure}[H]
@@ -342,5 +342,5 @@ The Wavelet transform decomposes the signals in several wavelets. A wavelet is a
     \end{aligned}
 \end{equation}
 
-where $STFT_{x}(t,f)$ is the Short-time Fourier transform, $WT_{x}(t,f)$ the wavelet transform, $SPEC_{x}(t,f)$ the spectrogram and $SCAL_{x}(t,f)$ the scalogram \cite{Hlawatsch1992}. This way of representing the system energy in the 2D time and frequency space may reveal useful information from a complex and high-dimensional signal without the need for additional feature extraction. As described before, spectrograms have a fixed frequency resolution that is defined by the windows size. Scalograms on the other hand have a frequency-dependent frequency resolution \cite{Verstraete2017}.
+where $STFT_{x}(t,f)$ is the Short-time Fourier transform, $WT_{x}(t,f)$ the wavelet transform, $SPEC_{x}(t,f)$ the spectrogram and $SCAL_{x}(t,f)$ the scalogram \cite{Hlawatsch1992}. This way of representing the system energy in a two-dimensional time and frequency domain may reveal useful information from a complex and high-dimensional signal without the need for additional feature extraction. As described before, spectrograms have a fixed frequency resolution that is defined by the windows size. Scalograms on the other hand have a frequency-dependent frequency resolution \cite{Verstraete2017}.
 
