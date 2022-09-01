@@ -1,5 +1,118 @@
 \chapter{General Addenda}
 
+
+
+\begin{center}
+\begin{longtable}{c c c c} 
+ \toprule
+ Signal & Sensor & Frequency & Samples \\ [0.5ex] 
+ \midrule
+ C:s ist/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:s soll/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:s diff/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:v (n ist)/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:v (n soll)/X& TNC Scope & 10 kHz & 75000 \\ 
+
+ C:P mech./X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:Pos. Diff./X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:I ist/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:I soll/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ C:x bottom & Acc & 10 kHz & 75000 \\ 
+
+ C:y bottom & Acc & 10 kHz & 75000 \\ 
+
+ C:z bottom & Acc & 10 kHz & 75000 \\ 
+
+ C:x nut & Acc & 10 kHz & 75000 \\ 
+
+ C:y nut & Acc & 10 kHz & 75000 \\ 
+
+ C:z nut & Acc & 10 kHz & 75000 \\ 
+
+ C:x top & Acc & 10 kHz & 75000 \\ 
+
+ C:y top & Acc & 10 kHz & 75000 \\ 
+
+ C:z top & Acc & 10 kHz & 75000 \\ 
+
+ D:s ist/X & TNC Scope & 10 kHz & 75000 \\
+
+ D:s soll/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:s diff/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:v (n ist)/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:v (n soll)/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:P mech./X & TNC Scope & 10 kHz & 75000 \\ 
+ 
+ D:Pos. Diff./X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:I ist/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:I soll/X & TNC Scope & 10 kHz & 75000 \\ 
+
+ D:x bottom & Acc & 10 kHz & 75000 \\ 
+
+ D:y bottom & Acc & 10 kHz & 75000 \\ 
+
+ D:z bottom & Acc & 10 kHz & 75000 \\ 
+
+ D:x nut & Acc & 10 kHz & 75000 \\ 
+
+ D:y nut & Acc & 10 kHz & 75000 \\ 
+
+ D:z nut & Acc & 10 kHz & 75000 \\ 
+
+ D:x top & Acc & 10 kHz & 75000 \\
+
+ D:y top & Acc & 10 kHz & 75000 \\ 
+
+ D:z top & Acc & 10 kHz & 75000 \\ 
+
+ S:x bottom & Acc & 10 kHz & 153601 \\ 
+
+ S:y bottom & Acc & 10 kHz & 153601 \\ 
+
+ S:z bottom & Acc & 10 kHz & 153601 \\ 
+
+ S:x nut & Acc & 10 kHz & 153601 \\ 
+
+ S:y nut & Acc & 10 kHz & 153601 \\ 
+
+ S:z nut & Acc & 10 kHz & 153601 \\ 
+
+ S:x top & Acc & 10 kHz & 153601 \\ 
+
+ S:y top & Acc & 10 kHz & 153601 \\ 
+ 
+ S:z top & Acc & 10 kHz & 153601 \\ 
+ 
+ S:Nominal rotational speed & TNC opt & 1 kHz & 16384 \\
+ 
+ S:Actual rotational speed & TNC opt & 1 kHz & 16384 \\ 
+ 
+ S:Actual position of the position encoder(dy/dt) & TNC opt & 1 kHz & 16384 \\ 
+ S:Actual position of the motor encoder(dy/dt)  & TNC opt & 1 kHz & 16384  \\ [1ex] 
+ \bottomrule
+\caption {Description of recorded signals}
+\label {tab:description_of_the_49_recorded_features}
+\end{longtable}
+\end{center}
+
+
+\begin{comment}
+    
+
 If there are several additions you want to add, but they do not fit into the thesis itself, they belong here.
 
 
@@ -116,7 +229,6 @@ where $P_{\tilde{x}}$ is a distribution of samples coming from the line connecti
 \end{figure}
  
  
-\begin{comment}
 \subsection{Domain Conditioned Adaptation Network}
 Most domain adaption approaches reduce the domain discrepancy in task-specific layers but use a shared feature extractor backbone across all domains. Li et al \cite{li2020} assume that, if the domain discrepancy is tremendously large, these methods can only reduce the domain discrepancy, but not fundamentally eliminate it. In the proposed Domain Conditioned Adaptation Network (DCAN) Li et al present some alternative and more effectively domain adaptive approach. Li et al recommend to extract domain-specific and -independent features in the feature extractor backbone. Since the source and target domains are correlated to some extend, the network itself can extract domain-independent features. The powerful feature extractor learned from the source domain can also increase the model performance on the target domain. At the same time, features which are too sensitive to the source domain can even reduce the model performance on the target domain. To counteract that phenomena, Li et al recommend to additionally extract domain-specific features in the convolutional layers. This can improve the cross-domain feature alignment in the task-specific layers. A domain conditioned feature correction module is applied to reduce the domain discrepancy in the extracted domain-specific and -independent features. Additionally, the model is optimized with a conventional supervised source and a newly proposed unsupervised target CE-loss defined as following:
 
@@ -167,7 +279,8 @@ where $R$ is a random subset of source domain samples and $S^{k}$ is the set of 
   \caption{DCAN architecture proposed by Li et al \cite{li2020}}
   \label{fig:DCAN_model}
 \end{figure}
-\end{comment}
+
+
 
 
 
@@ -179,3 +292,4 @@ Even sections are possible, but usually only used for several elements in, e.g.\
 \cmark
 \section{Example 2}
 \xmark
+\end{comment}
