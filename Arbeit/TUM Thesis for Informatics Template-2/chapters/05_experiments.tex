@@ -33,7 +33,7 @@ Fig. \ref{fig:samples_domain_class_dummy_influence_noise} visualizes how the per
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_1.pdf}
 
-  \caption{Perturbation and noise during sampling process}
+  \caption{Discrepancy between source samples of the same class due to applied perturbation and noise during sampling process}
   \label{fig:samples_domain_class_dummy_influence_noise}
 \end{figure}
 
@@ -143,7 +143,7 @@ LGS                       & C2 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 18  \\
 
 
 \subsection{Recording of Dataset}
-For the sake of reproducibility, the experiments were executed with a fixed test cycle, which is defined in fig. \ref{fig:test_cycle}. Machine data was collected during constant speed, direction change and sweep excitement along the machine tools X-axis. During the constant speed excitement, the machine tools were moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation, the movement of the machine tools was restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions were changed with a high frequency. In the sweep excitement, the motor received a target speed in the form of a sine sweep. Before recording data, the machine was warmed up for 60min with a constant speed to create identical circumstances for all runs.
+For the sake of reproducibility, the experiments were executed with a fixed test cycle, which is defined in fig. \ref{fig:test_cycle}. Machine data was collected during constant speed, direction change and sweep excitement along the machine tools X-axis. During the constant speed excitement, the machine tools were moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation, the movement of the machine tools was restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions were changed with a high frequency. In the sweep excitement, the motor received a target speed in the form of a sine sweep. Before recording data, the machine was warmed up for 60min with a constant speed to create identical circumstances for all runs. For each experimental setup and speed excitement 10 experiments were recorded. 
 
 \begin{figure}[H]
   \centering
@@ -183,7 +183,7 @@ In order to reduce the spatial dimension of the feature maps, pooling layers are
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{proposed_model.pdf}
-  \caption {Proposed model} \label{fig:proposed_model}
+  \caption {Proposed model architecture} \label{fig:proposed_model}
 \end{figure}
 
 
