@@ -15,7 +15,7 @@ In the first step, different MMD-based domain adaptation approaches for PHM appl
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Target_Domain_Class_1_obs_0.pdf}
 
-  \caption{Data window samples for each domain and class}
+  \caption{Dummy data samples for the two classes and domains}
   \label{fig:samples_domain_class_dummy}
 \end{figure}
 
@@ -33,7 +33,7 @@ Fig. \ref{fig:samples_domain_class_dummy_influence_noise} visualizes how the per
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_1.pdf}
 
-  \caption{Discrepancy between source samples of the same class due to applied perturbation and noise during sampling process}
+  \caption{Discrepancy between source samples of equal classes due to applied perturbation and noise in the sampling process}
   \label{fig:samples_domain_class_dummy_influence_noise}
 \end{figure}
 
@@ -46,7 +46,7 @@ Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori wa
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{experimental_setup}
-  \caption {Experimental setup: s side-view of the machine, B: upper LGS, C: threaded shaft of BSD, C: lower LGS}
+  \caption {Experimental setup: A: side-view of the machine, B: upper LGS, C: threaded shaft of BSD, C: lower LGS}
   \label{fig:experimental_setup}
 \end{figure}
 
@@ -72,7 +72,7 @@ Preload classes (C1, C2, C3) were defined, specifying the preload level in BSDs 
  C31 & 2 390 \\ [1ex] 
  C32 & 2 328 \\ [1ex] 
 \bottomrule
-\caption {BSDs health condition classes}
+\caption {BSD health condition classes}
 \label {tab:BSDs_states}
 \end{longtable}
 \end{center}
@@ -97,7 +97,7 @@ Preload classes (C1, C2, C3) were defined, specifying the preload level in BSDs 
     & A11 & 12 840 \\ [1ex]
     & D3 & 12 840 \\ [1ex]
 \bottomrule
-\caption {LGSs health condition classes}
+\caption {LGS health condition classes}
 \label {tab:LGSs_states}
 \end{longtable}
 \end{center}
@@ -173,7 +173,7 @@ padding size & 0 & 1 & 1 \\
 
 stride & 1 & 1 & 1 \\
 \bottomrule
-\caption {Parameter in convolutional layer}
+\caption {Parameters in convolutional layer}
 \label {tab:parameter_conv}
 \end{longtable}
 
@@ -200,12 +200,12 @@ where GAMMA is a hyperparameter balancing the influence of the CE- and MMD-loss,
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{MMD_loss_visualization.pdf}
-  \caption {CE- and MMD-loss in neural networks} \label{fig:MMD_Loss_and_CE_loss}
+  \caption {Application of CE- and MMD-loss during optimization of neural networks} \label{fig:MMD_Loss_and_CE_loss}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{training_process_mmd.pdf}
-  \caption {Model training} \label{fig:Training_Process_MMD}
+  \caption {Model training and testing} \label{fig:Training_Process_MMD}
 \end{figure}
 
