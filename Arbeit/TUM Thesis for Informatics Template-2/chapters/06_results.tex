@@ -94,7 +94,7 @@ The MMD-loss, which includes the target labels, is named "labeled MMD-loss" and 
 \subsection{Influence of Latent Feature Space Choice on the Domain Adaptation Performance}
 \label{cnn_mmd_dummy}
 
-This section analyzes the influence of applying the MMD-loss in different latent feature maps of the feature extractor and classifier. Inspired by Aljundi et al. \cite{Aljundi2016}, domain discrepancy reduction in the feature extractor layers is especially of interest. Two MMD-based approaches were evaluated, measuring the domain discrepancy in different neural network layers. Table \ref{tab:MMD_layer_choice_dummy} specifies the applied MMD-loss types in more detail.
+This section analyzes how applying the MMD-loss in different latent feature maps of the feature extractor and classifier influences the model training. Inspired by Aljundi et al. \cite{Aljundi2016}, the domain discrepancy reduction in the feature extractor layers is especially interesting. Two MMD-based approaches were evaluated, measuring the domain discrepancy in different layers of the neural network. Table \ref{tab:MMD_layer_choice_dummy} specifies the applied MMD-loss types.
 
 \begin {table}[H]
 \centering
@@ -111,7 +111,7 @@ This section analyzes the influence of applying the MMD-loss in different latent
  
 \vspace{.5cm}
 
- \parbox[t]{0mm}{\multirow{1}{*}{\rotatebox[origin=c]{90}{\thead{FULL \\ MMD}}}} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark\\
+ \parbox[t]{0mm}{\multirow{1}{*}{\rotatebox[origin=c]{90}{\thead{CNN \\ MMD}}}} & \checkmark & \checkmark & \checkmark & - & - & -\\
 
   \bottomrule
 \end{tabular}
@@ -119,7 +119,7 @@ This section analyzes the influence of applying the MMD-loss in different latent
 \caption {Overview of the latent feature maps included in the different MMD-loss types} \label{tab:MMD_layer_choice_dummy} 
 \end {table}
 
-The development of the source and target accuracy as well as the source CE- and MMD-loss throughout the model training are visualized in fig. \ref{fig:accuracy_cnn_and_no_cnn_mmd} and fig. \ref{fig:loss_cnn_and_no_cnn_mmd}. When including the CNN feature maps in the MMD-loss, higher source and target accuracy are achieved. Besides that, the losses, as well as the accuracy, converge faster and smoother. As Li et al. \cite{li2020} mentioned, the domain shift is not tackled sufficiently when reducing the domain discrepancy only in the final layers of the neural network. When estimating the MMD- and CE-loss solely in the final layers, it seems like the two contradicting training goals work against each other. The model training seems to get stuck in local minima, which leads to instabilities. The corresponding fluctuations can be seen in the training curves. Nevertheless, one has to remember that calculating the FULL MMD-loss is quite expansive since the feature maps of the convolutional layers are complex and high-dimensional.
+The development of the source and target accuracy as well as the source CE- and MMD-loss throughout the model training are visualized in fig. \ref{fig:accuracy_cnn_and_no_cnn_mmd} and fig. \ref{fig:loss_cnn_and_no_cnn_mmd}. When using the CNN feature maps in the MMD-loss, higher source and target accuracy are achieved. Besides that, the losses, as well as the accuracy, converge faster and smoother. As Li et al. \cite{li2020} mentioned, the domain shift is not tackled sufficiently when reducing the domain discrepancy only in the final layers of the neural network. When estimating the MMD-loss in the fully-connected layers, it seems like the two contradicting training goals of the MMD- and CE-loss work against each other. The model training seems to get stuck in local minima, which leads to instabilities. The corresponding fluctuations can be seen in the training curves. Nevertheless, one has to remember that calculating the CNN MMD-loss is quite expansive since the feature maps of the convolutional layers are complex and high-dimensional.
 
 \begin{figure}[htp]
   \centering
@@ -133,7 +133,7 @@ The development of the source and target accuracy as well as the source CE- and 
   \hspace{.3cm}
   \includegraphics[width=.47\textwidth]{plots_CNN_MMD/Accuracy_Target_Domain_FC_MMD.pdf}
 
-  \caption{Source and target accuracy: FULL MMD (left), FC MMD (right)}
+  \caption{Source and target accuracy: CNN MMD (left), FC MMD (right)}
   \label{fig:accuracy_cnn_and_no_cnn_mmd}
 \end{figure}
 
@@ -149,7 +149,7 @@ The development of the source and target accuracy as well as the source CE- and 
   \hspace{.1cm}
   \includegraphics[width=.48\textwidth]{plots_CNN_MMD/MMD_Loss_FC_MMD.pdf}
 
-  \caption{MMD- and CE-Loss: FULL MMD (left), FC MMD (right)}
+  \caption{MMD- and CE-Loss: CNN MMD (left), FC MMD (right)}
   \label{fig:loss_cnn_and_no_cnn_mmd}
 \end{figure}
 
@@ -194,7 +194,7 @@ Similarly to the dummy dataset, the influence of the GAMMA and latent feature sp
     \item The labeled MMD-loss expects additional hyperparameters. Finding those hyperparameters is more complicated and expects further experiments. The limited time in this thesis is also why the experiments on the real-world dataset are restricted to the unlabeled MMD-loss. 
 \end{itemize}
 
-In chapter \ref{ch:PHM_performance} the models are compared based on their performance on the real-world BSD dataset. In chapter \ref{ch:Performance_overview} the results from the dummy and real-world dataset are concluded again. For the implementation of the presented models, PyTorch was used. All computations were performed on a Leibniz Supercomputing Centre7 compute node virtual machine with 20 Intel® Xeon® Gold 6148 vCPUs, one Nvidia® Tesla V100, 368 GB RAM, PyTorch v.1.4.0 and CUDA 10.1.
+In chapter \ref{ch:PHM_performance} the models are compared based on their performance on the real-world BSD dataset. In chapter \ref{ch:Performance_overview} the results from the dummy and real-world dataset are concluded again. All computations were performed on a Leibniz Supercomputing Centre7 compute node virtual machine with 20 Intel® Xeon® Gold 6148 vCPUs, one Nvidia® Tesla V100, 368 GB RAM, PyTorch v.1.4.0 and CUDA 10.1.
 
 
 \subsection{Influence of GAMMA Choice on the PHM Performance}\label{ch:Influence_GAMMA_real_dataset}
