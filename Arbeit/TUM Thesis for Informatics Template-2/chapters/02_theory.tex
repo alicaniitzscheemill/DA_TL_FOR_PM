@@ -1,12 +1,12 @@
 \chapter{Theory}\label{chapter:theory}
 
-\section{Ball Screw Drive}
-As shown in fig. \ref{fig:Ball_Screw}, ball screw drives (BSDs) consist of steel balls, a screw shaft and nut, seals and a tube. The steel balls serve as ball bearing between the screw shaft and nut \cite{Lee2015}. The screw shaft is mounted by a fixed and free bearing and actuated by a motor \cite{DENG2020}. The screw nut, which carries the load, moves linearly along the screw shaft, which is rotated by the motor \cite{Lee2015}. Linear guiding shoes (LGSs) are installed to direct the components, which are moved linearly by the BSD \cite{DENG2020}. While the steel balls are rotated under external load and friction, the ball screw drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with minor abrasion on the surface. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects, the periodicity and the intensity of the shock vary. For this reason, vibration signals are promising to contain expressive information about the machine's health condition \cite{Lee2015}. Besides that, the surface defects also lower the efficiency of the system. In order to move the load with the same speed and acceleration, the motor torque needs to be increased. Analyzing the motor torque and current signals is therefore also interesting in the PHM context. Such signals can be retrieved from the machine controller \cite{AZAMFAR2020103932}.
+\section{Ball Screw Feed Drive}
+As shown in fig. \ref{fig:Ball_Screw}, ball screw feed drives (BSDs) consist of steel balls, a screw shaft and nut, seals and a tube. The steel balls serve as ball bearing between the screw shaft and nut \cite{Lee2015}. The screw shaft is mounted by a fixed and free bearing and actuated by a motor \cite{DENG2020}. The screw nut, which carries the load, moves linearly along the screw shaft, which is rotated by the motor \cite{Lee2015}. Linear guiding shoes (LGSs) are installed to direct the components, which are moved linearly by the BSD \cite{DENG2020}. While the steel balls are rotated under external load and friction, the ball screw feed drive shaft is under constant compressive stress. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls. Defects usually start with minor abrasion on the surface. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects, the periodicity and the intensity of the shock vary. For this reason, vibration signals are promising to contain expressive information about the machine's health condition \cite{Lee2015}. Besides that, the surface defects also lower the efficiency of the system. In order to move the load with the same speed and acceleration, the motor torque needs to be increased. Analyzing the motor torque and current signals is therefore also interesting in the PHM context. Such signals can be retrieved from the machine controller \cite{AZAMFAR2020103932}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{Ball_Screw.pdf}
-  \caption {Ball screw drive \cite{DENG2020}} \label{fig:Ball_Screw}
+  \caption {Ball screw feed drive \cite{DENG2020}} \label{fig:Ball_Screw}
 \end{figure}
 
 \section{Neural Network}
@@ -268,7 +268,7 @@ The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 
 
 From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
 
-\subsection{Types of Domain Adaptation}
+\subsection{Domain Adaptation Types}
 Generally, domain adaptation approaches can be grouped into four different types:  
 
 \begin{itemize}
