@@ -18,7 +18,7 @@ Neural networks consist of neurons, which are layered in a hierarchical architec
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{neural_network_overview.pdf}
-  \caption {Model architecture fully-connected neural networks}
+  \caption {Model architecture of fully-connected neural networks}
   \label{fig:neural_network_overview}
 \end{figure}
 The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neurons and a bias are estimated. Afterward, an activation function is applied to the results, which gives the neural network a non-linear property \cite{ShilohPerl2020}. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that neural networks can learn to represent various functions. When providing a sufficient number of layers and corresponding activation functions, any continuous function can be modeled arbitrarily well \cite{HORNIK1991}. Without activation functions, neural networks could only make linear assignments between inputs and outputs. Such neural networks cannot mathematically realize complex relationships in the data \cite{Ding2018}.
@@ -148,7 +148,7 @@ where $\frac{\delta L}{\delta \hat{y}_{j}}$ is the derivative of the loss $L$ wi
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{neural_network_optimization.pdf}
-  \caption {Optimization of neural network}
+  \caption {Optimization of neural networks}
   \label{fig:neural_network_optimization}
 \end{figure}
 
@@ -244,7 +244,7 @@ Pooling layers are applied to change the spatial dimension of the latent feature
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{cnn/Pooling_types.pdf}
-  \caption {Pooling layers}
+  \caption {Pooling layer types}
   \label{fig:Pooling_types}
 \end{figure}
 

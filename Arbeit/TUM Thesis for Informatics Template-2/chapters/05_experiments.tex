@@ -15,7 +15,7 @@ In the first step, different MMD-based domain adaptation approaches for PHM appl
   \hspace{.3cm}
   \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Target_Domain_Class_1_obs_0.pdf}
 
-  \caption{Dummy data samples for the two classes and domains}
+  \caption{Dummy data samples for all classes and domains}
   \label{fig:samples_domain_class_dummy}
 \end{figure}
 
@@ -37,16 +37,16 @@ Fig. \ref{fig:samples_domain_class_dummy_influence_noise} visualizes how the per
   \label{fig:samples_domain_class_dummy_influence_noise}
 \end{figure}
 
-\section{Dataset: Ball Screw Feed Drive} \label{sec:real_world_dataset}
+\section{Ball Screw Feed Drive Dataset} \label{sec:real_world_dataset}
 Testing the developed PHM methods on a real-world dataset is essential to make statements about the method's utility and applicability for industrial PHM tasks. Milling machines are common in the industry and contain several BSDs, which suffer from degradation. The continuous evaluation of the BSD health condition is therefore essential. For this reason, the developed models were applied to a dataset recorded on an industrial milling machine. Their performance was evaluated on the PHM of the corresponding BSDs. In the following, the experimental setup, the mounted sensors, the classification task, the data recording procedure and the resulting PHM task including a description of the domain shift problem are presented. 
 
 \subsection{Experimental Setup}
-Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori was recorded. The machine tool’s spindle, machine table, rotatory axes, peripherals and the cladding were removed. The TNC control iTNC530 HSCI from Heidenhain GmbH was used. Fig. \ref{fig:experimental_setup} shows the experimental setup. The experiments focused on the moving hanger assembly of the machine tool. Generally, the machine tool can move in three spatial directions. The dataset just included data from the machine tool movement along the x-axis. For this reason, the single-threaded shaft of the BSD and the two LGSs, which are responsible for that movement, were supervised.
+Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori was recorded. The machine tool’s spindle, machine table, rotatory axes, peripherals and the cladding were removed. The TNC control iTNC530 HSCI from Heidenhain GmbH was used. Fig. \ref{fig:experimental_setup} shows the experimental setup. The experiments focused on the moving hanger assembly of the machine tool. Generally, the machine tool can move in three spatial directions. The dataset just included data from the machine tool movement along the x-axis. For this reason, the single-threaded screw shaft of the BSD and the two LGSs, which are responsible for that movement, were supervised.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{experimental_setup}
-  \caption {Experimental setup: A: side-view of the machine, B: upper LGS, C: threaded shaft of BSD, C: lower LGS}
+  \caption {Experimental setup: A: side-view of the machine, B: upper LGS, C: threaded screw shaft of BSD, C: lower LGS}
   \label{fig:experimental_setup}
 \end{figure}
 
@@ -183,7 +183,7 @@ In order to reduce the spatial dimension of the feature maps, pooling layers are
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{proposed_model.pdf}
-  \caption {Proposed model architecture} \label{fig:proposed_model}
+  \caption {Model architecture} \label{fig:proposed_model}
 \end{figure}
 
 
@@ -200,7 +200,7 @@ where GAMMA is a hyperparameter balancing the influence of the CE- and MMD-loss,
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{MMD_loss_visualization.pdf}
-  \caption {Application of CE- and MMD-loss during optimization of neural networks} \label{fig:MMD_Loss_and_CE_loss}
+  \caption {Optimization of neural networks with a CE- and MMD-loss} \label{fig:MMD_Loss_and_CE_loss}
 \end{figure}
 
 \begin{figure}[H]
