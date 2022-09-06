@@ -177,7 +177,7 @@ stride & 1 & 1 & 1 \\
 \label {tab:parameter_conv}
 \end{longtable}
 
-In order to reduce the spatial dimension of the feature maps, pooling layers are included after the convolutional layers. The resulting reduction of the model complexity prevents problems like overfitting and exploding gradients. Batch normalization is applied after the convolutional layers. For each batch, the means and variances of the layers' inputs are fixed, which makes the training faster and more stable. After iteratively applying these three types of layers, the output of the CNN is flattened and normalized to an one-dimensional vector. This vector is fed to the subsequent classifier. The latent feature space dimensions of the classifier are reduced constantly. In the end, the probability for the two defined BSD health condition classes is predicted.
+In order to reduce the spatial dimension of the feature maps, pooling layers are included after the convolutional layers. The resulting reduction of the model complexity prevents problems like overfitting and exploding gradients. Batch normalization is applied after the convolutional layers. For each batch, the means and variances of the layers' inputs are fixed, which makes the training faster and more stable. After iteratively applying these three types of layers, the output of the CNN is flattened and normalized to an one-dimensional vector. This vector is fed to the subsequent classifier. The latent feature space dimensions of the classifier are reduced constantly. At the end, the probability for the two defined BSD health condition classes is predicted.
 
 
 \begin{figure}[H]

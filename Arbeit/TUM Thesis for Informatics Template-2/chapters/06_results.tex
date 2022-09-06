@@ -98,7 +98,7 @@ The MMD-loss, which includes the target labels, is named "labeled MMD-loss" and 
 \subsection{Influence of the Latent Feature Space Choice on the Domain Adaptation Performance}
 \label{cnn_mmd_dummy}
 
-This section analyzes how applying the MMD-loss in different latent feature maps of the CNN and classifier influences the model training. Inspired by Aljundi et al. \cite{Aljundi2016}, the domain discrepancy reduction in the CNN layers is especially interesting. Two MMD-based approaches were evaluated, measuring the domain discrepancy in different layers of the neural network. Table \ref{tab:MMD_layer_choice_dummy} specifies the applied MMD-loss types.
+This section analyzes how applying the MMD-loss in different latent feature maps of the CNN and classifier influences the model training. Inspired by Aljundi et al. \cite{Aljundi2016}, the domain discrepancy reduction in the CNN layers is especially interesting. The application of two different MMD-loss types is evaluated. Table \ref{tab:MMD_layer_choice_dummy} specifies the layers of the neural network considered by those MMD-loss types.
 
 \begin {table}[H]
 \centering
@@ -123,7 +123,7 @@ This section analyzes how applying the MMD-loss in different latent feature maps
 \caption {Overview of the latent feature maps included in the different MMD-loss types} \label{tab:MMD_layer_choice_dummy} 
 \end {table}
 
-The development of the source and target accuracy as well as the source CE- and MMD-loss throughout the model training are visualized in fig. \ref{fig:accuracy_cnn_and_no_cnn_mmd} and fig. \ref{fig:loss_cnn_and_no_cnn_mmd}. When using the CNN feature maps in the MMD-loss, higher source and target accuracy are achieved. Besides that, the losses, as well as the accuracy, converge faster and smoother. As Li et al. \cite{li2020} mentioned, the domain shift is not tackled sufficiently when reducing the domain discrepancy only in the final layers of the neural network. When estimating the MMD-loss in the fully-connected layers, it seems like the two contradicting training goals of the MMD- and CE-loss work against each other. The model training seems to get stuck in local minima, which leads to instabilities. The corresponding fluctuations can be seen in the training curves. Nevertheless, one has to remember that calculating the CNN MMD-loss is quite expansive since the feature maps of the convolutional layers are complex and high-dimensional.
+The development of the source and target accuracy as well as the source CE-loss and MMD-loss throughout the model training are visualized in fig. \ref{fig:accuracy_cnn_and_no_cnn_mmd} and fig. \ref{fig:loss_cnn_and_no_cnn_mmd}. When using the CNN feature maps in the MMD-loss, higher source and target accuracy are achieved. Besides that, the the losses converge faster and smoother. This proves the increased training stability when applying the MMD-loss in the CNN layers. When estimating the MMD-loss in the fully-connected layers, it seems like the two contradicting training goals of the MMD- and source CE-loss work against each other. The model training seems to be more prone to get stuck in local minima, which leads to instabilities. The resulting fluctuations can be seen in the training curves. Nevertheless, one has to remember that calculating the CNN MMD-loss is quite expansive since the feature maps of the convolutional layers are complex and high-dimensional.
 
 \begin{figure}[htp]
   \centering
