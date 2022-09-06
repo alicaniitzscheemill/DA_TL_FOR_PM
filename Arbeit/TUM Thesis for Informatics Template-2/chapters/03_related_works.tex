@@ -219,14 +219,14 @@ The distance between the source samples was minimized if they did belong to the 
     \end{aligned}
 \end{equation}
 
-where $N_{class}$ is the number of classes, $x^{(k)}$ denotes the raw input sample of class k, $f^{(m)}x^{(k)}$ denotes the feature representation of this sample in the m-th layer and $E[f^{(m)}x^{(i)}]$ and $Var[f^{(m)}x^{(i)}]$ are the corresponding expectation and variance. The inter- and intra-class distance were optimized with the following loss: $J_{Cluster} = - D_{inter} + \eta D_{intra}$. In addition to the distance metric learning, the discrepancy between the source and target domain was reduced by an MMD-loss applied in several FC layers. Lastly, the CE-loss in the final layer optimized the model to classify the source samples correctly. In total, the network was trained with the following weighted average of losses: 
+where $N_{class}$ is the number of classes, $x^{(k)}$ denotes the raw input sample of class k, $f^{(m)}x^{(k)}$ denotes the feature representation of this sample in the m-th layer and $E[f^{(m)}x^{(i)}]$ and $Var[f^{(m)}x^{(i)}]$ are the corresponding expectation and variance. The inter- and intra-class distance were optimized with the following loss: $J_{Cluster} = - D_{inter} + \eta D_{intra}$. In addition to the distance metric learning, the discrepancy between the source and target domain was reduced by an MMD-loss applied in several FC layers. Lastly, the source CE-loss in the final layer optimized the model to classify the source samples correctly. In total, the network was trained with the following weighted average of losses: 
 
 \begin{equation}
     \begin{aligned}
     J_{total} = \alpha J_{Cluster} + \beta J_{MMD} + \gamma J_{CE}, 
     \end{aligned}
 \end{equation}
-where $J_{Cluster}$ is the loss, optimizing the distances between the source domain samples, $J_{MMD}$ the MMD-loss,  $J_{CE}$ the CE-loss and $\alpha$, $\beta$ and $\gamma$ are the weights for calculating the weighted average \cite{Li2018}.
+where $J_{Cluster}$ is the loss, optimizing the distances between the source domain samples, $J_{MMD}$ the MMD-loss,  $J_{CE}$ the source CE-loss and $\alpha$, $\beta$ and $\gamma$ are the weights for calculating the weighted average \cite{Li2018}.
 
 \subsubsection{Conclusion}
 There are several MMD-based domain adaptation approaches for PHM of rolling bearing \cite{AN201942} \cite{Li2018} \cite{Guo2019} \cite{Singh2019} \cite{Kang2020}. Generally, BSDs and rolling bearings are related components. BSD screw shafts can be seen as the inner and BSD nuts as the outer ring of rolling bearings \cite{Lee2015}. In both cases, balls between those two components allow a rotatory motion around a fixed axis. Besides rolling bearings, BSDs also translate this rotatory motion into a linear one. The degradation of rolling bearings and BSDs is related in some sense. However, bearing PHM applications cannot be relied on to work as well for BSDs. Still, the research in this domain offers interesting applications and details for the PHM of BSDs. 
