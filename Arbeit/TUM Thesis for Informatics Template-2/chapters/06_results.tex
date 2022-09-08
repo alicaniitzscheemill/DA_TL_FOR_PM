@@ -304,7 +304,7 @@ Windowing functions split the recorded data in shorter sequences. The generated 
 
 
 \begin{sidewaystable}
-\begin {table}[H]
+%\begin{table}
 \centering
 \begin{tabular}{llllllllll}
   \toprule
@@ -341,12 +341,12 @@ Windowing functions split the recorded data in shorter sequences. The generated 
  
   \bottomrule
 \end{tabular}
-\caption {Average target test accuracy (\%)} \label{tab:Mean_Accuracy} 
-\end {table}
+\caption{Average target test accuracy (\%)} \label{tab:Mean_Accuracy} 
+%\end{table}
 \end{sidewaystable}
 
 \begin{sidewaystable}
-\begin {table}[H]
+%\begin{table}
 \centering
 \begin{tabular}{llllllllll}
   \toprule
@@ -377,12 +377,12 @@ Windowing functions split the recorded data in shorter sequences. The generated 
                             & 1      & 0.51 & 1.25 & 2.02 & 2.51 & 4.54 & \textbf{2.54} & 2.34\\
   \bottomrule
 \end{tabular}
-\caption {Standard deviation target test accuracy (\%)} \label{tab:Variance_Accuracy} 
-\end {table}
+\caption{Standard deviation target test accuracy (\%)} \label{tab:Variance_Accuracy} 
+%\end{table}
 \end{sidewaystable}
 
 
-\begin {table}[H]
+\begin{table}
 \centering
 \begin{tabular}{lllll}
   \toprule
@@ -391,8 +391,8 @@ Windowing functions split the recorded data in shorter sequences. The generated 
   AVG STD & 1.50 & 1.81 & 3.39 & 2.45\\
   \bottomrule
 \end{tabular}
-\caption {Average standard deviation target test accuracy (\%)} \label{tab:Average_Variance_Accuracy} 
-\end {table}
+\caption{Average standard deviation target test accuracy (\%)} \label{tab:Average_Variance_Accuracy} 
+\end{table}
 
 \section{Conclusion of the Experimental Results}\label{sec:Performance_overview}
 In this chapter, the results from the experiments on the dummy and real-world datasets are interpreted and the corresponding findings summarized. Variations in the underlying functionalities and mechanisms of the MMD-loss types became especially visible in the experiments on the dummy dataset. Performance differences between the MMD-loss types were evaluated on the real-world dataset. A novel labeled MMD-loss was developed, which considers the source and target labels. When applying the labeled MMD-loss, the domain discrepancy is reduced between the samples of the same class and increased between those of different classes. This guarantees an improved compactness and separability of all classes while reducing the domain discrepancy. The experiments with the labeled MMD-loss on the dummy dataset highlighted the deficits of the unlabeled MMD-loss. Since the unlabeled MMD loss has no access to the target labels, class-specific properties like the compactness and separability can not be optimized for the target domain. The unlabeled MMD-loss reduces the domain discrepancy between all samples without considering their class labels. If the unlabeled MMD-loss becomes too dominant, the separability of the classes is reduced and the data structure is destroyed. In this case, the latent feature space representations of all samples collapse to a point- or needle-like subspace. This makes the classification more challenging. For this reason, the GAMMA choice is highly relevant and has to be selected precisely and individually for each signal. The experiments on the real-world dataset demonstrated that the MMD-losses, applied in early CNN layers, reduce the domain discrepancy more efficiently than those restricted to the FC layers. This greater efficiency is mainly reflected in the overall model performance and the increased training stability. In the experiments the model optimization showed less fluctuation and higher reproducibility. When applying an MMD-loss in the CNN layers, the training is less sensitive to specific GAMMA and signal choices. 
