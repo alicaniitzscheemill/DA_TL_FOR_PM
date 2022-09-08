@@ -159,7 +159,7 @@ Equally to regular neural networks, convolutional neural networks (CNNs) consist
 \begin{itemize}
     \item [1.] The input data is organized in a structured and grid-like form. Each element in this structure is called a pixel, which is specified by a value and position. In the latent feature spaces, the data is stored as arrays with spatial dimension (height x width) and depth (channel size) \cite{OShea2015}.
     
-    \item [2.] Convolutional layers contain kernels that are convolved with the input. The kernel contains weights and biases, which are learned during training. An elementwise activation function is applied to the kernel outputs \cite{OShea2015}.
+    \item [2.] Convolutional layers contain kernels that are convolved with the input. Each kernel contains weights and biases, which are learned during training. An elementwise activation function is applied to the kernel outputs \cite{OShea2015}.
     
     \item [3.]  Pooling layers downsample the spatial dimension. This reduces the height and width of the feature maps and therefore the network complexity \cite{OShea2015}.
     
@@ -201,18 +201,16 @@ where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel p
   \label{fig:kernel}
 \end{figure}
 
-Compared to regular neural networks, CNNs profit a lot from its weight sharing concept. The kernel weights are learned throughout the training. Since the same kernel is applied to different input areas, training weights for every input pixel are unnecessary. This reduces the number of learnable parameters in the network. Since the kernel is applied to different input subspaces, the feature search is insensitive to the feature location in the image \cite{OShea2015}.
+Compared to regular neural networks, CNNs profit a lot from its weight sharing concept. Since the same kernel is applied to different input areas, it is unnecessary to train weights for every pixel along the whole spatial dimension of the input. This reduces the number of learnable parameters in the network. Since the kernel is applied to different input subspaces, the feature search is insensitive to the feature location in the image \cite{OShea2015}.
 
 \subsection{Convolution Parameters}
-When defining a CNN architecture, one has to find a trade-off between training effort and model complexity. The CNN should be able to capture relevant information from the data without requiring extensive optimization.
-The stride ($S$), zero padding ($Z$) and receptive field ($R$) of the applied kernel and the spatial dimension of the input ($V_{in}$) define the spatial dimension of the output of a convolutional operation:
+When defining a CNN architecture, one has to find a trade-off between training effort and model complexity. The CNN should be able to capture relevant information from the data without requiring extensive optimization. The spatial dimension of the convolutional output is defined as following:
 
 \begin{equation}
-  V_{out} = \frac{(V_{in}-R)+2Z}{S+1}.
+  V_{out} = \frac{(V_{in}-R)+2Z}{S+1}, 
   \label{eq:spatial_dimensionality_cnn_feature map}
 \end{equation}
-
-The parameters of the convolutional layers significantly influence the characteristic of CNNs, which is why they are specified in more detail in the following.
+where $S$ is the stride, $Z$ the zero padding, $R$ the receptive field of the applied kernel and $V_{in}$ the spatial dimension of the input \cite{OShea2015}. The parameters of the convolutional layers significantly influence the characteristic of CNNs, which is why they are specified in more detail in the following.
 
 \subsubsection{Stride}
 The stride defines the number of pixels skipped while shifting the kernel over the input. By increasing the stride, the spatial dimension of the resulting feature map is decreased and otherwise increased \cite{OShea2015}. Fig. \ref{fig:stride_cnn} visualizes the effect of the stride on the convolutional operation.
@@ -250,7 +248,7 @@ Pooling layers are applied to change the spatial dimension of the latent feature
 
 \section{Domain Adaptation and Transfer Learning}
 
-In the computer vision community, domain adaptation and transfer-learning techniques recently received more attention. Transfer learning addresses applications in which a model is trained to solve a specific task on a given dataset. The model is then applied to solve a different task on that same dataset. The marginal data distribution is equal, but the conditional distribution changes for both tasks. Domain adaptation solves problems in which a model is trained on a labeled training dataset, denoted as the source domain. The model is then applied to solve the same task on a different unlabeled test dataset, denoted as the target domain. The data distribution of the target and source domain is different, but the data must be related in any sense and structured similarly. The conditional and marginal distribution differs for both tasks. The differences between domain adaptation and transfer learning are visualized in fig. \ref{fig:domain_adaption_vs_transfer_learning}
+In the computer vision community, domain adaptation and transfer-learning techniques recently received more attention. Transfer learning addresses applications in which a model is trained to solve a specific task on a given dataset. The model is then applied to solve a different task on that same dataset \cite{Patel2015}. Domain adaptation solves problems in which a model is trained on a labeled training dataset, denoted as the source domain. The model is then applied to solve the same task on a different unlabeled test dataset, denoted as the target domain. The data distribution of the target and source domain is different, but the data must be related in any sense and structured similarly \cite{Patel2015}. The differences between domain adaptation and transfer learning are visualized in fig. \ref{fig:domain_adaption_vs_transfer_learning}
 
 \begin{figure}[H]
   \centering
@@ -262,18 +260,18 @@ Since the focus of this thesis is to analyze domain adaptation approaches, the f
 \subsection{Notation}
 The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated into labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. It is assumed that there is a large amount of labeled data in the source and in some cases a small amount of labeled data in the target domain available ($N_{tl} \ll N_{s}$). The input samples are defined by $x_{i}$ and the corresponding label $y_{i}$  \cite{Patel2015}. Depending on the data available during training, one differs between different domain adaptation methods: 
 \begin{itemize}
-\item \textbf{Semi-supervised domain adaptation}, where a function is trained to use the data from $S$, $T_{l}$ \cite{Patel2015}. 
-\item \textbf{Unsupervised domain adaptation}, where a function is learned to use the data from $S$ and $T_{u}$ \cite{Patel2015}.
+\item \textbf{Semi-supervised domain adaptation}, where a model is trained by using the data from $S$, $T_{l}$ \cite{Patel2015}. 
+\item \textbf{Unsupervised domain adaptation}, where a model is learned by using the data from $S$ and $T_{u}$ \cite{Patel2015}.
 \end{itemize}
 
-From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}
+From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}.
 
 \subsection{Domain Adaptation Types}
 Generally, domain adaptation approaches can be grouped into four different types:  
 
 \begin{itemize}
-\item \textbf{Instance Weighting Methods} address the covariate shift by integrating weights into the loss function, which estimates the similarity between the source and target samples. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. Source domain samples, which have a high probability of being in the target domain, are quite similar to the target domain samples. Samples like that should be strongly included in the training to adapt the model to work well on the target domain data \cite{AZAMFAR2020103932}.
-\item \textbf{Feature-Based Methods} find a domain-invariant feature space, which reduces the domain discrepancy. All source and target samples are transferred in that feature space, where the classification problem is more similar for both domains \cite{AZAMFAR2020103932}. Fig. \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaptation can be used to find a cross-domain classifier, which accurately separates the source and target domain data \cite{AZAMFAR2020103932}. 
+\item \textbf{Instance Weighting Methods} address the covariate shift by integrating weights into the loss function, which estimate the similarity between the source and target samples. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. Source domain samples, which have a high probability of being in the target domain, are quite similar to the target domain samples. Samples like that should be strongly included in the training to adapt the model to work well on the target domain data \cite{AZAMFAR2020103932}.
+\item \textbf{Feature-Based Methods} find a domain-invariant feature space, in which the domain discrepancy is reduced. The classification problem of both domains becomes more similar when transferring the source and target samples in this domain-invariant feature space \cite{AZAMFAR2020103932}. Fig. \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaptation can be used to find a cross-domain classifier, which accurately separates the source and target domain data \cite{Pandhare2021}. 
 \item \textbf{Model-Based Methods} train a classifier on the source domain, which can be transferred or fine-tuned to perform well on the target domain \cite{AZAMFAR2020103932}.
 \item \textbf{Relation-Based Methods} utilize similarities between the two domains to transfer knowledge between the domains \cite{AZAMFAR2020103932}. 
 \end{itemize}
@@ -286,13 +284,13 @@ Generally, domain adaptation approaches can be grouped into four different types
 
 
 \section{Maximum Mean Discrepancy}
-Maximum Mean Discrepancy (MMD) is a criterion estimating the discrepancy between two distributions. MMD can be used to optimize a neural network such that the distribution discrepancy in its latent feature space is reduced. In the reproducing kernel Hilbert space (RKHS), the discrepancy is measured as the squared distance between the distribution kernel embeddings. The distribution discrepancy across domains can be measured in several neural network layers. Including this information in the optimization of the model helps to avoid feature transferability degradation \cite{li2020}. The MMD criterion is defined as follows:
+Maximum Mean Discrepancy (MMD) is a criterion estimating the discrepancy between two distributions. MMD can be used to optimize a neural network such that the distribution discrepancy in its latent feature space is reduced. In the reproducing kernel Hilbert space (RKHS), the discrepancy is measured as the squared distance between the marginal distribution kernel embeddings \cite{Pandhare2021}. The distribution discrepancy across domains can be measured in several neural network layers. Including this information in the optimization of the model helps to avoid feature transferability degradation \cite{li2020}. The MMD criterion is defined as follows:
 
 \begin{align}
     M_{k}(P,Q) = \Bigl|  \boldsymbol{E_{P}}[\Phi(\boldsymbol{X^{s}})] - \boldsymbol{E_{Q}}[\Phi(\boldsymbol{X^{t}})]     \Bigl|^{2}_{Hk},
 \end{align}
 
-where Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$ \cite{AZAMFAR2020103932}. The discrepancy between the distribution means is measured when the identity function is used as a mapping function. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature spaces are represented by $P$ and $Q$ and the corresponding expectations by $\boldsymbol{E_{P}[\cdot]}$ and $\boldsymbol{E_{Q}[\cdot]}$. When applying the MMD to optimize neural networks, the kernel choice is of great importance. For this reason, it makes sense to combine several kernels to profit from their individual performance:
+where Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$ \cite{AZAMFAR2020103932}. The discrepancy between the marginal distribution means is measured when the identity function is used as a mapping function. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature spaces are represented by $P$ and $Q$ and the corresponding expectations by $\boldsymbol{E_{P}[\cdot]}$ and $\boldsymbol{E_{Q}[\cdot]}$ \cite{AZAMFAR2020103932}. When applying the MMD to optimize neural networks, the kernel choice is of great importance. For this reason, it makes sense to combine several kernels to profit from their individual performance:
 
 \begin{align}
     k(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}) = \sum_{i=0}^{N_{k}} k_{\sigma_{i}}(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}),
@@ -310,7 +308,7 @@ Short-time Fourier transform (STFT) is a method which adds a time variable to th
 \begin{equation}
     STFT_{x}(t,f) = \int_{- \inf}^{+ \inf}x(\tau) w(\tau -t) exp(-j2\pi f \tau),
 \end{equation}
-where  $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. The window size needs to be reduced for precise frequency domain information and increased for accurate time domain information. The STFT decomposes the signal in the existing sinusoidal and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
+where  $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal \cite{FENG2013}. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. The window size needs to be reduced for precise frequency domain information and increased for accurate time domain information \cite{Hlawatsch1992}. The STFT decomposes the signal in the existing sinusoidal and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
 
 \subsubsection{Wavelet Transform}
 The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation, which is described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (large scale) the wavelet is \cite{Sifuzzaman2009}. The convolution of the wavelet and the signal is mathematically expressed as following:
