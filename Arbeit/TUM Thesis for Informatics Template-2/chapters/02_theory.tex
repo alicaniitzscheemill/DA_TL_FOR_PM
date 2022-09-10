@@ -24,7 +24,7 @@ Neural networks consist of neurons that are layered in a hierarchical architectu
 The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neurons and a bias are estimated. Afterward, an activation function is applied to the results, which gives the neural network a non-linear property \cite{ShilohPerl2020}. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that neural networks can learn to represent various functions. When providing a sufficient number of layers and corresponding activation functions, any continuous function can be modeled arbitrarily well \cite{HORNIK1991}. Without activation functions, neural networks could only make linear assignments between inputs and outputs. Such neural networks cannot mathematically realize complex relationships in the data \cite{Ding2018}.
 
 \subsection{Activation Function}
-Activation function choices in neural networks mainly depend on the specific layer type and task to be solved. In classification tasks, one typically uses tanh, sigmoid and ReLU activations in hidden layers and a sigmoid or softmax function in the final layer \cite{ShilohPerl2020}. The sigmoid function is used for binary and the softmax for multi-class classification. The softmax and sigmoid functions normalize the network output to a probability distribution over the predefined classes \cite{ShilohPerl2020}. Selecting activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid activation function squeezes the inputs in values between 0 and 1 and the tanh activation function squeezes them in values between -1 and 1. Both functions can suffer from vanishing gradients since the derivative of these functions is close to zero for very large or small inputs \cite{Calin2020}. The ReLU activation function solves that problem, but it maps all negative inputs to zero. The Leaky Relu functions solve this so-called dead ReLU problem  \cite{Dubey2019}. In table \ref{tab:activation_functions} the most popular activation functions are described.
+Activation function choices in neural networks mainly depend on the specific layer type and task to be solved. In classification tasks, one typically uses tanh, sigmoid and ReLU activations in hidden layers and a sigmoid or softmax function in the final layer \cite{ShilohPerl2020}. The sigmoid function is used for binary and the softmax for multi-class classification. The softmax and sigmoid functions normalize the network output to a probability distribution over the predefined classes \cite{ShilohPerl2020}. Selecting activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid activation function squeezes the inputs in values between 0 and 1 and the tanh activation function squeezes them in values between -1 and 1. Both functions can suffer from vanishing gradients since the derivative of these functions is close to zero for very large or small inputs \cite{Calin2020}. The ReLU activation function solves that problem, but it maps all negative inputs to zero. The Leaky Relu functions solve this so-called dead ReLU problem \cite{Dubey2019}. In table \ref{tab:activation_functions} the most popular activation functions are described.
 
 \begin {table}[H]
 \begin{tabular}{ c c c c }
@@ -63,7 +63,7 @@ tanh & $\frac{e^{2x}-1}{e^{2x}+1}$ & $1-tanh^{2}(x)$ & $(-1,1)$ \\
 The loss function acts as an evaluation criterion for the neural network. The model is adapted to decrease the loss function during the optimization. Deep learning can be applied in two different use cases: (1) regression tasks and (2) classification tasks. In a regression problem, the goal is to learn a mapping function from input variables to a continuous output variable. Conversely, in a classification problem, the model aims to predict a class label for each input sample \cite{ShilohPerl2020}. Typically, the mean square error (MSE) is applied as a criterion in regression tasks:
 
 \begin{equation}
-L(X) =  \sum_{i=0}^{N}(\hat{y}(x_{i})-y(x_{i}))^2,
+L(X) = \sum_{i=0}^{N}(\hat{y}(x_{i})-y(x_{i}))^2,
 \end{equation}
 
 where $N$ is the number of training samples, $y(x_{i})$ the ground truth and $\hat{y}(x_{i})$ the predicted class label for the sample $x_{i}$ \cite{Calin2020}. On the other hand, a Cross-Entropy-loss (CE-loss) is common for classification tasks: 
@@ -91,7 +91,7 @@ In order to accelerate and stabilize the optimization, historical gradients can 
 
 where $v_{t}$ is the updated momentum, $v_{t-1}$ the current momentum, $W_{t}$ the updated model weights, $W_{t-1}$ the current model weights, $\nabla_{\theta}L(W_{t-1})$ the derivative of the loss with respect to the current model weights, $\eta$ the learning rate and $\gamma$ the hyperparameter balancing the current momentum and gradient for calculating the updated momentum \cite{Ruder2016}.
 
-    
+
 \subsubsection{Nesterov Accelerated Gradient}
 Another well-known optimizer of this kind is the Nesterov Accelerated Gradient (NAG), which extends the regular first-order momentum update rules. When calculating the first-order momentum, NAG calculates the gradient with respect to the pre-updated weights: 
 
@@ -173,7 +173,7 @@ Equally to regular neural networks, convolutional neural networks (CNNs) consist
   \label{fig:CNN_overview}
 \end{figure}
 
-In the following, the typical components of CNNs are presented. The function and properties of convolutional and pooling layers are described in more detail.  
+In the following, the typical components of CNNs are presented. The function and properties of convolutional and pooling layers are described in more detail.
 
 \subsection{Convolutional Layer}
 The convolutional layers are the core elements in CNNs. The learnable parameters in a convolutional layer are the weights and biases of the corresponding kernels. During the optimization, each kernel learns to extract expressive features. The depth of the input layer defines the depth of a kernel and the number of applied kernels defines the depth of the subsequent feature map. Usually, the spatial dimensions (width, height) are reduced and the depth of the latent feature map is increased throughout the network. Therefore, the network extracts more global features in the beginning and more local features in the end of the network \cite{OShea2015}. Looking at figure \ref{fig:kernel_number}, one can see how the kernel of depth three is applied to the input of depth three. By using six kernels, the resulting feature map is of depth six.
@@ -258,7 +258,7 @@ In the computer vision community, domain adaptation and transfer-learning techni
 
 Since the focus of this thesis is to analyze domain adaptation approaches, the following passages explain different aspects of domain adaptation.
 \subsection{Notation}
-The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated into labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. It is assumed that there is a large amount of labeled data in the source and in some cases a small amount of labeled data in the target domain available ($N_{tl} \ll N_{s}$). The input samples are defined by $x_{i}$ and the corresponding label $y_{i}$  \cite{Patel2015}. Depending on the data available during training, one differs between different domain adaptation methods: 
+The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated into labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. It is assumed that there is a large amount of labeled data in the source and in some cases a small amount of labeled data in the target domain available ($N_{tl} \ll N_{s}$). The input samples are defined by $x_{i}$ and the corresponding label $y_{i}$ \cite{Patel2015}. Depending on the data available during training, one differs between different domain adaptation methods: 
 \begin{itemize}
 \item \textbf{Semi-supervised domain adaptation}, where a model is trained by using the data from $S$, $T_{l}$ \cite{Patel2015}. 
 \item \textbf{Unsupervised domain adaptation}, where a model is learned by using the data from $S$ and $T_{u}$ \cite{Patel2015}.
@@ -267,7 +267,7 @@ The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 
 From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}.
 
 \subsection{Domain Adaptation Types}
-Generally, domain adaptation approaches can be grouped into four different types:  
+Generally, domain adaptation approaches can be grouped into four different types: 
 
 \begin{itemize}
 \item \textbf{Instance Weighting Methods} address the covariate shift by integrating weights into the loss function, which estimate the similarity between the source and target samples. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. Source domain samples, which have a high probability of being in the target domain, are quite similar to the target domain samples. Samples like that should be strongly included in the training to adapt the model to work well on the target domain data \cite{AZAMFAR2020103932}.
@@ -296,7 +296,7 @@ where Hk denotes the RKHS, which is described by the characteristic kernel k and
     k(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}) = \sum_{i=0}^{N_{k}} k_{\sigma_{i}}(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}),
 \end{align}
 
-where $N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents the individual RBF kernels  \cite{li2020}. Other kernels, like linear kernels, can also be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
+where $N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents the individual RBF kernels \cite{li2020}. Other kernels, like linear kernels, can also be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
 
 
 \section{Non-Stationary Signal Analysis for Prognostic and Health Management}
@@ -304,11 +304,11 @@ Non-stationary signal analysis methods investigate signals with changing statist
 
 
 \subsubsection{Short-Time Fourier transform}
-Short-time Fourier transform (STFT) is a method which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal spectrum over time. In STFT, the spectrum is assumed to be constant during a short time window. For each such window, a Fourier spectrum is obtained. The time-related changes are measured between consecutive window snapshots. The process is mathematically expressed in the following:  
+Short-time Fourier transform (STFT) is a method which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal spectrum over time. In STFT, the spectrum is assumed to be constant during a short time window. For each such window, a Fourier spectrum is obtained. The time-related changes are measured between consecutive window snapshots. The process is mathematically expressed in the following: 
 \begin{equation}
     STFT_{x}(t,f) = \int_{- \inf}^{+ \inf}x(\tau) w(\tau -t) exp(-j2\pi f \tau),
 \end{equation}
-where  $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal \cite{FENG2013}. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. The window size needs to be reduced for precise frequency domain information and increased for accurate time domain information \cite{Hlawatsch1992}. The STFT decomposes the signal in the existing sinusoidal and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
+where $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal \cite{FENG2013}. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. The window size needs to be reduced for precise frequency domain information and increased for accurate time domain information \cite{Hlawatsch1992}. The STFT decomposes the signal in the existing sinusoidal and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
 
 \subsubsection{Wavelet Transform}
 The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation, which is described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (large scale) the wavelet is \cite{Sifuzzaman2009}. The convolution of the wavelet and the signal is mathematically expressed as following:
