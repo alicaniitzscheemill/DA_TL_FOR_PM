@@ -7,35 +7,35 @@ In this thesis, a simple dummy dataset with a domain shift was created to invest
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Source_Domain_Class_0_obs_0.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy/Source_Domain_Class_0_obs_0.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Source_Domain_Class_1_obs_0.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy/Source_Domain_Class_1_obs_0.pdf}
 
   \vspace{.3cm}
 
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Target_Domain_Class_0_obs_0.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy/Target_Domain_Class_0_obs_0.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy/Target_Domain_Class_1_obs_0.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy/Target_Domain_Class_1_obs_0.pdf}
 
   \caption{Dummy data samples for all classes and domains}
   \label{fig:samples_domain_class_dummy}
 \end{figure}
 
-Figure \ref{fig:samples_domain_class_dummy_influence_noise} visualizes how the perturbation of the frequencies and amplitudes and the noise added to each data point, generate differences between sequences of the same class and domain.
+Figure \ref{fig:samples_domain_class_dummy_influence_noise} visualizes how the perturbation of the frequencies and amplitudes and the noise added to each data point, generate differences between samples of the same class and domain.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_0_obs_0.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_0_obs_0.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_0.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_0.pdf}
 
   \vspace{.3cm}
 
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_0_obs_1.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_0_obs_1.pdf}
   \hspace{.3cm}
-  \includegraphics[width=.45\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_1.pdf}
+  \includegraphics[width=.42\textwidth]{samples_domain_class_dummy_influence_noise/Source_Domain_Class_1_obs_1.pdf}
 
-  \caption{Discrepancy between source samples of equal classes due to applied perturbation and noise in the sampling process}
+  \caption{Discrepancy between source samples of equal classes due to applied perturbation and noise during the sampling process}
   \label{fig:samples_domain_class_dummy_influence_noise}
 \end{figure}
 
@@ -56,7 +56,7 @@ Data from a DMG DMC 55H duoblock milling machine of the manufacturer DMG Mori wa
 Signals from three different sources were included in the dataset. Three triaxial accelerometers recorded vibration signals and internal control data was accessed via the TNC Scope and TNC Opt. The recordings were triggered by different software programs, which were synchronized by a python script. Minor time delays between the signals could not be eliminated completely. Figure \ref{fig:experimental_setup} shows the placement of the three triaxial Kistler 8762A10 piezo-eletric accelerometers at the upper LGS (sub-figure B), the BSD nut (sub-figure C) and the lower LGS (sub-figure D). The software tool TNC Scope was used to access the internal control data of the machine. TNC Opt is a software tool intended to optimize controllers. During the experiments, it was used to access those control data channels, which differed from those accessible via the TNC Scope.
 
 \subsection{Definition of Health Condition Classes}
-Preload classes (C1, C2, C3) were defined, specifying the preload level in BSDs and LGSs. For the BSDs also pitting damages were observed, which is why a separate pitting class (P) was defined. In total, four health condition classes were defined for the BSDs and three for the LGSs. The degradation of BSDs was specified by an ID containing one letter and either two digits for the preload classes or one digit for the pitting class. The degradation of LGSs was specified by an ID containing one letter and one digit. The letter indicates the damage types: no pitting (C) or pitting (P). The first digit in the BSD preload classes and the single digit in the LGS preload classes specify the preload level. The second digit in the BSD preload classes and the single digit in the BSD pitting class specify the observation. In the dataset, three distinct preload classes were defined. Based on the preload force (N), which was measured in the components, the recorded samples were assigned to those classes. Low preload forces result from high preload losses, which indicate strong component degradation. This lowers the precision of the machine and might lead to a complete machine failure. Preload class C3 was labeled as “healthy”, C2 as "slightly degraded" and C1 as "strongly degraded". Two sets of BSDs and one set of LGSs, each containing components of all corresponding health condition classes, were used during the data recording. To separate equally degraded BSDs from different sets, the observation digit was included in the BSD IDs. In total, ten recordings were made for each BSD and LGS combination. Table \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions} shows all 24 combinations of differently degraded and observed BSDs and LGSs. The numbers in table \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions} define the specific BSD and LGS combinations and go up to 27. Originally the dataset included a third observation for the BSD preload class 3. In order to prevent a class imbalance, this observation was excluded from the experiments in this thesis. The forces specifying the different preload classes were defined differently for the observations. Table \ref {tab:BSDs_states} and table \ref {tab:LGSs_states} show all used BSDs and LGSs and their corresponding health condition classes. Each experimental setup included two LGSs, each consisting of two counterparts, and one BSD. This is the reason why in table \ref {tab:BSDs_states} each ID maps to one and in table \ref {tab:LGSs_states} to four preload forces.
+Preload classes (C1, C2, C3) were defined, specifying the preload level in BSDs and LGSs. For the BSDs also pitting damages were observed, which is why a separate pitting class (P) was defined. In total, four health condition classes were defined for the BSDs and three for the LGSs. The degradation of BSDs was specified by an ID containing one letter and either two digits for the preload classes or one digit for the pitting class. The degradation of LGSs was specified by an ID containing one letter and one digit. The letter indicates the damage types: no pitting (C) or pitting (P). The first digit in the BSD preload classes and the single digit in the LGS preload classes specify the preload level. The second digit in the BSD preload classes and the single digit in the BSD pitting class specify the observation. In the dataset, three distinct preload classes were defined for the BSDs and LGSs, which were specified by the preload forces (N) measured in the differently degraded components. The samples recorded with the different components installed, were assigned to the corresponding preload classes. Low preload forces result from high preload losses, which indicate strong component degradation. This lowers the precision of the machine and might lead to a complete machine failure. Preload class C3 was labeled as “healthy”, C2 as "slightly degraded" and C1 as "strongly degraded". Two sets of BSDs and one set of LGSs, each containing components of all corresponding health condition classes, were used during the data recording. To separate equally degraded BSDs from different sets, the observation digit was included in the BSD ID. In total, ten recordings were made for each BSD and LGS combination. Table \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions} shows all 24 combinations of differently degraded and observed BSDs and LGSs. The numbers in table \ref{tab:recorded_combinations_of_LGS_and_BSD_health_conditions} define the specific BSD and LGS combinations and go up to 27. Originally the dataset included a third observation for the BSD preload class 3. In order to prevent a class imbalance, this observation was excluded from the experiments in this thesis. The preload class definitions differed for the BSD observations. Table \ref {tab:BSDs_states} and table \ref {tab:LGSs_states} show all used BSDs and LGSs and their corresponding health condition class definitions. Each experimental setup included two LGSs, each consisting of two counterparts, and one BSD. This is the reason why in table \ref {tab:BSDs_states} each ID maps to one and in table \ref {tab:LGSs_states} to four preload forces.
 
 \newpage
 
@@ -145,7 +145,7 @@ LGS                       & C2 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 18  \\
 
 
 \subsection{Recording of Dataset}
-For the sake of reproducibility, the experiments were executed with a fixed test cycle, which is defined in figure \ref{fig:test_cycle}. Machine data was collected during constant speed, direction change and sweep excitation along the machine tool's X-axis. During the constant speed excitation, the machine tool was moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation, the movement of the machine tool was restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions were changed with a high frequency. In the sweep excitation, the motor received a target speed in the form of a sine sweep. Before recording data, the machine was warmed up for 60min with a constant speed to create identical circumstances for all runs. For each experimental setup and speed excitation 10 experiments were recorded. 
+For the sake of reproducibility, the experiments were executed with a fixed test cycle, which is defined in figure \ref{fig:test_cycle}. The machine data was collected during constant speed, direction change and sweep excitation along the machine tool's X-axis. During the constant speed excitation, the machine tool was moved back and forth along the whole axis ($\Delta x$ = 600mm). During the direction change excitation, the movement of the machine tool was restricted to a small part of the axis ($\Delta x$ = 1mm) and the directions were changed with a high frequency. In the sweep excitation, the motor received a target speed in the form of a sine sweep. Before recording data, the machine was warmed up for 60min with a constant speed to create identical circumstances for all runs. Ten measurement cycles were executed and recorded, each with all three types of excitations. Between each recording the machine is reheated for 2 minutes. 
 
 \begin{figure}[H]
   \centering
@@ -156,8 +156,10 @@ For the sake of reproducibility, the experiments were executed with a fixed test
 
 In total 49 different signals were recorded. A more detailed specification of the signals can be found in the table. \ref{tab:description_of_the_49_recorded_features} in the appendix.
 
-\subsection{Definition PHM Task on the Ball Screw Feed Drive Dataset}
-A binary health condition classification task was created by combining the BSD health condition classes C2 and C3 in a "healthy" and C1 and P1 in a "degraded" class. A domain shift was generated by combining all samples recorded with BSDs from observation 1 in the source and observation 2 in the target domain. Since the preload forces of BSDs were defined differently in both observations (see table \ref{tab:BSDs_states}), a domain shift is guaranteed. Additionally, marginal differences in the production and installation of the BSDs might increase the domain shift. The experiments of Li et al. \cite{Li2018} showed that the lifetime of BSDs is shorter than that of LGSs. This means that BSDs need to be replaced in shorter time intervals than LGSs. Therefore, it is very common that BSDs and LGSs with different levels of degradation are combined throughout the lifetime of industrial machines. This implies that the prediction of BSD health condition classes should not depend on the degradation level of LGSs. Usually, the training dataset contains only a limited number of observations of all health condition classes. Typically, the physical components available during training are different from those during testing. However, both datasets contain samples from the same health condition classes. Therefore, it is essential to develop a robust PHM system, which can monitor the health condition of new and unseen components.
+\subsection{Definition PHM Task on the Ball Screw Feed Drive Dataset}\label{ch:PHM_Task_Definition}
+A binary health condition classification task was created by combining the BSD health condition classes C2 and C3 in a "healthy" and C1 and P1 in a "degraded" class. A domain shift was generated by combining all samples recorded with BSDs from set 1 (observation digit 1) in the source and set 2 (observation digit 2) in the target domain. Since the measured preload forces differed for the two applied BSD sets (see table \ref{tab:BSDs_states}), a domain shift is guaranteed. Additionally, marginal differences in the production and installation of the BSDs might increase the domain shift.
+
+The experiments of Li et al. \cite{Li2018} showed that the lifetime of BSDs is shorter than that of LGSs. This means that BSDs need to be replaced in shorter time intervals than LGSs. Therefore, it is very common that BSDs and LGSs with different levels of degradation are combined throughout the lifetime of industrial machines. This implies that the prediction of BSD health condition classes should not depend on the degradation level of LGSs. Usually, the training dataset contains only a limited number of observations of all health condition classes. Typically, the physical components available during training are different from those during testing. Therefore, it is essential to develop a robust PHM system, which can monitor the health condition of new and unseen components. Both just mentioned requirements for PHM systems were considered in the formulated PHM task on the BSD dataset.
 
 \section{Methods}\label{sec:methods}
 The proposed model architecture and the corresponding training are presented in the following. All models applied to the dummy and real-world datasets have the same architecture. The model training partially deviated from the proposed one during the pre-evaluation of the approaches on the dummy dataset. In chapter \ref{sec:results_dummy_dataset}, the training variations are specified in more detail. 
@@ -191,7 +193,7 @@ In order to reduce the spatial dimension of the feature maps, pooling layers are
 
 \subsection{Model Training} \label{sec:Proposed_training}
 
-In the first step, the data used for the training is pre-processed. In this process, the dataloader separates the data into shorter sequences of length 1024. These windows, which can include several of the recorded 49 signals, are fed to the model as single samples. The sequenced signals are cleaned from Nan values and synchronized afterward. Separate source and target domain dataloaders split the corresponding datasets into four different parts: MMD-Training (40\%), Source CE-Training (20\%), Validation (20\%) and Testing (20\%). Other pre-processing steps, like wavelet transforms, can easily be added to the dataloader. The repetitive training of the model is visualized in figure \ref{fig:Training_Process_MMD}. The model training is separated into two phases. In the first phase, a weighted average of source CE-loss and MMD-loss is used to optimize the whole network: 
+In the first step, the data used for the training is pre-processed. In this process, the dataloader separates the data into shorter sequences of length 1024. These windows, which can include several of the recorded 49 signals, are fed to the model as single samples. The sequenced signals are cleaned from Nan values and synchronized afterward. Separate source and target domain dataloaders split the corresponding datasets into four different parts: MMD-Training (40\%), Source CE-Training (20\%), Validation (20\%) and Testing (20\%). Other pre-processing steps, like wavelet transforms, can easily be added to the dataloader. The model training and testing is visualized in figure \ref{fig:Training_Process_MMD}. The repetitive model training is separated into two phases. In the first phase, a weighted average of source CE-loss and MMD-loss is used to optimize the whole network: 
 \begin{equation}
     \mbox{Total Loss} = \mbox{Source CE-Loss} + \mbox{GAMMA} \cdot \mbox{MMD-Loss}, 
 \end{equation}
