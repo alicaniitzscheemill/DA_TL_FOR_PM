@@ -1,7 +1,7 @@
 \chapter{Theory}\label{chapter:theory}
 
 \section{Ball Screw Feed Drive}
-As shown in figure \ref{fig:Ball_Screw}, ball screw feed drives (BSDs) consist of steel balls, seals, a screw shaft, nut and tube \cite{Lee2015}. The steel balls serve as ball bearing between the screw shaft and nut \cite{Lee2015}. The screw shaft is mounted by a fixed and free bearing and actuated by a motor \cite{DENG2020}. The screw nut, which carries the load, moves linearly along the screw shaft, which is rotated by the motor \cite{Lee2015}. Linear guiding shoes (LGSs) are installed to direct the moved components \cite{DENG2020}. While the steel balls are rotated under external load and friction, the ball screw feed drive shaft is under constant compressive stress \cite{Lee2015}. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls \cite{Lee2015}. Defects usually start with minor abrasion on the surface. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects, the periodicity and the intensity of the shock vary \cite{Lee2015}. For this reason, vibration signals contain expressive information about the machine's health condition \cite{Lee2015}. Additionally, the surface defects also lower the efficiency of the system. In order to move the load with the same speed and acceleration, the motor torque needs to be increased. Therefore, analyzing the motor torque and current signals is also worth to be investigated in the PHM context. These signals can be retrieved from the machine's controller \cite{AZAMFAR2020103932}.
+As shown in figure \ref{fig:Ball_Screw}, ball screw feed drives (BSDs) consist of steel balls, seals, a screw shaft, nut and tube \cite{Lee2015}. The steel balls serve as ball bearing between the screw shaft and nut \cite{Lee2015}. The screw shaft is mounted by a fixed and free bearing and actuated by a motor \cite{DENG2020}. The screw nut, which carries the load, moves linearly along the screw shaft, which is rotated by the motor \cite{Lee2015}. Linear guiding shoes (LGSs) are installed to direct the moving components \cite{DENG2020}. While the steel balls are rotated under external load, the ball screw feed drive shaft is under constant compression \cite{Lee2015}. Due to the rolling friction, defects usually occur in the grooves of the screw shaft, which guide the steel balls \cite{Lee2015}. Defects usually start with minor abrasion on the surface. Each time the steel balls pass the surface defects, the system repetitively takes shocks. Depending on the location and severity of the defects, the periodicity and the intensity of the shock vary \cite{Lee2015}. For this reason, vibration signals contain expressive information about the machine's health condition \cite{Lee2015}. Additionally, the surface defects also lower the efficiency of the system. In order to move the load with the same speed and acceleration, the motor torque needs to be increased. Therefore, the motor torque and current signals are also worth to be investigated in the PHM context. These signals can be retrieved from the machine's controller \cite{AZAMFAR2020103932}.
 
 \begin{figure}[H]
   \centering
@@ -13,7 +13,7 @@ As shown in figure \ref{fig:Ball_Screw}, ball screw feed drives (BSDs) consist o
 The big data ecosystem is continuously evolving and new technologies are coming up constantly. Many of them react progressively to the demands of the industry. Big data refers to an increase of unstructured data, high sampling rates and a variety of different data sources \cite{Sagiroglu2013}. Machine learning tries to solve data-related problems by learning to extract expressive and informative features from the data. Deep learning is a specific branch of machine learning, which is inspired by the function of the human brain \cite{Calin2020}. The increased data and computational power make deep learning applications more appealing for real-world use \cite{ZHAO2019213}. By using multiple layers, neural networks progressively extract features with different levels of abstraction \cite{ZHAO2019213}. In the following, different aspects of deep learning are explained in more detail. The different components of deep learning architectures and the optimization of such models are presented. 
 
 \subsection{Neural Network Architecture}
-Neural networks consist of neurons that are layered in a hierarchical architecture. The neurons of consecutive layers are connected through weights and biases. During the model optimization, the weights and biases are updated \cite{ShilohPerl2020}. Figure \ref{fig:neural_network_overview} shows the organization of neurons in a fully-connected network architecture. Each neuron from layer i is connected with all neurons from layer i+1 and shares information with each other.
+Neural networks consist of neurons that are layered in a hierarchical architecture. The neurons of consecutive layers are connected through weights and biases. During the model optimization, the weights and biases are updated \cite{ShilohPerl2020}. Figure \ref{fig:neural_network_overview} shows the organization of neurons in a fully-connected network architecture. Each neuron from a layer is connected with all neurons from its subsequent layer and shares information with each other.
 
 \begin{figure}[H]
   \centering
@@ -24,7 +24,7 @@ Neural networks consist of neurons that are layered in a hierarchical architectu
 The input of a neuron is calculated in two steps. Firstly, the weighted sum of all previous neurons and a bias are estimated. Afterward, an activation function is applied to the results, which gives the neural network a non-linear property \cite{ShilohPerl2020}. Standard multilayer feedforward networks with even one single hidden layer and an arbitrary bounded and non-constant activation function are universal approximators. This means that neural networks can learn to represent various functions. When providing a sufficient number of layers and corresponding activation functions, any continuous function can be modeled arbitrarily well \cite{HORNIK1991}. Without activation functions, neural networks could only make linear assignments between inputs and outputs. Such neural networks cannot mathematically realize complex relationships in the data \cite{Ding2018}.
 
 \subsection{Activation Function}
-Activation function choices in neural networks mainly depend on the specific layer type and task to be solved. In classification tasks, one typically uses tanh, sigmoid and ReLU activations in hidden layers and a sigmoid or softmax function in the final layer \cite{ShilohPerl2020}. The sigmoid function is used for binary and the softmax for multi-class classification. The softmax and sigmoid functions normalize the network output to a probability distribution over the predefined classes \cite{ShilohPerl2020}. Selecting activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid activation function squeezes the inputs in values between 0 and 1 and the tanh activation function squeezes them in values between -1 and 1. Both functions can suffer from vanishing gradients since the derivative of these functions is close to zero for very large or small inputs \cite{Calin2020}. The ReLU activation function solves that problem, but it maps all negative inputs to zero. The Leaky Relu functions solve this so-called dead ReLU problem \cite{Dubey2019}. In table \ref{tab:activation_functions} the most popular activation functions are described.
+Activation function choices in neural networks mainly depend on the specific layer type and task to be solved. In classification tasks, one typically uses tanh, sigmoid and ReLU activations in hidden layers and a sigmoid or softmax function in the final layer \cite{ShilohPerl2020}. The sigmoid function is used for binary and the softmax for multi-class classification. The softmax and sigmoid functions normalize the network output to a probability distribution over the predefined classes \cite{ShilohPerl2020}. Selecting activation functions in the hidden layers does not follow such clear rules. All the mentioned functions have different characteristics, which lead to individual advantages and disadvantages. The sigmoid activation function squeezes the inputs in values between 0 and 1 and the tanh activation function squeezes them in values between -1 and 1. Both functions can suffer from vanishing gradients since the derivative of these functions is close to zero for very large or small inputs \cite{Calin2020}. The ReLU activation function solves that problem, but maps all negative inputs to zero. The Leaky Relu function solves this so-called dead ReLU problem \cite{Dubey2019}. In table \ref{tab:activation_functions} the most popular activation functions are described.
 
 \begin {table}[H]
 \begin{tabular}{ c c c c }
@@ -60,7 +60,7 @@ tanh & $\frac{e^{2x}-1}{e^{2x}+1}$ & $1-tanh^{2}(x)$ & $(-1,1)$ \\
 
 
 \subsection{Loss Function}
-The loss function acts as an evaluation criterion for the neural network. The model is adapted to decrease the loss function during the optimization. Deep learning can be applied in two different use cases: (1) regression tasks and (2) classification tasks. In a regression problem, the goal is to learn a mapping function from input variables to a continuous output variable. Conversely, in a classification problem, the model aims to predict a class label for each input sample \cite{ShilohPerl2020}. Typically, the mean square error (MSE) is applied as a criterion in regression tasks:
+The loss function acts as an evaluation criterion for the neural network. During the optimization, the model is adapted to decrease the loss function. Deep learning can be applied in two different use cases: (1) regression tasks and (2) classification tasks. In a regression problem, the goal is to learn a mapping function from input variables to a continuous output variable. Conversely, in a classification problem, the model aims to predict a class label for each input sample \cite{ShilohPerl2020}. Typically, the mean squared error (MSE) is applied as a criterion in regression tasks:
 
 \begin{equation}
 L(X) = \sum_{i=0}^{N}(\hat{y}(x_{i})-y(x_{i}))^2,
@@ -79,7 +79,7 @@ where $C$ is the number of predefined classes, $p_{j}(x_{i})$ the predicted prob
 The optimizer is responsible for adapting the model according to the loss function. Usually, first-order methods are used to optimize neural networks. These methods solely rely on the first-order gradients to update the model parameters \cite{ShilohPerl2020}. Second-order methods combine first- and second-order derivatives, which make the optimization converge faster. The calculation of the Hessian, which is required by this method, is expensive for large datasets and models \cite{Calin2020}\cite{ShilohPerl2020}. When the dataset is large, full batch gradient descent methods, which calculate the gradient from the whole dataset and update the model accordingly, suffer from long training times \cite{ShilohPerl2020}. The stochastic gradient descent (SGD) optimization tries to circumnavigate this problem. Repetitively, the model is updated with gradients calculated from a single sample picked randomly from the dataset. Since the choice of these samples is random, the optimization suffers from instability and fluctuation \cite{ShilohPerl2020}. Therefore, a common practice is to separate the dataset into several subsets, referred to as mini-batches. For each mini-batch, the gradients are calculated and the model is updated accordingly. This process is repeated for all mini-batches retrieved from the dataset \cite{ShilohPerl2020}. A training loop through the whole dataset is called an epoch. As soon as the loss converges, the training is terminated \cite{ShilohPerl2020}. Despite convergence, an optimal solution is not assured due to the non-convexity of neural network optimizations \cite{ShilohPerl2020}.
 
 \subsubsection{Momentum}
-In order to accelerate and stabilize the optimization, historical gradients can be included. The model parameters are updated by a moving average over the past gradients. Those methods that use momentum accelerate the optimization in the relevant directions and dampen oscillations \cite{Ruder2016}. This gradient descent variant can adapt the step size in the different latent feature space dimensions. The step size is increased in the relevant and decreased in the irrelevant directions \cite{Ruder2016}. In the first step, the moving average over the past gradients is calculated and in the second step, the model parameters are updated accordingly:
+In order to accelerate and stabilize the optimization, historical gradients can be included. In this case, the model parameters are updated by a moving average over the past gradients. Those methods that use momentum accelerate the optimization in the relevant directions and dampen oscillations \cite{Ruder2016}. This gradient descent variant can adapt the step size in the different latent feature space dimensions. The step size is increased in the relevant and decreased in the irrelevant directions \cite{Ruder2016}. In the first step, the moving average over the past gradients is calculated and in the second step, the model parameters are updated accordingly:
 
     \begin{equation}
       \begin{aligned}
@@ -134,11 +134,11 @@ During the training, the model parameters are adapted to minimize the loss funct
 \begin{itemize}
     \item \textbf{Forward pass}: The $i$ inputs, which are connected with the single neuron $j$ are multiplied with its weights $w_{i,j}$ and summed up together with a bias $b_{j}$. The resulting logit $z_{j}$ is then processed by the activation function $\phi$. Generally, different activation functions can be used throughout the network. After calculating the values for all neurons in the consecutive hidden layers, a loss function evaluates the prediction of the neural network \cite{AN201942}.
     \item \textbf{Backward pass}: 
-    The partial derivatives of the model layers are calculated. The derivatives of the loss with respect to the weights and biases are calculated by concatenating the corresponding partial derivatives in the reverse order of the forward pass. The chain rule is used for that concatenation \cite{ShilohPerl2020}. Finally, the model parameters are updated in the negative direction of the corresponding gradient with a step size defined by the learning rate:
+    At first, the partial derivatives of the model layers are calculated. Afterwards, the derivatives of the loss with respect to the weights and biases are calculated by concatenating the corresponding partial derivatives in the reverse order of the forward pass. The chain rule is used for that concatenation \cite{ShilohPerl2020}. Finally, the model parameters are updated in the negative direction of the corresponding gradient with a step size defined by the learning rate:
     \begin{equation}
-        \theta = \theta - \eta \cdot {\nabla}_{\theta}J(\theta),
+        \theta = \theta - \eta \cdot {\nabla}_{\theta}L(\theta),
     \end{equation}
-    where $\theta$ are the model parameters, $\eta$ is the learning rate and ${\nabla}_{\theta}J(\theta)$ the derivative of the loss function with respect to the model parameters \cite{Lydia2019}. Exemplary, the update of a weight $w_{i,j}$ between input $i$ and the single neuron $j$ is defined as follows:
+    where $\theta$ are the model parameters, $\eta$ is the learning rate and ${\nabla}_{\theta}L(\theta)$ the derivative of the loss function with respect to the model parameters \cite{Lydia2019}. Exemplary, the derivative of the loss with respect to the weight $w_{i,j}$ between input $i$ and the single neuron $j$ is defined as follows:
     \begin{equation}
      \frac{\delta L}{\delta w_{i,j}} = \frac{\delta L}{\delta \hat{y}_{j}} \cdot \frac{\delta \hat{y}_{j}}{\delta z_{j}} \cdot \frac{\delta z_{j}}{\delta w_{i,j}}, 
      \label{chain_rule}
@@ -154,10 +154,10 @@ where $\frac{\delta L}{\delta \hat{y}_{j}}$ is the derivative of the loss $L$ wi
 
 \section{Convolutional Neural Network}
 
-Equally to regular neural networks, convolutional neural networks (CNNs) consist of several neurons embedded in a fixed architecture. Developed for computer vision applications, the architecture of CNNs is optimized to process images. In CNNs, the neurons are structured in layers just like in regular neural networks. Instead of organizing the neurons in one-dimension, CNNs do that in three dimensions (height, width, depth) \cite{OShea2015}. A typical CNN architecture is visualized in \ref{fig:CNN_overview}. One can identify four main characteristics of CNNs, which are described in more detail in the following:
+Equally to regular neural networks, convolutional neural networks (CNNs) consist of several neurons embedded in a fixed architecture. Developed for computer vision applications, the architecture of CNNs is optimized to process images. In CNNs, the neurons are structured in layers, just like in regular neural networks. Instead of organizing the neurons in one dimension, CNNs do that in three dimensions (height, width, depth) \cite{OShea2015}. A typical CNN architecture is visualized in \ref{fig:CNN_overview}. One can identify four main characteristics of CNNs, which are described in more detail in the following:
 
 \begin{itemize}
-    \item [1.] The input data is organized in a structured and grid-like form. Each element in this structure is called a pixel, which is specified by a value and position. In the latent feature spaces, the data is stored as arrays with spatial dimension (height x width) and depth (channel size) \cite{OShea2015}.
+    \item [1.] The input data is organized as a structured and grid-like form. Each element in this structure is called a pixel, which is specified by a value and position. In the latent feature spaces, the data is stored as arrays with spatial dimension (height x width) and depth (channel size) \cite{OShea2015}.
     
     \item [2.] Convolutional layers contain kernels that are convolved with the input. Each kernel contains weights and biases, which are learned during training. An elementwise activation function is applied to the kernel outputs \cite{OShea2015}.
     
@@ -168,7 +168,7 @@ Equally to regular neural networks, convolutional neural networks (CNNs) consist
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{cnn/cnn_architecture.pdf}
+  \includegraphics[width=1\textwidth]{cnn/cnn_architecture.pdf}
   \caption {Model architecture of CNNs \cite{OShea2015}}
   \label{fig:CNN_overview}
 \end{figure}
@@ -176,7 +176,7 @@ Equally to regular neural networks, convolutional neural networks (CNNs) consist
 In the following, the typical components of CNNs are presented. The function and properties of convolutional and pooling layers are described in more detail.
 
 \subsection{Convolutional Layer}
-The convolutional layers are the core elements in CNNs. The learnable parameters in a convolutional layer are the weights and biases of the corresponding kernels. During the optimization, each kernel learns to extract expressive features. The depth of the input layer defines the depth of a kernel and the number of applied kernels defines the depth of the subsequent feature map. Usually, the spatial dimensions (width, height) are reduced and the depth of the latent feature map is increased throughout the network. Therefore, the network extracts more global features in the beginning and more local features in the end of the network \cite{OShea2015}. Looking at figure \ref{fig:kernel_number}, one can see how the kernel of depth three is applied to the input of depth three. By using six kernels, the resulting feature map is of depth six.
+The convolutional layers are the core elements in CNNs. The learnable parameters in a convolutional layer are the weights and biases of the corresponding kernels. During the optimization, each kernel learns to extract expressive features. The depth of the input layer defines the depth of a kernel and the number of applied kernels defines the depth of the subsequent feature map. Usually, the spatial dimensions (width, height) are reduced and the depth of the latent feature map is increased throughout the network. Therefore, the network extracts more global features at the beginning and more local features at the end of the network \cite{OShea2015}. Looking at figure \ref{fig:kernel_number}, one can see how the kernel of depth three is applied to the input of depth three. By using six kernels, the resulting feature map is of depth six.
 
 \begin{figure}[H]
   \centering
@@ -192,7 +192,7 @@ For the one-dimensional case, the convolution of a kernel with a subspace of the
   \label{eq:kernel}
 \end{equation}
 
-where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel position of the input subspace, $x(\cdot)$ is the input and $w(\cdot)$ the kernel. Each kernel cell is multiplied with the corresponding input pixel. The $R$ outputs are summed up in the pixel $p_{0}$ of the subsequent feature map \cite{Dai2017}. Typically, a bias value is included in this weighted sum and a non-linearity is applied consecutively. The above described convolution is visualized in figure \ref{fig:kernel}.
+where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel position of the input subspace, $x(\cdot)$ is the input and $w(\cdot)$ the kernel. Each kernel cell is multiplied with the corresponding input pixel. The $R$ outputs are summed up in the pixel $p_{0}$ of the subsequent feature map \cite{Dai2017}. Typically, a bias value is included in this weighted sum and a non-linearity is applied consecutively. The previously described convolution is visualized in figure \ref{fig:kernel}.
 
 \begin{figure}[H]
   \centering
@@ -204,7 +204,7 @@ where $p_{n}$ is one of the $R$ kernel cells, $p_{0}$ is the lower bound pixel p
 Compared to regular neural networks, CNNs profit a lot from its weight sharing concept. Since the same kernel is applied to different input areas, it is unnecessary to train weights for every pixel along the whole spatial dimension of the input. This reduces the number of learnable parameters in the network. Since the kernel is applied to different input subspaces, the feature search is insensitive to the feature location in the image \cite{OShea2015}.
 
 \subsection{Convolution Parameters}
-When defining a CNN architecture, one has to find a trade-off between training effort and model complexity. The CNN should be able to capture relevant information from the data without requiring extensive optimization. The spatial dimension of the convolutional output is defined as following:
+When defining a CNN architecture, one has to find a balance between training effort and model complexity. The CNN should be able to capture relevant information from the data without requiring extensive optimization. The spatial output dimension of a convolutional operation is defined as follows:
 
 \begin{equation}
   V_{out} = \frac{(V_{in}-R)+2Z}{S+1}, 
@@ -213,7 +213,7 @@ When defining a CNN architecture, one has to find a trade-off between training e
 where $S$ is the stride, $Z$ the zero padding, $R$ the receptive field of the applied kernel and $V_{in}$ the spatial dimension of the input \cite{OShea2015}. The parameters of the convolutional layers significantly influence the characteristic of CNNs, which is why they are specified in more detail in the following.
 
 \subsubsection{Stride}
-The stride defines the number of pixels skipped while shifting the kernel over the input. By increasing the stride, the spatial dimension of the resulting feature map is decreased and otherwise increased \cite{OShea2015}. Figure \ref{fig:stride_cnn} visualizes the effect of the stride on the convolutional operation.
+The stride defines the number of pixels skipped while shifting the kernel over the input. By increasing the stride, the spatial dimension of the resulting feature map is decreased \cite{OShea2015}. Figure \ref{fig:stride_cnn} visualizes the effect of the stride on the convolutional operation.
 
 \begin{figure}[H]
   \centering
@@ -234,7 +234,7 @@ Zero padding, shown in figure \ref{fig:zero_padding_cnn}, enlarges the input wit
 \end{figure}
 
 \subsubsection{Receptive field}
-The spatial dimension of the input subspace, which is covered by the kernel during a single convolution, is called the receptive field. When increasing the receptive field, more global and otherwise more local features are extracted from the input. The receptive field is defined by the spatial dimension of the kernel \cite{OShea2015}. Dilated convolution can be applied to increase the receptive field size while maintaining the model complexity \cite{Dai2017}. 
+The receptive field is the spatial dimension of the input subspace, which is covered by the kernel during a single convolutional operation. When increasing the receptive field, more global and otherwise more local features are extracted from the input. The receptive field is defined by the spatial dimension of the kernel \cite{OShea2015}. Dilated convolution can be applied to increase the receptive field size while maintaining the model complexity \cite{Dai2017}. 
 
 \subsection{Pooling Layer}
 Pooling layers are applied to change the spatial dimension of the latent feature spaces throughout the network. The functionality is generally similar to convolutional layers, the only difference being that no learnable parameters are involved. Pooling kernels are shifted over the input just as regular kernels in convolutional layers. For each kernel position, all pixels covered by the kernel are merged in a single value. Max-pooling layers return the maximal and AVG-pooling layers the average pixel value from all pixels covered by the kernel. The differences between Max-pooling and AVG-pooling layers are shown in figure \ref{fig:Pooling_types}. Often convolutional and pooling layers are applied consecutively \cite{OShea2015}.
@@ -248,15 +248,14 @@ Pooling layers are applied to change the spatial dimension of the latent feature
 
 \section{Domain Adaptation and Transfer Learning}
 
-In the computer vision community, domain adaptation and transfer-learning techniques recently received more attention. Transfer learning addresses applications in which a model is trained to solve a specific task on a given dataset. The model is then applied to solve a different task on that same dataset \cite{Patel2015}. Domain adaptation solves problems in which a model is trained on a labeled training dataset, denoted as the source domain. The model is then applied to solve the same task on a different unlabeled test dataset, denoted as the target domain. The data distribution of the target and source domain is different, but the data must be related in any sense and structured similarly \cite{Patel2015}. The differences between domain adaptation and transfer learning are visualized in figure \ref{fig:domain_adaption_vs_transfer_learning}
+In the computer vision community, domain adaptation and transfer-learning techniques recently received more attention. Transfer learning addresses applications in which a model is trained to solve a specific task on a given dataset. The model is then applied to solve a different task on that same dataset \cite{Patel2015}. Domain adaptation solves problems in which a model is trained on a labeled training dataset, denoted as the source domain. The model is then applied to solve the same task on a different unlabeled test dataset, denoted as the target domain. The data distribution of the target and source domain is different, but the data must be related in any sense and structured similarly \cite{Patel2015}. The differences between domain adaptation and transfer learning are visualized in figure \ref{fig:domain_adaption_vs_transfer_learning}. Since this thesis focuses on domain adaptation approaches, the following passages explain different aspects of domain adaptation.
 
-\begin{figure}[H]
+\begin{figure}[htp]
   \centering
   \includegraphics[width=.8\textwidth]{domain_adaption_vs_transfer_learning.pdf}
   \caption {Transfer learning vs. domain adaptation} \label{fig:domain_adaption_vs_transfer_learning}
 \end{figure}
 
-Since the focus of this thesis is to analyze domain adaptation approaches, the following passages explain different aspects of domain adaptation.
 \subsection{Notation}
 The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 0}^{i = N_{s}}}$. Generally, the target domain data is separated into labeled $T_{l} = {(x_{i}^{tl}, y_{i}^{tl})_{i = 0}^{i = N_{tl}}}$ and unlabeled data $T_{u} = {(x_{i}^{tu})_{i = 0}^{i = N_{tu}}}$. It is assumed that there is a large amount of labeled data in the source and in some cases a small amount of labeled data in the target domain available ($N_{tl} \ll N_{s}$). The input samples are defined by $x_{i}$ and the corresponding label $y_{i}$ \cite{Patel2015}. Depending on the data available during training, one differs between different domain adaptation methods: 
 \begin{itemize}
@@ -264,21 +263,21 @@ The labeled source domain data is denoted by  $S = {(x_{i}^{s}, y_{i}^{s})_{i = 
 \item \textbf{Unsupervised domain adaptation}, where a model is learned by using the data from $S$ and $T_{u}$ \cite{Patel2015}.
 \end{itemize}
 
-From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{st})$ \cite{Qikang2020}.
+From a statistical point of view, the source and target domain can be described by the marginal distribution $P(X)$ and conditional distribution $P(Y|X)$. The data from the source and target domain have the same data space and label space, but the marginal and conditional distribution differ $P(Y_{s}) \neq P(Y_{t})$ and $P(Y_{s}|X_{s}) \neq P(Y_{t}|X_{t})$ \cite{Qikang2020}.
 
 \subsection{Domain Adaptation Types}
 Generally, domain adaptation approaches can be grouped into four different types: 
 
 \begin{itemize}
 \item \textbf{Instance Weighting Methods} address the covariate shift by integrating weights into the loss function, which estimate the similarity between the source and target samples. Weighting factors like $\frac{P_{t}(x)}{P_{s}(x)}$ can be used. Source domain samples, which have a high probability of being in the target domain, are quite similar to the target domain samples. Samples like that should be strongly included in the training to adapt the model to work well on the target domain data \cite{AZAMFAR2020103932}.
-\item \textbf{Feature-Based Methods} find a domain-invariant feature space, in which the domain discrepancy is reduced. The classification problem of both domains becomes more similar when transferring the source and target samples in this domain-invariant feature space \cite{AZAMFAR2020103932}. Figure \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaptation can be used to find a cross-domain classifier, which accurately separates the source and target domain data \cite{Pandhare2021}. 
+\item \textbf{Feature-Based Methods} find a domain-invariant feature space in which the domain discrepancy is reduced. The classification problem of both domains becomes more similar when transferring the source and target samples in this domain-invariant feature space \cite{AZAMFAR2020103932}. Figure \ref{fig:Domain_adaption_intro} illustrates how feature-based domain adaptation can be used to find a cross-domain classifier, which accurately separates the source and target domain data \cite{Pandhare2021}. 
 \item \textbf{Model-Based Methods} train a classifier on the source domain, which can be transferred or fine-tuned to perform well on the target domain \cite{AZAMFAR2020103932}.
 \item \textbf{Relation-Based Methods} utilize similarities between the two domains to transfer knowledge between the domains \cite{AZAMFAR2020103932}. 
 \end{itemize}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{domain_adaption_intro.pdf}
+  \includegraphics[width=.95\textwidth]{domain_adaption_intro.pdf}
   \caption {Feature-based domain adaptation for PHM based on \cite{Pandhare2021}} \label{fig:Domain_adaption_intro}
 \end{figure}
 
@@ -290,7 +289,7 @@ Maximum Mean Discrepancy (MMD) is a criterion estimating the discrepancy between
     M_{k}(P,Q) = \Bigl|  \boldsymbol{E_{P}}[\Phi(\boldsymbol{X^{s}})] - \boldsymbol{E_{Q}}[\Phi(\boldsymbol{X^{t}})]     \Bigl|^{2}_{Hk},
 \end{align}
 
-where Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$ \cite{AZAMFAR2020103932}. The discrepancy between the marginal distribution means is measured when the identity function is used as a mapping function. When using more complex mapping functions also higher order moments can be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature spaces are represented by $P$ and $Q$ and the corresponding expectations by $\boldsymbol{E_{P}[\cdot]}$ and $\boldsymbol{E_{Q}[\cdot]}$ \cite{AZAMFAR2020103932}. When applying the MMD to optimize neural networks, the kernel choice is of great importance. For this reason, it makes sense to combine several kernels to profit from their individual performance:
+where Hk denotes the RKHS, which is described by the characteristic kernel k and the mapping function $\Phi$ \cite{AZAMFAR2020103932}. The discrepancy between the marginal distribution means is measured when the identity function is used as a mapping function. When using more complex mapping functions, higher order moments can also be matched \cite{Yujia2015}. The distributions of the source domain $X^{s} = \{{x}_{i}^{s}\}_{i=0,...,n_{s}}$ and target domain $X^{t} = \{{x}_{i}^{t}\}_{i=0,...,n_{t}}$ in the latent feature spaces are represented by $P$ and $Q$ and the corresponding expectations by $\boldsymbol{E_{P}[\cdot]}$ and $\boldsymbol{E_{Q}[\cdot]}$ \cite{AZAMFAR2020103932}. When applying the MMD to optimize neural networks, the kernel choice is of great importance. For this reason, it makes sense to combine several kernels to profit from their individual performance:
 
 \begin{align}
     k(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}) = \sum_{i=0}^{N_{k}} k_{\sigma_{i}}(\boldsymbol{X^{s}}, \boldsymbol{X^{t}}),
@@ -304,14 +303,14 @@ Non-stationary signal analysis methods investigate signals with changing statist
 
 
 \subsubsection{Short-Time Fourier transform}
-Short-time Fourier transform (STFT) is a method which adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal spectrum over time. In STFT, the spectrum is assumed to be constant during a short time window. For each such window, a Fourier spectrum is obtained. The time-related changes are measured between consecutive window snapshots. The process is mathematically expressed in the following: 
+Short-time Fourier transform (STFT) is a method that adds a time variable to the traditional Fourier spectrum. This allows to investigate variations in the signal spectrum over time. In STFT, the spectrum is assumed to be constant during a short time window. For each such window, a Fourier spectrum is obtained. The time-related changes are measured between consecutive window snapshots. The process is mathematically expressed in the following: 
 \begin{equation}
     STFT_{x}(t,f) = \int_{- \inf}^{+ \inf}x(\tau) w(\tau -t) exp(-j2\pi f \tau),
 \end{equation}
-where $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal \cite{FENG2013}. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. The window size needs to be reduced for precise frequency domain information and increased for accurate time domain information \cite{Hlawatsch1992}. The STFT decomposes the signal in the existing sinusoidal and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
+where $w(\tau -t)$ is the window function centered around t and $x(t)$ is the signal \cite{FENG2013}. Specific window functions are defined to separate the signal. Shifting the window over the signal and applying the Fourier transform $exp(-j2\pi f \tau)$ to each window generates a local frequency spectrum of the signal for different points in time \cite{FENG2013}. The time-frequency resolution is defined by the windowing function and the window length. STFT suffers from a trade-off between high resolution in the time or frequency domain. The optimum window length depends on the main interest behind the signal analysis. The window size needs to be reduced for precise time domain information and increased for accurate frequency domain information \cite{Hlawatsch1992}. The STFT decomposes the signal in the existing sinusoidal and determines its frequency and phase for a local part of the signal \cite{Hlawatsch1992}. 
 
 \subsubsection{Wavelet Transform}
-The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation, which is described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (large scale) the wavelet is \cite{Sifuzzaman2009}. The convolution of the wavelet and the signal is mathematically expressed as following:
+The Wavelet transform decomposes the signals in several wavelets. A wavelet is a wave-like oscillation, described by its function, location and scale. The location defines where the wavelet overlaps with the signal and the scale defines how much squished (small scale) or stretched (large scale) the wavelet is \cite{Sifuzzaman2009}. The convolution of the wavelet and the signal is mathematically expressed as following:
 \begin{equation}
     WT_{x}(t,a) = \frac{1}{\sqrt{a}} \int_{- \inf}^{+ \inf} x(\tau) \psi(\frac{\tau -t}{a}) d \tau,
 \end{equation}
