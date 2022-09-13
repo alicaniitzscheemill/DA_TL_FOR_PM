@@ -252,7 +252,7 @@ In the computer vision community, domain adaptation and transfer-learning techni
 
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=.8\textwidth]{domain_adaption_vs_transfer_learning.pdf}
+  \includegraphics[width=.9\textwidth]{domain_adaption_vs_transfer_learning.pdf}
   \caption {Transfer learning vs. domain adaptation} \label{fig:domain_adaption_vs_transfer_learning}
 \end{figure}
 
@@ -297,7 +297,7 @@ where Hk denotes the RKHS, which is described by the characteristic kernel k and
 
 where $N_{k}$ denotes the number of kernels used in the RKHS and $k_{\sigma_{i}}$ represents the individual RBF kernels \cite{li2020}. Other kernels, like linear kernels, can also be used, but current research shows that RBF kernels usually perform best \cite{AZAMFAR2020103932}.
 
-
+\newpage
 \section{Non-Stationary Signal Analysis for Prognostic and Health Management}
 Non-stationary signal analysis methods investigate signals with changing statistical properties. Traditionally those approaches play an essential role in the fault diagnosis of industrial machines. Machine signals contain multiple frequencies and amplitudes, which might change over time. Traditional signal analysis techniques make stationary assumptions. When applying those techniques to non-stationary signals, solely statistical averages in time or frequency domain are extracted \cite{FENG2013}. Therefore, the demand for analysis methods, which allow to ascertain features of non-stationary signals, is increasing. Such methods seem promising for extracting health-related information from machine data. Time–frequency representations (TFRs) are techniques to transform non-stationary signals in a two-dimensional time-frequency domain, where each value describes the dominance of a specific frequency at a certain point in time. All TFRs, which fulfill the idea of linearity and superposition, are called linear TFRs. The two most popular linear TFRs are the short-time Fourier and the Wavelet transform \cite{Hlawatsch1992}. 
 
@@ -330,7 +330,9 @@ The Wavelet transform decomposes the signals in several wavelets. A wavelet is a
 
 \subsubsection{Spectrograms and Scalograms}
 
- Spectrograms are a graphic representation of the STFT and scalograms of the wavelet transform. Spectrograms and scalograms visualize the squared magnitudes of the previously presented STFT and Wavelet transform. This squared magnitude is loosely interpreted as signal energy \cite{Hlawatsch1992}. The mathematical expressions are presented in the following: 
+ Spectrograms are a graphic representation of the STFT and scalograms of the wavelet transform. Spectrograms and scalograms visualize the squared magnitudes of the previously presented STFT and Wavelet transform. This squared magnitude is loosely interpreted as signal energy \cite{Hlawatsch1992}.
+ 
+ The mathematical expressions are presented in the following: 
 
 \begin{equation}
     \begin{aligned}

@@ -138,7 +138,7 @@ This section analyzes how applying the MMD-loss in different latent feature maps
 \end {table}
 
 The development of the source accuracy, target accuracy, source CE-loss and MMD-loss throughout the executed model training are visualized in figure \ref{fig:accuracy_cnn_and_no_cnn_mmd} and figure \ref{fig:loss_cnn_and_no_cnn_mmd}. When using the CNN feature maps in the MMD-loss, higher source and target accuracies were achieved (see figure \ref{fig:accuracy_cnn_and_no_cnn_mmd}). The increased classification performance in both domains indicated that the domain discrepancy was reduced more efficiently by the CNN MMD-loss. Additionally, the losses converged faster and smoother (see figure \ref{fig:loss_cnn_and_no_cnn_mmd}). This proves the increased training stability when applying the MMD-loss in the CNN layers. When estimating the MMD-loss in the fully-connected layers, it seemed like the two training goals of the MMD- and source CE-loss were contradicting. The model training appeared to be more prone to get stuck in local minima. This was mainly reflected by the training instabilities in the FC MMD-based model training. The resulting fluctuations are observable in the development of the source and target accuracies (see figure \ref{fig:accuracy_cnn_and_no_cnn_mmd}) and in the loss curves (see figure \ref{fig:loss_cnn_and_no_cnn_mmd}).
-
+\newline
 \begin{figure}[htp]
   \centering
   \includegraphics[width=.47\textwidth]{plots_CNN_MMD/Accuracy_Source_Domain_CNN_MMD.pdf}
@@ -171,6 +171,7 @@ The development of the source accuracy, target accuracy, source CE-loss and MMD-
   \label{fig:loss_cnn_and_no_cnn_mmd}
 \end{figure}
 
+\newpage
 \section{Real-World Dataset}\label{sec:results_real_world_dataset}
 In the following, models trained with different MMD-losses are evaluated on the real-world BSD dataset. The goal of this chapter is to investigate the benefits and problems of MMD-based domain adaptation for PHM of industrial machines. All trained models had the same architecture and optimization strategy but differed in the applied MMD-losses. The evaluated MMD-losses differed in their GAMMA and latent feature space choices. A baseline model that did not apply any MMD-loss during the training was used to show the PHM performance gain due MMD-based domain adaptation. Table \ref{tab:MMD_layer_choice} specifies the latent feature spaces included in the different applied MMD-loss types:
 

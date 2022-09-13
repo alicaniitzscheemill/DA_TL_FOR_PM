@@ -154,6 +154,7 @@ Li et al. \cite{LiPin2018} developed a prognosis system for BSDs, which simultan
   \label{fig:level_feature_selection_model}
 \end{figure}
 
+\newpage
 In the following, the three diagnosis steps of the proposed PHM system are presented in more detail:
 
 \begin{itemize}
@@ -168,6 +169,8 @@ In the following, the three diagnosis steps of the proposed PHM system are prese
 
 \subsubsection{Conclusion}
 Similar to Denkena et al. \cite{Denkena2021}, Li et al. \cite{LiPin2018} extracted 440 features from the raw data. As mentioned before, the feature extraction and ranking can become computationally expensive when using that many features. Again, the expressiveness of the features strongly depended on the signals and the features did not correlate well with the degradation process \cite{LiPin2018}. In the multi-level feature selection, the SVM-based fine-selection and fisher score-based pre-selection diverged in their feature ranking. Especially the top features found during the pre-selection were rated down by the fine-selection \cite{LiPin2018}. Therefore, the application order of the feature selection methods significantly influenced the final feature choice. Denkena et al. \cite{Denkena2021} also mentioned that finding the empirical threshold for the fisher criterion in a nine-class classification task was challenging. When developing such feature selection modules, one has to select the single feature selection mechanisms, define their application order and find suitable parameters for each of them, which requires substantial effort. Generally, the definition of such feature selection modules strongly influences the performance of the PHM system and is highly dependent on the working conditions, health condition classes and signals. Minor variations in the predefined task specifications will most certainly reduce the performance of such PHM systems or could even make them fail. Using SVMs in the feature selection increases the training effort, which raises the training time and data requirements.
+
+\newpage
 
 \section{Domain Adaptation Approaches for Prognostic and Health Management} \label{sec:domain_adaption_approach}
 With the goal of developing robust monitoring systems for complex industrial machines, PHM systems need to become more flexibel, adaptable and intelligent. Inspired by the advances in the computer vision community, domain adaptation and transfer learning approaches have achieved greater popularity for industrial PHM. 
@@ -210,7 +213,7 @@ A PHM system for rolling bearings was presented by Li et al. \cite{Li2018}. In a
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.85\textwidth]{models_state_of_the_art/Deep_distance_metric_learning_model.pdf}
+  \includegraphics[width=.8\textwidth]{models_state_of_the_art/Deep_distance_metric_learning_model.pdf}
   \caption{Model architecture of deep learning based domain adaptation model for PHM of rolling bearings using an MMD-loss and deep distance metric learning \cite{Li2018}}
   \label{fig:Deep_distance_metric_learning_model}
 \end{figure}
